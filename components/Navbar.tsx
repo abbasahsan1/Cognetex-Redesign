@@ -30,7 +30,7 @@ export const Navbar: React.FC = () => {
                 <span className="text-white text-[10px] font-bold">C</span>
               </div>
               <span className="text-sm font-mono font-bold tracking-tight text-primary">
-                COGNETEX <span className="text-muted font-normal">[v1.0]</span>
+                COGNETEX
               </span>
             </div>
 
@@ -60,10 +60,11 @@ export const Navbar: React.FC = () => {
 
             {/* Mobile Menu Toggle */}
             <button 
-              className="md:hidden text-primary hover:text-signal"
+              className="md:hidden text-primary hover:text-signal p-2"
               onClick={() => setMobileMenuOpen(true)}
+              aria-label="Toggle menu"
             >
-              <Menu size={20} />
+              <Menu size={24} />
             </button>
           </div>
         </div>
@@ -77,7 +78,7 @@ export const Navbar: React.FC = () => {
             <div className="flex justify-between items-center p-6 border-b border-border">
               <span className="font-mono font-bold">MENU</span>
               <button onClick={() => setMobileMenuOpen(false)} className="text-primary hover:text-signal">
-                <X size={20} />
+                <X size={24} />
               </button>
             </div>
             <div className="flex flex-col p-6 gap-6 flex-grow">
@@ -91,7 +92,7 @@ export const Navbar: React.FC = () => {
                 </button>
               ))}
             </div>
-            <div className="p-6 border-t border-border">
+            <div className="p-6 border-t border-border mb-safe">
               <Button fullWidth onClick={() => scrollToSection('#contact')}>
                 INITIATE PROJECT
               </Button>

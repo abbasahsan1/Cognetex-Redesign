@@ -8,15 +8,21 @@ const technologies = [
 
 export const TechMarquee: React.FC = () => {
   return (
-    <section className="bg-paper border-b border-border">
+    <section className="bg-paper border-b border-border overflow-hidden">
       <div className="container mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 border-l border-border">
+        {/* 
+          Mobile: grid-rows-2 with horizontal scroll (grid-flow-col)
+          Desktop: Standard vertical grid (grid-flow-row)
+        */}
+        <div className="grid grid-rows-2 grid-flow-col auto-cols-[140px] md:grid-rows-auto md:grid-flow-row md:grid-cols-4 lg:grid-cols-8 md:auto-cols-auto overflow-x-auto md:overflow-visible border-l border-border scrollbar-thin">
             {technologies.map((tech, idx) => (
               <div 
                 key={idx} 
-                className="aspect-square border-r border-b border-border flex flex-col items-center justify-center hover:bg-primary hover:text-white transition-colors cursor-default group"
+                className="aspect-square border-r border-b border-border flex flex-col items-center justify-center hover:bg-primary hover:text-white transition-colors cursor-default group relative bg-paper"
               >
-                <span className="text-[10px] font-mono text-muted group-hover:text-white/50 mb-1 opacity-50">{idx < 9 ? `0${idx+1}` : idx+1}</span>
+                <span className="text-[10px] font-mono text-muted group-hover:text-white/50 mb-1 opacity-50 absolute top-2 left-2">
+                  {idx < 9 ? `0${idx+1}` : idx+1}
+                </span>
                 <span className="font-bold text-sm tracking-tight">{tech}</span>
               </div>
             ))}

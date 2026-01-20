@@ -42,20 +42,20 @@ export const ContactForm: React.FC = () => {
   const labelClasses = "block text-xs font-bold text-foreground mb-2 uppercase tracking-wide";
 
   return (
-    <section id="contact" className="py-24 relative bg-paper border-t border-border">
+    <section id="contact" className="py-16 md:py-24 relative bg-paper border-t border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           
           <div className="lg:col-span-5">
             <span className="font-mono text-xs text-signal uppercase tracking-wider mb-2 block">04. Initiation</span>
-            <h2 className="text-5xl font-bold text-foreground mb-8 tracking-tighter">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 md:mb-8 tracking-tighter">
               READY TO<br/>SCALE?
             </h2>
-            <p className="text-muted text-lg mb-12 leading-relaxed">
+            <p className="text-muted text-lg mb-8 md:mb-12 leading-relaxed">
               Software is a craft; AI is the chisel. We provide the precision.
             </p>
             
-            <div className="space-y-6 text-sm font-mono text-foreground">
+            <div className="space-y-4 md:space-y-6 text-sm font-mono text-foreground">
               <div className="flex items-center gap-4 p-4 border border-border bg-background">
                 <div className="w-2 h-2 bg-signal" />
                 <span>SOC2-READY DEVELOPMENT</span>
@@ -77,7 +77,7 @@ export const ContactForm: React.FC = () => {
                 </div>
               </div>
               
-              <div className="p-8">
+              <div className="p-6 md:p-8">
                 {isSuccess ? (
                   <div className="flex flex-col items-center justify-center py-12 text-center border-2 border-green-500 border-dashed">
                     <Check size={48} className="text-green-500 mb-4" />

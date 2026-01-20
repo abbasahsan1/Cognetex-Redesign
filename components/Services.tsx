@@ -5,23 +5,37 @@ import { ArrowRight } from 'lucide-react';
 
 export const Services: React.FC = () => {
   return (
-    <section id="services" className="py-24 bg-background border-b border-border">
+    <section id="services" className="py-24 bg-background border-b border-border overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-border pb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 border-b border-border pb-8">
           <div className="max-w-2xl">
             <span className="font-mono text-xs text-signal uppercase tracking-wider mb-2 block">01. Capabilities</span>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight">
               TECHNICAL<br/>DEEP DIVE
             </h2>
           </div>
-          <p className="text-muted text-lg max-w-md font-medium mt-6 md:mt-0">
-            Architecting systems that drive competitive advantage through autonomy.
-          </p>
+          <div className="mt-6 md:mt-0">
+             <p className="text-muted text-lg max-w-md font-medium">
+               Architecting systems that drive competitive advantage through autonomy.
+             </p>
+             {/* Mobile Swipe Hint */}
+             <div className="md:hidden font-mono text-[10px] text-muted animate-pulse mt-4">
+               <span className="mr-2">←</span> SWIPE <span className="ml-2">→</span>
+             </div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0">
+        {/* 
+          Mobile: Flex carousel with borders
+          Desktop: Grid with gap-based borders 
+        */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-[1px] md:pb-0 md:mx-0 md:px-0 md:bg-border md:border md:border-border scrollbar-thin">
           {services.map((service, idx) => (
-            <Card key={service.id} hoverEffect className={`border-r-0 border-b-0 ${idx === 0 ? 'border-l border-t' : 'border-t md:border-l'} lg:border-l`}>
+            <Card 
+              key={service.id} 
+              hoverEffect 
+              className="min-w-[85vw] sm:min-w-[350px] md:min-w-0 snap-center border border-border md:border-none shadow-none h-full"
+            >
               <div className="flex justify-between items-start mb-12">
                 <span className="font-mono text-xs text-muted">SRV_0{idx + 1}</span>
                 <service.icon size={24} className="text-primary" strokeWidth={1.5} />
