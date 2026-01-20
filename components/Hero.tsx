@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Button } from './Button';
 import { useNavigate } from 'react-router-dom';
+import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 
 const TerminalLine = ({ text, delay }: { text: string; delay: number }) => {
   const [visible, setVisible] = useState(false);
@@ -16,6 +17,7 @@ const TerminalLine = ({ text, delay }: { text: string; delay: number }) => {
 
 export const Hero: React.FC = () => {
   const navigate = useNavigate();
+  const prefersReducedMotion = usePrefersReducedMotion();
   const scrollTo = (id: string) => {
     document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -26,7 +28,7 @@ export const Hero: React.FC = () => {
         
         {/* Left Content */}
         <div className="w-full md:w-2/3 flex flex-col justify-center py-12 md:py-20 md:pr-12">
-          <div className="mb-6 md:mb-8 font-mono text-xs text-signal font-semibold tracking-widest uppercase">
+          <div className="mb-6 md:mb-8 section-caption text-signal">
             System Status: Nominal
           </div>
           
@@ -61,14 +63,28 @@ export const Hero: React.FC = () => {
           </div>
           <div className="p-4 md:p-6 font-mono overflow-auto flex-grow min-h-0 relative">
             <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 pointer-events-none"></div>
-            <TerminalLine text="Initializing core systems..." delay={500} />
-            <TerminalLine text="Loading neural modules [v4.2.0]..." delay={1200} />
-            <TerminalLine text="Connecting to vector database..." delay={2000} />
-            <TerminalLine text="Connection established (12ms)." delay={2800} />
-            <TerminalLine text="Optimizing RAG pipeline..." delay={3500} />
-            <TerminalLine text="Deploying autonomous agents..." delay={4500} />
-            <TerminalLine text="System ready. Awaiting input." delay={5500} />
-            <div className="animate-pulse inline-block w-2 h-4 bg-green-500 mt-1 ml-2 align-middle"></div>
+            {prefersReducedMotion ? (
+              <>
+                <div className="font-mono text-xs md:text-sm text-green-500 mb-1 break-all">&gt;  Initializing core systems...</div>
+                <div className="font-mono text-xs md:text-sm text-green-500 mb-1 break-all">&gt;  Loading neural modules [v4.2.0]...</div>
+                <div className="font-mono text-xs md:text-sm text-green-500 mb-1 break-all">&gt;  Connecting to vector database...</div>
+                <div className="font-mono text-xs md:text-sm text-green-500 mb-1 break-all">&gt;  Connection established (12ms).</div>
+                <div className="font-mono text-xs md:text-sm text-green-500 mb-1 break-all">&gt;  Optimizing RAG pipeline...</div>
+                <div className="font-mono text-xs md:text-sm text-green-500 mb-1 break-all">&gt;  Deploying autonomous agents...</div>
+                <div className="font-mono text-xs md:text-sm text-green-500 mb-1 break-all">&gt;  System ready. Awaiting input.</div>
+              </>
+            ) : (
+              <>
+                <TerminalLine text="Initializing core systems..." delay={500} />
+                <TerminalLine text="Loading neural modules [v4.2.0]..." delay={1200} />
+                <TerminalLine text="Connecting to vector database..." delay={2000} />
+                <TerminalLine text="Connection established (12ms)." delay={2800} />
+                <TerminalLine text="Optimizing RAG pipeline..." delay={3500} />
+                <TerminalLine text="Deploying autonomous agents..." delay={4500} />
+                <TerminalLine text="System ready. Awaiting input." delay={5500} />
+                <div className="animate-pulse inline-block w-2 h-4 bg-green-500 mt-1 ml-2 align-middle"></div>
+              </>
+            )}
           </div>
           
           {/* Decorative Footer of Terminal */}

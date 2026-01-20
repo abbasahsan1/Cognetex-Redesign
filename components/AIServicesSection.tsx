@@ -1,22 +1,27 @@
 import React from 'react';
-import { aiServices } from '../data/content';
 import { Card } from './GlassCard';
 import { ArrowRight } from 'lucide-react';
+import { useContent } from '../hooks/useContent';
+import { SectionHeading } from './SectionHeading';
 
 export const AIServicesSection: React.FC = () => {
+  const { aiServices } = useContent();
   return (
     <section className="py-20 md:py-28 bg-background border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 md:mb-16">
-          <div>
-            <span className="font-mono text-xs text-signal uppercase tracking-wider mb-2 block">03. Our AI Services</span>
-            <h2 className="text-4xl md:text-6xl font-bold text-foreground tracking-tight">
-              OUR AI
-              <br />
-              SERVICES
-            </h2>
-          </div>
-          <p className="text-muted text-lg max-w-xl leading-relaxed">
+          <SectionHeading
+            eyebrow="03. Our AI Services"
+            titleClassName="md:text-6xl"
+            title={
+              <>
+                OUR AI
+                <br />
+                SERVICES
+              </>
+            }
+          />
+          <p className="section-lead max-w-xl">
             Modular service lines that help you deploy AI faster, safer, and with long-term scalability in mind.
           </p>
         </div>

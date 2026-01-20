@@ -1,21 +1,26 @@
 import React from 'react';
-import { services } from '../data/content';
 import { Card } from './GlassCard';
 import { ArrowRight } from 'lucide-react';
+import { useContent } from '../hooks/useContent';
+import { SectionHeading } from './SectionHeading';
 
 export const Services: React.FC = () => {
+  const { services } = useContent();
   return (
     <section id="services" className="py-24 bg-background border-b border-border overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 border-b border-border pb-8">
-          <div className="max-w-2xl">
-            <span className="font-mono text-xs text-signal uppercase tracking-wider mb-2 block">01. Capabilities</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight">
-              TECHNICAL<br/>DEEP DIVE
-            </h2>
-          </div>
+          <SectionHeading
+            className="max-w-2xl"
+            eyebrow="01. Capabilities"
+            title={
+              <>
+                TECHNICAL<br />DEEP DIVE
+              </>
+            }
+          />
           <div className="mt-6 md:mt-0">
-             <p className="text-muted text-lg max-w-md font-medium">
+             <p className="section-lead max-w-md font-medium">
                Architecting systems that drive competitive advantage through autonomy.
              </p>
              {/* Mobile Swipe Hint */}

@@ -1,5 +1,5 @@
 import { BrainCircuit, Layers, Database, Code2, Server, ShieldCheck } from 'lucide-react';
-import { IService, IProject, ITeamMember, IApproachItem, IAISolutionPillar, IAIService, IAITechCategory } from '../types';
+import { IService, IProject, ITeamMember, IApproachItem, IAISolutionPillar, IAIService, IAITechCategory, ICourse } from '../types';
 
 export const services: IService[] = [
   {
@@ -208,5 +208,24 @@ export const aiTechStack: IAITechCategory[] = [
     id: 'security',
     title: 'Security & Governance',
     items: ['RBAC', 'PII Redaction', 'SOC2 Controls', 'Audit Logging', 'Policy Engines']
+  }
+];
+
+export const courses: ICourse[] = [
+  {
+    id: 'kubernetes',
+    badge: 'FREE',
+    title: 'Kubernetes',
+    subtitle: 'Introduction to Kubernetes',
+    description:
+      'Learn the basics of Kubernetes, its architecture, and why it’s essential for modern cloud applications and technologies.'
+  },
+  {
+    id: 'docker',
+    badge: 'FREE',
+    title: 'Docker',
+    subtitle: 'Introduction to Docker',
+    description:
+      'Get started with Docker, containerization, and running applications efficiently in isolated environments.'
   }
 ];

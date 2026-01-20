@@ -1,18 +1,22 @@
 import React from 'react';
-import { team } from '../data/content';
-import { Card } from './GlassCard';
+import { useContent } from '../hooks/useContent';
+import { SectionHeading } from './SectionHeading';
 
 export const Team: React.FC = () => {
+  const { team } = useContent();
   return (
     <section id="team" className="py-24 bg-background overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-end mb-12 md:mb-16">
-          <div>
-            <span className="font-mono text-xs text-signal uppercase tracking-wider mb-2 block">03. The Engineers</span>
-            <h2 className="text-4xl font-bold text-foreground tracking-tight">
-              HUMAN<br/>CAPITAL
-            </h2>
-          </div>
+          <SectionHeading
+            eyebrow="03. The Engineers"
+            titleClassName="md:text-4xl"
+            title={
+              <>
+                HUMAN<br />CAPITAL
+              </>
+            }
+          />
           {/* Mobile Swipe Hint */}
           <div className="md:hidden font-mono text-[10px] text-muted animate-pulse">
             <span className="mr-2">←</span> SWIPE <span className="ml-2">→</span>
@@ -30,6 +34,9 @@ export const Team: React.FC = () => {
                 <img 
                   src={member.image} 
                   alt={member.name}
+                  loading="lazy"
+                  width={400}
+                  height={500}
                   className="w-full h-full object-cover filter grayscale contrast-125 group-hover:grayscale-0 transition-all duration-500"
                 />
                 {/* Overlay Text */}

@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #f4f4f5;
+    --paper: #ffffff;
+    --foreground: #09090b;
+    --muted: #52525b;
+    --border: #e4e4e7;
+    --primary: #09090b;
+    --signal: #f97316;
+    --on-primary: #f4f4f5;
+  }
+
+  .dark {
+    --background: #0b0b0d;
+    --paper: #111113;
+    --foreground: #f4f4f5;
+    --muted: #a1a1aa;
+    --border: #27272a;
+    --primary: #f4f4f5;
+    --signal: #f97316;
+    --on-primary: #0b0b0d;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-feature-settings: "ss01", "ss02";
+  }
+
+  .bg-grid {
+    background-size: 40px 40px;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .section-eyebrow {
+    @apply font-mono text-eyebrow uppercase tracking-[0.2em] text-signal block;
+  }
+  .section-title {
+    @apply text-4xl md:text-5xl font-bold text-foreground tracking-tight;
+  }
+  .section-lead {
+    @apply text-muted text-lg leading-relaxed;
+  }
+  .section-caption {
+    @apply font-mono text-caption uppercase tracking-[0.2em] text-muted;
+  }
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border: 2px solid var(--background);
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: var(--signal);
+  }
+}

@@ -1,21 +1,26 @@
 import React from 'react';
-import { aiTechStack } from '../data/content';
 import { Card } from './GlassCard';
+import { useContent } from '../hooks/useContent';
+import { SectionHeading } from './SectionHeading';
 
 export const AITechStackSection: React.FC = () => {
+  const { aiTechStack } = useContent();
   return (
     <section className="py-20 md:py-28 bg-paper border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 md:mb-16">
-          <div>
-            <span className="font-mono text-xs text-signal uppercase tracking-wider mb-2 block">04. AI Technology Stack</span>
-            <h2 className="text-4xl md:text-6xl font-bold text-foreground tracking-tight">
-              AI TECHNOLOGY
-              <br />
-              STACK
-            </h2>
-          </div>
-          <p className="text-muted text-lg max-w-xl leading-relaxed">
+          <SectionHeading
+            eyebrow="04. AI Technology Stack"
+            titleClassName="md:text-6xl"
+            title={
+              <>
+                AI TECHNOLOGY
+                <br />
+                STACK
+              </>
+            }
+          />
+          <p className="section-lead max-w-xl">
             We select tooling based on business requirements, performance needs, and security constraints—never hype.
           </p>
         </div>

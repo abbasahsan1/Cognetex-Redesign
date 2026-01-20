@@ -1,40 +1,28 @@
 import React from 'react';
 import { Card } from './GlassCard';
 import { Button } from './Button';
-
-const courses = [
-  {
-    id: 'kubernetes',
-    badge: 'FREE',
-    title: 'Kubernetes',
-    subtitle: 'Introduction to Kubernetes',
-    description:
-      "Learn the basics of Kubernetes, its architecture, and why it’s essential for modern cloud applications and technologies.",
-  },
-  {
-    id: 'docker',
-    badge: 'FREE',
-    title: 'Docker',
-    subtitle: 'Introduction to Docker',
-    description:
-      'Get started with Docker, containerization, and running applications efficiently in isolated environments.',
-  },
-];
+import { useContent } from '../hooks/useContent';
+import { SectionHeading } from './SectionHeading';
 
 export const CoursesSection: React.FC = () => {
+  const { courses } = useContent();
   return (
     <section id="courses" className="py-20 md:py-28 bg-paper border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12 md:mb-16">
-          <div className="max-w-2xl">
-            <span className="font-mono text-xs text-signal uppercase tracking-wider mb-2 block">04. Training Programs</span>
-            <h2 className="text-4xl md:text-6xl font-bold text-foreground tracking-tight">
-              EXPLORE OUR MOST
-              <br />
-              IN-DEMAND COURSES
-            </h2>
-          </div>
-          <p className="text-muted text-lg max-w-xl leading-relaxed">
+          <SectionHeading
+            className="max-w-2xl"
+            eyebrow="04. Training Programs"
+            titleClassName="md:text-6xl"
+            title={
+              <>
+                EXPLORE OUR MOST
+                <br />
+                IN-DEMAND COURSES
+              </>
+            }
+          />
+          <p className="section-lead max-w-xl">
             Upgrade your skills with our carefully curated training programs designed for real-world application.
             Each course is structured to help you learn, apply, and grow confidently in the tech industry.
           </p>

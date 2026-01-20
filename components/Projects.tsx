@@ -1,19 +1,24 @@
 import React from 'react';
-import { projects } from '../data/content';
 import { Card } from './GlassCard';
 import { ArrowUpRight } from 'lucide-react';
+import { useContent } from '../hooks/useContent';
+import { SectionHeading } from './SectionHeading';
 
 export const Projects: React.FC = () => {
+  const { projects } = useContent();
   return (
     <section id="projects" className="py-16 md:py-24 bg-paper border-b border-border overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-end mb-12 md:mb-16 border-l-4 border-primary pl-6">
-          <div>
-            <span className="font-mono text-xs text-muted uppercase tracking-wider mb-2 block">02. Case Studies</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight">
-              PROVEN<br/>ROI
-            </h2>
-          </div>
+          <SectionHeading
+            eyebrow="02. Case Studies"
+            eyebrowClassName="text-muted"
+            title={
+              <>
+                PROVEN<br />ROI
+              </>
+            }
+          />
           {/* Mobile Swipe Hint */}
           <div className="md:hidden font-mono text-[10px] text-muted animate-pulse mb-1">
             <span className="mr-2">←</span> SWIPE <span className="ml-2">→</span>

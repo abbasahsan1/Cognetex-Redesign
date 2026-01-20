@@ -19,6 +19,7 @@ type FormData = z.infer<typeof formSchema>;
 export const ContactForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -30,12 +31,19 @@ export const ContactForm: React.FC = () => {
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    console.log("Form Data:", data);
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    reset();
-    setTimeout(() => setIsSuccess(false), 5000);
+    setErrorMessage(null);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      console.log("Form Data:", data);
+      setIsSuccess(true);
+      reset();
+      setTimeout(() => setIsSuccess(false), 5000);
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setErrorMessage('Transmission failed. Please retry.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const inputClasses = "w-full bg-paper border border-border rounded-none px-4 py-3 text-foreground placeholder-muted/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm font-mono";
@@ -47,11 +55,11 @@ export const ContactForm: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           
           <div className="lg:col-span-5">
-            <span className="font-mono text-xs text-signal uppercase tracking-wider mb-2 block">04. Initiation</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 md:mb-8 tracking-tighter">
+            <span className="section-eyebrow mb-2">04. Initiation</span>
+            <h2 className="section-title mb-6 md:mb-8 tracking-tighter">
               READY TO<br/>SCALE?
             </h2>
-            <p className="text-muted text-lg mb-8 md:mb-12 leading-relaxed">
+            <p className="section-lead mb-8 md:mb-12">
               Software is a craft; AI is the chisel. We provide the precision.
             </p>
             
@@ -79,13 +87,18 @@ export const ContactForm: React.FC = () => {
               
               <div className="p-6 md:p-8">
                 {isSuccess ? (
-                  <div className="flex flex-col items-center justify-center py-12 text-center border-2 border-green-500 border-dashed">
+                  <div className="flex flex-col items-center justify-center py-12 text-center border-2 border-green-500 border-dashed" role="status" aria-live="polite">
                     <Check size={48} className="text-green-500 mb-4" />
                     <h3 className="text-xl font-bold text-foreground font-mono uppercase">Transmission Received</h3>
                     <p className="text-muted text-sm mt-2">Our team will analyze your parameters shortly.</p>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                    {errorMessage && (
+                      <div className="border border-red-500 text-red-600 text-xs font-mono uppercase px-4 py-3">
+                        {errorMessage}
+                      </div>
+                    )}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                         <label className={labelClasses}>Name</label>

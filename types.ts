@@ -54,6 +54,14 @@ export interface IAITechCategory {
   items: string[];
 }
 
+export interface ICourse {
+  id: string;
+  badge: string;
+  title: string;
+  subtitle: string;
+  description: string;
+}
+
 export interface IMenuItem {
   label: string;
   href: string;

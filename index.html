@@ -5,92 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cognetex | Intelligence, Engineered.</title>
     <meta name="description" content="Cognetex is a premier AI & Software Development agency. We specialize in building autonomous agents, scalable web applications, and enterprise data solutions." />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            colors: {
-              background: 'var(--background)',
-              paper: 'var(--paper)',
-              foreground: 'var(--foreground)',
-              muted: 'var(--muted)',
-              border: 'var(--border)',
-              primary: 'var(--primary)',
-              signal: 'var(--signal)',
-              'on-primary': 'var(--on-primary)',
-            },
-            fontFamily: {
-              sans: ["'Inter Tight'", 'sans-serif'],
-              mono: ["'JetBrains Mono'", 'monospace'],
-            },
-            borderRadius: {
-              DEFAULT: "2px",
-              md: "2px",
-              lg: "0px",
-              xl: "0px",
-            },
-            boxShadow: {
-              hard: "4px 4px 0px 0px rgba(0,0,0,1)", 
-              "hard-sm": "2px 2px 0px 0px rgba(0,0,0,1)",
-            },
-            backgroundImage: {
-              'grid-pattern': "linear-gradient(to right, var(--border) 1px, transparent 1px), linear-gradient(to bottom, var(--border) 1px, transparent 1px)",
-            }
-          },
-        },
-      }
-    </script>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://picsum.photos data:; script-src 'self'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; connect-src 'self';" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-      :root {
-        --background: #F4F4F5;
-        --paper: #FFFFFF;
-        --foreground: #09090b;
-        --muted: #52525b;
-        --border: #E4E4E7;
-        --primary: #09090b;
-        --signal: #F97316;
-        --on-primary: #F4F4F5;
-      }
-
-      .dark {
-        --background: #0b0b0d;
-        --paper: #111113;
-        --foreground: #f4f4f5;
-        --muted: #a1a1aa;
-        --border: #27272a;
-        --primary: #f4f4f5;
-        --signal: #f97316;
-        --on-primary: #0b0b0d;
-      }
-
-      body {
-        background-color: var(--background);
-        color: var(--foreground);
-        font-feature-settings: "ss01", "ss02";
-      }
-      .bg-grid {
-        background-size: 40px 40px;
-      }
-      /* Custom Scrollbar */
-      ::-webkit-scrollbar {
-        width: 10px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #F4F4F5;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #09090b;
-        border: 2px solid #F4F4F5;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #F97316;
-      }
-    </style>
+    <meta name="color-scheme" content="light dark" />
     <script type="module" src="/index.tsx"></script>
 </head>
   <body>

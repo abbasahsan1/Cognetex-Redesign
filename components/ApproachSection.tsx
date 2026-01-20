@@ -1,21 +1,27 @@
 import React from 'react';
-import { uniqueApproach } from '../data/content';
 import { Card } from './GlassCard';
+import { useContent } from '../hooks/useContent';
+import { SectionHeading } from './SectionHeading';
 
 export const ApproachSection: React.FC = () => {
+  const { uniqueApproach } = useContent();
   return (
     <section className="py-20 md:py-28 bg-background border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12 md:mb-16">
-          <div className="max-w-2xl">
-            <span className="font-mono text-xs text-signal uppercase tracking-wider mb-2 block">01. Our Unique Approach</span>
-            <h1 className="text-4xl md:text-6xl font-bold text-foreground tracking-tight">
-              BUILT AROUND
-              <br />
-              YOUR MISSION
-            </h1>
-          </div>
-          <p className="text-muted text-lg max-w-xl font-medium leading-relaxed">
+          <SectionHeading
+            className="max-w-2xl"
+            eyebrow="01. Our Unique Approach"
+            titleClassName="md:text-6xl"
+            title={
+              <>
+                BUILT AROUND
+                <br />
+                YOUR MISSION
+              </>
+            }
+          />
+          <p className="section-lead max-w-xl font-medium">
             Every client is different so we deliver personalized, high-impact technology strategies designed to drive measurable success and long-term value.
           </p>
         </div>

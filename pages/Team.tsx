@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { team } from '../data/content';
 import { Card } from '../components/GlassCard';
 import { Button } from '../components/Button';
+import { useContent } from '../hooks/useContent';
 
 const highlights = [
   {
@@ -24,6 +24,7 @@ const highlights = [
 
 export const Team: React.FC = () => {
   const navigate = useNavigate();
+  const { team } = useContent();
 
   return (
     <>
@@ -31,15 +32,15 @@ export const Team: React.FC = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 items-end">
             <div className="lg:col-span-6">
-              <span className="font-mono text-xs text-signal uppercase tracking-wider mb-2 block">02. Our Team</span>
-              <h1 className="text-4xl md:text-6xl font-bold text-foreground tracking-tight">
+              <span className="section-eyebrow mb-2">02. Our Team</span>
+              <h1 className="section-title md:text-6xl">
                 ENGINEERS BEHIND
                 <br />
                 THE SIGNAL
               </h1>
             </div>
             <div className="lg:col-span-6">
-              <p className="text-muted text-lg leading-relaxed">
+              <p className="section-lead">
                 We’re a cross-disciplinary team of engineers, researchers, and product strategists focused on
                 building dependable systems that scale. Every engagement is led by senior talent with hands-on
                 implementation experience.
@@ -62,10 +63,10 @@ export const Team: React.FC = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 md:mb-12">
             <div>
-              <span className="font-mono text-xs text-signal uppercase tracking-wider mb-2 block">Core Team</span>
+              <span className="section-eyebrow mb-2">Core Team</span>
               <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight">PEOPLE OF COGNETEX</h2>
             </div>
-            <p className="text-muted text-base md:text-lg max-w-xl leading-relaxed">
+            <p className="section-lead max-w-xl text-base md:text-lg">
               Senior specialists responsible for strategy, delivery, and engineering execution.
             </p>
           </div>
@@ -77,6 +78,9 @@ export const Team: React.FC = () => {
                   <img
                     src={member.image}
                     alt={member.name}
+                    loading="lazy"
+                    width={400}
+                    height={500}
                     className="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-500"
                   />
                   <div className="absolute top-2 right-2 text-[10px] font-mono bg-background px-1 border border-border text-foreground">
@@ -98,7 +102,7 @@ export const Team: React.FC = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="border border-border bg-paper p-8 md:p-12 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div>
-              <span className="font-mono text-xs text-signal uppercase tracking-wider mb-2 block">Work With Us</span>
+              <span className="section-eyebrow mb-2">Work With Us</span>
               <h3 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">
                 READY TO BUILD
                 <br />

@@ -1,37 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Menu, X, Moon, Sun } from 'lucide-react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Button } from './Button';
+import { useThemePreference } from '../hooks/useThemePreference';
+
+const navLinks = [
+  { name: 'HOME', to: '/', end: true },
+  { name: 'APPROACH', to: '/approach' },
+  { name: 'AI SOLUTIONS', to: '/solutions' },
+  { name: 'AI SERVICES', to: '/ai-services' },
+  { name: 'TECH STACK', to: '/tech-stack' },
+  { name: 'OUR TEAM', to: '/team' },
+];
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navLinks = [
-    { name: 'HOME', to: '/', end: true },
-    { name: 'APPROACH', to: '/approach' },
-    { name: 'AI SOLUTIONS', to: '/solutions' },
-    { name: 'AI SERVICES', to: '/ai-services' },
-    { name: 'TECH STACK', to: '/tech-stack' },
-    { name: 'OUR TEAM', to: '/team' },
-  ];
-
   const navigate = useNavigate();
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const shouldDark = stored ? stored === 'dark' : prefersDark;
-    setIsDark(shouldDark);
-    document.documentElement.classList.toggle('dark', shouldDark);
-  }, []);
-
-  const toggleTheme = () => {
-    const next = !isDark;
-    setIsDark(next);
-    document.documentElement.classList.toggle('dark', next);
-    localStorage.setItem('theme', next ? 'dark' : 'light');
-  };
+  const { theme, toggleTheme } = useThemePreference();
+  const isDark = theme === 'dark';
 
   const handleNavClick = () => {
     setMobileMenuOpen(false);
@@ -98,7 +85,9 @@ export const Navbar: React.FC = () => {
             <button 
               className="md:hidden text-primary hover:text-signal p-2"
               onClick={() => setMobileMenuOpen(true)}
-              aria-label="Toggle menu"
+              aria-label="Open menu"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
             >
               <Menu size={24} />
             </button>
@@ -108,7 +97,7 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Menu Modal */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-[100] md:hidden">
+        <div className="fixed inset-0 z-[100] md:hidden" id="mobile-menu">
           <div className="absolute inset-0 bg-primary/20 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
           <div className="absolute right-0 top-0 bottom-0 w-full max-w-xs bg-paper border-l border-primary shadow-hard p-0 flex flex-col">
             <div className="flex justify-between items-center p-6 border-b border-border">
