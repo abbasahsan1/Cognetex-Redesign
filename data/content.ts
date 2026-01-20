@@ -1,4 +1,4 @@
-import { BrainCircuit, Layers, Database, Code2, Server, ShieldCheck } from 'lucide-react';
+import { BrainCircuit, Code2, Server, ShieldCheck } from 'lucide-react';
 import { IService, IProject, ITeamMember, IApproachItem, IAISolutionPillar, IAIService, IAITechCategory, ICourse } from '../types';
 
 export const services: IService[] = [
@@ -8,7 +8,7 @@ export const services: IService[] = [
     tagline: 'Systems that think.',
     description: 'Move beyond static automation. We deploy custom LLM architectures that can ingest your proprietary data, understand context, and take autonomous actions.',
     capabilities: ['RAG Implementation', 'Fine-tuning (Llama/Mistral)', 'LangChain Integration'],
-    icon: BrainCircuit
+    iconName: 'BrainCircuit'
   },
   {
     id: 'full-cycle',
@@ -16,7 +16,7 @@ export const services: IService[] = [
     tagline: 'Scalability is not an afterthought.',
     description: 'We build the engines that power your business. Using React for blazing-fast frontends and Rust/Node.js for high-throughput backends.',
     capabilities: ['Microservices', 'Serverless Architecture', 'Real-time WebSockets'],
-    icon: Layers
+    iconName: 'Layers'
   },
   {
     id: 'data-engineering',
@@ -24,7 +24,7 @@ export const services: IService[] = [
     tagline: 'Turning noise into signal.',
     description: 'AI is only as good as the data it feeds on. We build robust ETL pipelines, data lakes, and vector databases ensuring real-time access.',
     capabilities: ['Vector Search', 'BigQuery', 'Data Warehousing'],
-    icon: Database
+    iconName: 'Database'
   }
 ];
 

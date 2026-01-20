@@ -12,6 +12,7 @@ const TechStack = React.lazy(() => import('./pages/TechStack').then((module) => 
 const Contact = React.lazy(() => import('./pages/Contact').then((module) => ({ default: module.Contact })));
 const Team = React.lazy(() => import('./pages/Team').then((module) => ({ default: module.Team })));
 const NotFound = React.lazy(() => import('./pages/NotFound').then((module) => ({ default: module.NotFound })));
+const Admin = React.lazy(() => import('./pages/Admin').then((module) => ({ default: module.Admin })));
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route path="/tech-stack" element={<TechStack />} />
               <Route path="/team" element={<Team />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/ghq" element={<Admin />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>

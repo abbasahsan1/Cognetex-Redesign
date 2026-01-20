@@ -3,6 +3,7 @@ import { Card } from './GlassCard';
 import { ArrowRight } from 'lucide-react';
 import { useContent } from '../hooks/useContent';
 import { SectionHeading } from './SectionHeading';
+import { getIconByName } from '../utils/iconMap';
 
 export const Services: React.FC = () => {
   const { services } = useContent();
@@ -43,7 +44,10 @@ export const Services: React.FC = () => {
             >
               <div className="flex justify-between items-start mb-12">
                 <span className="font-mono text-xs text-muted">SRV_0{idx + 1}</span>
-                <service.icon size={24} className="text-primary" strokeWidth={1.5} />
+                {(() => {
+                  const Icon = getIconByName(service.iconName);
+                  return <Icon size={24} className="text-primary" strokeWidth={1.5} />;
+                })()}
               </div>
               
               <h3 className="text-2xl font-bold text-foreground mb-3 tracking-tight">

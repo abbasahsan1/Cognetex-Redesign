@@ -6,7 +6,7 @@ export const serviceSchema = z.object({
   tagline: z.string(),
   description: z.string(),
   capabilities: z.array(z.string()),
-  icon: z.any(),
+  iconName: z.string(),
 });
 
 export const projectSchema = z.object({
