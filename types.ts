@@ -29,6 +29,31 @@ export interface ITeamMember {
   image: string;
 }
 
+export interface IApproachItem {
+  id: string;
+  title: string;
+  description: string;
+}
+
+export interface IAISolutionPillar {
+  id: string;
+  title: string;
+  description: string;
+}
+
+export interface IAIService {
+  id: string;
+  title: string;
+  description: string;
+  outcomes: string[];
+}
+
+export interface IAITechCategory {
+  id: string;
+  title: string;
+  items: string[];
+}
+
 export interface IMenuItem {
   label: string;
   href: string;

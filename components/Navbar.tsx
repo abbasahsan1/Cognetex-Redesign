@@ -1,22 +1,45 @@
-import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Menu, X, Moon, Sun } from 'lucide-react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Button } from './Button';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { name: 'SERVICES', href: '#services' },
-    { name: 'WORK', href: '#projects' },
-    { name: 'TEAM', href: '#team' },
+    { name: 'HOME', to: '/', end: true },
+    { name: 'APPROACH', to: '/approach' },
+    { name: 'AI SOLUTIONS', to: '/solutions' },
+    { name: 'AI SERVICES', to: '/ai-services' },
+    { name: 'TECH STACK', to: '/tech-stack' },
+    { name: 'OUR TEAM', to: '/team' },
   ];
 
-  const scrollToSection = (id: string) => {
-    const element = document.querySelector(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setMobileMenuOpen(false);
-    }
+  const navigate = useNavigate();
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const shouldDark = stored ? stored === 'dark' : prefersDark;
+    setIsDark(shouldDark);
+    document.documentElement.classList.toggle('dark', shouldDark);
+  }, []);
+
+  const toggleTheme = () => {
+    const next = !isDark;
+    setIsDark(next);
+    document.documentElement.classList.toggle('dark', next);
+    localStorage.setItem('theme', next ? 'dark' : 'light');
+  };
+
+  const handleNavClick = () => {
+    setMobileMenuOpen(false);
+  };
+
+  const handleContactClick = () => {
+    navigate('/contact');
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -25,25 +48,31 @@ export const Navbar: React.FC = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
-            <div className="flex items-center gap-2 cursor-pointer" onClick={() => scrollToSection('#hero')}>
+            <Link to="/" onClick={handleNavClick} className="flex items-center gap-2 cursor-pointer">
               <div className="w-5 h-5 bg-primary flex items-center justify-center">
-                <span className="text-white text-[10px] font-bold">C</span>
+                <span className="text-on-primary text-[10px] font-bold">C</span>
               </div>
               <span className="text-sm font-mono font-bold tracking-tight text-primary">
                 COGNETEX
               </span>
-            </div>
+            </Link>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center">
               {navLinks.map((link, idx) => (
                 <div key={link.name} className="flex items-center">
-                  <button
-                    onClick={() => scrollToSection(link.href)}
-                    className="text-xs font-mono font-medium text-muted hover:text-signal transition-colors px-6"
+                  <NavLink
+                    to={link.to}
+                    end={link.end}
+                    onClick={handleNavClick}
+                    className={({ isActive }) =>
+                      `text-xs font-mono font-medium transition-colors px-6 ${
+                        isActive ? 'text-signal' : 'text-muted hover:text-signal'
+                      }`
+                    }
                   >
                     {link.name}
-                  </button>
+                  </NavLink>
                   {idx !== navLinks.length - 1 && (
                     <span className="text-border h-4 border-r border-border mx-2"></span>
                   )}
@@ -52,8 +81,15 @@ export const Navbar: React.FC = () => {
             </div>
 
             {/* CTA */}
-            <div className="hidden md:block pl-6 border-l border-border h-full flex items-center">
-              <Button size="sm" variant="primary" onClick={() => scrollToSection('#contact')}>
+            <div className="hidden md:flex items-center gap-3 pl-6 border-l border-border h-full">
+              <button
+                onClick={toggleTheme}
+                className="w-9 h-9 border border-border flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors"
+                aria-label="Toggle dark mode"
+              >
+                {isDark ? <Sun size={16} /> : <Moon size={16} />}
+              </button>
+              <Button size="sm" variant="primary" onClick={handleContactClick}>
                 INITIATE PROJECT
               </Button>
             </div>
@@ -83,17 +119,26 @@ export const Navbar: React.FC = () => {
             </div>
             <div className="flex flex-col p-6 gap-6 flex-grow">
               {navLinks.map((link) => (
-                <button
+                <NavLink
                   key={link.name}
-                  onClick={() => scrollToSection(link.href)}
+                  to={link.to}
+                  end={link.end}
+                  onClick={handleNavClick}
                   className="text-2xl font-bold text-left text-primary hover:text-signal font-sans tracking-tight"
                 >
                   {link.name}
-                </button>
+                </NavLink>
               ))}
+              <button
+                onClick={toggleTheme}
+                className="mt-2 flex items-center gap-2 text-sm font-mono text-muted hover:text-signal"
+              >
+                {isDark ? 'LIGHT MODE' : 'DARK MODE'}
+                {isDark ? <Sun size={14} /> : <Moon size={14} />}
+              </button>
             </div>
             <div className="p-6 border-t border-border mb-safe">
-              <Button fullWidth onClick={() => scrollToSection('#contact')}>
+              <Button fullWidth onClick={handleContactClick}>
                 INITIATE PROJECT
               </Button>
             </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Button } from './Button';
+import { useNavigate } from 'react-router-dom';
 
 const TerminalLine = ({ text, delay }: { text: string; delay: number }) => {
   const [visible, setVisible] = useState(false);
@@ -10,10 +11,11 @@ const TerminalLine = ({ text, delay }: { text: string; delay: number }) => {
   }, [delay]);
 
   if (!visible) return null;
-  return <div className="font-mono text-xs md:text-sm text-green-500 mb-1 break-all">> {text}</div>;
+  return <div className="font-mono text-xs md:text-sm text-green-500 mb-1 break-all">{'>  '}{text}</div>;
 };
 
 export const Hero: React.FC = () => {
+  const navigate = useNavigate();
   const scrollTo = (id: string) => {
     document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -41,23 +43,23 @@ export const Hero: React.FC = () => {
             <Button size="lg" onClick={() => scrollTo('#services')}>
               EXPLORE SOLUTIONS <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
-            <Button variant="outline" size="lg" onClick={() => scrollTo('#contact')}>
+            <Button variant="outline" size="lg" onClick={() => navigate('/contact')}>
               TECHNICAL CONSULT
             </Button>
           </div>
         </div>
 
         {/* Right Terminal */}
-        <div className="w-full md:w-1/3 border-t md:border-t-0 md:border-l border-border bg-primary relative overflow-hidden flex flex-col min-h-[300px] md:min-h-auto mt-8 md:mt-0">
-          <div className="p-3 border-b border-white/20 flex justify-between items-center bg-white/5">
+        <div className="w-full md:w-1/3 border-t md:border-t-0 md:border-l border-border bg-foreground text-background relative flex flex-col min-h-[420px] md:min-h-[520px] mt-8 md:mt-0">
+          <div className="p-3 border-b border-background/20 flex justify-between items-center bg-background/5">
             <div className="flex gap-2">
               <div className="w-2.5 h-2.5 bg-red-500 rounded-full opacity-50"></div>
               <div className="w-2.5 h-2.5 bg-yellow-500 rounded-full opacity-50"></div>
               <div className="w-2.5 h-2.5 bg-green-500 rounded-full opacity-50"></div>
             </div>
-            <div className="text-[10px] font-mono text-gray-400">TERM_01</div>
+            <div className="text-[10px] font-mono text-background/60">TERM_01</div>
           </div>
-          <div className="p-4 md:p-6 font-mono overflow-hidden flex-grow relative">
+          <div className="p-4 md:p-6 font-mono overflow-auto flex-grow min-h-0 relative">
             <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 pointer-events-none"></div>
             <TerminalLine text="Initializing core systems..." delay={500} />
             <TerminalLine text="Loading neural modules [v4.2.0]..." delay={1200} />
@@ -70,14 +72,14 @@ export const Hero: React.FC = () => {
           </div>
           
           {/* Decorative Footer of Terminal */}
-          <div className="p-4 border-t border-white/20 grid grid-cols-2 gap-4 text-gray-500 text-[10px] font-mono">
+          <div className="p-4 border-t border-background/20 grid grid-cols-2 gap-4 text-background/60 text-[10px] font-mono">
              <div>
                <div className="uppercase mb-1">Memory</div>
-               <div className="w-full bg-white/10 h-1"><div className="w-[42%] bg-green-500 h-full"></div></div>
+               <div className="w-full bg-background/10 h-1"><div className="w-[42%] bg-green-500 h-full"></div></div>
              </div>
              <div>
                <div className="uppercase mb-1">Latency</div>
-               <div className="text-white">12ms</div>
+               <div className="text-background">12ms</div>
              </div>
           </div>
         </div>

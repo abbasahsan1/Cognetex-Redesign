@@ -1,5 +1,5 @@
 import { BrainCircuit, Layers, Database, Code2, Server, ShieldCheck } from 'lucide-react';
-import { IService, IProject, ITeamMember } from '../types';
+import { IService, IProject, ITeamMember, IApproachItem, IAISolutionPillar, IAIService, IAITechCategory } from '../types';
 
 export const services: IService[] = [
   {
@@ -91,4 +91,122 @@ export const trustLogos = [
   { name: 'OpenAI', icon: BrainCircuit },
   { name: 'Vercel', icon: Code2 },
   { name: 'Security', icon: ShieldCheck },
+];
+
+export const uniqueApproach: IApproachItem[] = [
+  {
+    id: 'client-centric',
+    title: 'Client-Centric Design',
+    description: 'We treat each client as unique, crafting tailored digital ecosystems that align perfectly with their vision and goals.'
+  },
+  {
+    id: 'strategic-thinking',
+    title: 'Strategic Thinking',
+    description: 'Our experts guide you through every transformation phase, combining innovation with business strategy for lasting growth.'
+  },
+  {
+    id: 'extra-mile',
+    title: 'Extra Mile Support',
+    description: 'We go beyond expectations ensuring continuous improvement, scalability, and returns from our technology solutions.'
+  },
+  {
+    id: 'high-impact',
+    title: 'High-Impact Delivery',
+    description: 'Every client is different so we deliver personalized, high-impact technology strategies designed to drive measurable success and long-term value.'
+  }
+];
+
+export const aiSolutionPillars: IAISolutionPillar[] = [
+  {
+    id: 'decision-intelligence',
+    title: 'Decision Intelligence',
+    description: 'Turn operational data into real-time decision systems that adapt to changing market signals and customer behavior.'
+  },
+  {
+    id: 'autonomous-ops',
+    title: 'Autonomous Operations',
+    description: 'Automate high-volume workflows with guardrails, approvals, and audit trails to boost efficiency without sacrificing control.'
+  },
+  {
+    id: 'customer-experience',
+    title: 'AI-First Customer Experience',
+    description: 'Elevate support, onboarding, and retention with multilingual conversational AI that learns from every interaction.'
+  },
+  {
+    id: 'intelligent-products',
+    title: 'Intelligent Products',
+    description: 'Embed AI into your product roadmap to unlock personalization, forecasting, and proactive insights.'
+  }
+];
+
+export const aiServices: IAIService[] = [
+  {
+    id: 'strategy',
+    title: 'AI Strategy & Readiness',
+    description: 'Audit your data, people, and systems to define a clear AI roadmap with measurable KPIs and governance controls.',
+    outcomes: ['AI opportunity mapping', 'ROI modeling', 'Governance frameworks']
+  },
+  {
+    id: 'agentic',
+    title: 'Agentic Automation',
+    description: 'Deploy autonomous agents that coordinate tasks, query knowledge bases, and act with human-in-the-loop approvals.',
+    outcomes: ['RAG orchestration', 'Workflow automation', 'Actionable insights']
+  },
+  {
+    id: 'predictive',
+    title: 'Predictive Analytics',
+    description: 'Forecast demand, identify risk, and optimize operations using statistical modeling and modern ML pipelines.',
+    outcomes: ['Demand forecasting', 'Churn prediction', 'Anomaly detection']
+  },
+  {
+    id: 'conversational',
+    title: 'Conversational AI',
+    description: 'Design branded assistants that handle support, sales enablement, and internal enablement across channels.',
+    outcomes: ['Multichannel bots', 'Knowledge retrieval', 'Sentiment analysis']
+  },
+  {
+    id: 'computer-vision',
+    title: 'Computer Vision',
+    description: 'Turn images and video into structured insights for quality control, safety, and real-time monitoring.',
+    outcomes: ['OCR & document AI', 'Defect detection', 'Visual analytics']
+  },
+  {
+    id: 'mlops',
+    title: 'MLOps & Monitoring',
+    description: 'Keep models reliable with continuous evaluation, drift monitoring, and secure deployment pipelines.',
+    outcomes: ['Model observability', 'CI/CD for ML', 'Compliance reporting']
+  }
+];
+
+export const aiTechStack: IAITechCategory[] = [
+  {
+    id: 'modeling',
+    title: 'Modeling & Frameworks',
+    items: ['PyTorch', 'TensorFlow', 'Transformers', 'XGBoost', 'ONNX']
+  },
+  {
+    id: 'data',
+    title: 'Data & Vector Stores',
+    items: ['Postgres', 'Snowflake', 'BigQuery', 'Pinecone', 'Weaviate']
+  },
+  {
+    id: 'infra',
+    title: 'Infrastructure & DevOps',
+    items: ['AWS', 'GCP', 'Docker', 'Kubernetes', 'Terraform']
+  },
+  {
+    id: 'orchestration',
+    title: 'Orchestration',
+    items: ['LangChain', 'LlamaIndex', 'Airflow', 'Prefect', 'Temporal']
+  },
+  {
+    id: 'observability',
+    title: 'Observability',
+    items: ['Prometheus', 'Grafana', 'OpenTelemetry', 'Sentry', 'Evidently AI']
+  },
+  {
+    id: 'security',
+    title: 'Security & Governance',
+    items: ['RBAC', 'PII Redaction', 'SOC2 Controls', 'Audit Logging', 'Policy Engines']
+  }
 ];

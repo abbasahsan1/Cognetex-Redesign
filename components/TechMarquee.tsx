@@ -18,9 +18,9 @@ export const TechMarquee: React.FC = () => {
             {technologies.map((tech, idx) => (
               <div 
                 key={idx} 
-                className="aspect-square border-r border-b border-border flex flex-col items-center justify-center hover:bg-primary hover:text-white transition-colors cursor-default group relative bg-paper"
+                className="aspect-square border-r border-b border-border flex flex-col items-center justify-center hover:bg-primary hover:text-on-primary transition-colors cursor-default group relative bg-paper"
               >
-                <span className="text-[10px] font-mono text-muted group-hover:text-white/50 mb-1 opacity-50 absolute top-2 left-2">
+                <span className="text-[10px] font-mono text-muted group-hover:text-on-primary/50 mb-1 opacity-50 absolute top-2 left-2">
                   {idx < 9 ? `0${idx+1}` : idx+1}
                 </span>
                 <span className="font-bold text-sm tracking-tight">{tech}</span>

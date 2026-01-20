@@ -8,16 +8,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
+        darkMode: 'class',
         theme: {
           extend: {
             colors: {
-              background: "#F4F4F5", // Zinc 100
-              paper: "#FFFFFF",
-              foreground: "#09090b", // Zinc 950
-              muted: "#52525b",      // Zinc 600
-              border: "#E4E4E7",     // Zinc 200
-              primary: "#09090b",    // Black
-              signal: "#F97316",     // International Orange
+              background: 'var(--background)',
+              paper: 'var(--paper)',
+              foreground: 'var(--foreground)',
+              muted: 'var(--muted)',
+              border: 'var(--border)',
+              primary: 'var(--primary)',
+              signal: 'var(--signal)',
+              'on-primary': 'var(--on-primary)',
             },
             fontFamily: {
               sans: ["'Inter Tight'", 'sans-serif'],
@@ -34,7 +36,7 @@
               "hard-sm": "2px 2px 0px 0px rgba(0,0,0,1)",
             },
             backgroundImage: {
-              'grid-pattern': "linear-gradient(to right, #E4E4E7 1px, transparent 1px), linear-gradient(to bottom, #E4E4E7 1px, transparent 1px)",
+              'grid-pattern': "linear-gradient(to right, var(--border) 1px, transparent 1px), linear-gradient(to bottom, var(--border) 1px, transparent 1px)",
             }
           },
         },
@@ -44,9 +46,31 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+      :root {
+        --background: #F4F4F5;
+        --paper: #FFFFFF;
+        --foreground: #09090b;
+        --muted: #52525b;
+        --border: #E4E4E7;
+        --primary: #09090b;
+        --signal: #F97316;
+        --on-primary: #F4F4F5;
+      }
+
+      .dark {
+        --background: #0b0b0d;
+        --paper: #111113;
+        --foreground: #f4f4f5;
+        --muted: #a1a1aa;
+        --border: #27272a;
+        --primary: #f4f4f5;
+        --signal: #f97316;
+        --on-primary: #0b0b0d;
+      }
+
       body {
-        background-color: #F4F4F5;
-        color: #09090b;
+        background-color: var(--background);
+        color: var(--foreground);
         font-feature-settings: "ss01", "ss02";
       }
       .bg-grid {
@@ -67,21 +91,7 @@
         background: #F97316;
       }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "clsx": "https://esm.sh/clsx@^2.1.1",
-    "zod": "https://esm.sh/zod@^4.3.5",
-    "@hookform/resolvers/": "https://esm.sh/@hookform/resolvers@^5.2.2/",
-    "tailwind-merge": "https://esm.sh/tailwind-merge@^3.4.0",
-    "react-hook-form": "https://esm.sh/react-hook-form@^7.71.1"
-  }
-}
-</script>
+    <script type="module" src="/index.tsx"></script>
 </head>
   <body>
     <div id="root"></div>

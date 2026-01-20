@@ -23,10 +23,10 @@ export const Button: React.FC<ButtonProps> = ({
   const baseStyles = "inline-flex items-center justify-center font-bold tracking-tight transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-black disabled:opacity-50 disabled:pointer-events-none active:translate-y-[1px]";
   
   const variants = {
-    primary: "bg-primary text-white hover:bg-signal border border-transparent rounded-none shadow-hard-sm hover:shadow-hard",
-    secondary: "bg-signal text-white hover:bg-signal/90 border border-transparent rounded-none shadow-hard-sm",
-    outline: "bg-transparent border border-primary text-primary hover:bg-primary hover:text-white rounded-none",
-    ghost: "text-muted hover:text-primary hover:bg-black/5 rounded-none",
+    primary: "bg-primary text-background hover:bg-signal border border-transparent rounded-none shadow-hard-sm hover:shadow-hard",
+    secondary: "bg-signal text-background hover:bg-signal/90 border border-transparent rounded-none shadow-hard-sm",
+    outline: "bg-transparent border border-primary text-primary hover:bg-primary hover:text-background rounded-none",
+    ghost: "text-muted hover:text-primary hover:bg-primary/10 rounded-none",
   };
 
   const sizes = {

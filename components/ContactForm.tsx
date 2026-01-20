@@ -38,7 +38,7 @@ export const ContactForm: React.FC = () => {
     setTimeout(() => setIsSuccess(false), 5000);
   };
 
-  const inputClasses = "w-full bg-paper border border-border rounded-none px-4 py-3 text-foreground placeholder-muted/50 focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all text-sm font-mono";
+  const inputClasses = "w-full bg-paper border border-border rounded-none px-4 py-3 text-foreground placeholder-muted/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm font-mono";
   const labelClasses = "block text-xs font-bold text-foreground mb-2 uppercase tracking-wide";
 
   return (
@@ -69,11 +69,11 @@ export const ContactForm: React.FC = () => {
 
           <div className="lg:col-span-7">
             <Card className="bg-background shadow-hard" noPadding>
-              <div className="bg-primary text-white p-4 flex justify-between items-center">
+              <div className="bg-primary text-on-primary p-4 flex justify-between items-center">
                 <span className="font-mono text-xs">CONTACT_PROTOCOL</span>
                 <div className="flex gap-2">
-                   <div className="w-3 h-3 border border-white/50"></div>
-                   <div className="w-3 h-3 border border-white/50 bg-white"></div>
+                   <div className="w-3 h-3 border border-on-primary/50"></div>
+                   <div className="w-3 h-3 border border-on-primary/50 bg-on-primary"></div>
                 </div>
               </div>
               

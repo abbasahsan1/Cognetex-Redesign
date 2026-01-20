@@ -1,27 +1,31 @@
 import React from 'react';
-import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { TechMarquee } from './components/TechMarquee';
-import { Services } from './components/Services';
-import { Projects } from './components/Projects';
-import { Team } from './components/Team';
-import { ContactForm } from './components/ContactForm';
-import { Footer } from './components/Footer';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AppLayout } from './components/AppLayout';
+import { Home } from './pages/Home';
+import { Approach } from './pages/Approach';
+import { AISolutions } from './pages/AISolutions';
+import { AIServices } from './pages/AIServices';
+import { TechStack } from './pages/TechStack';
+import { Contact } from './pages/Contact';
+import { NotFound } from './pages/NotFound';
+import { Team } from './pages/Team';
 
 function App() {
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-signal selection:text-white font-sans">
-      <Navbar />
-      <main>
-        <Hero />
-        <TechMarquee />
-        <Services />
-        <Projects />
-        <Team />
-        <ContactForm />
-      </main>
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route index element={<Home />} />
+          <Route path="/approach" element={<Approach />} />
+          <Route path="/solutions" element={<AISolutions />} />
+          <Route path="/ai-services" element={<AIServices />} />
+          <Route path="/tech-stack" element={<TechStack />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

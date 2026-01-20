@@ -28,7 +28,7 @@ export const Projects: React.FC = () => {
           {projects.map((project, idx) => (
             <Card 
               key={project.id} 
-              className="min-w-[85vw] sm:min-w-[400px] md:min-w-0 snap-center group hover:border-black transition-colors duration-300 h-full flex flex-col"
+              className="min-w-[85vw] sm:min-w-[400px] md:min-w-0 snap-center group hover:border-primary transition-colors duration-300 h-full flex flex-col"
             >
               <div className="flex justify-between items-start mb-6 md:mb-8">
                 <div className="inline-block px-2 py-1 bg-background border border-border text-xs font-mono text-muted uppercase">
