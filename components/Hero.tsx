@@ -52,7 +52,7 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* Right Terminal */}
-        <div className="w-full md:w-1/3 border-t md:border-t-0 md:border-l border-border bg-foreground text-background relative flex flex-col min-h-[420px] md:min-h-[520px] mt-8 md:mt-0">
+        <div className="w-full md:w-1/3 min-w-0 border-t md:border-t-0 md:border-l border-border bg-foreground text-background relative flex flex-col min-h-[420px] md:min-h-[520px] mt-8 md:mt-0 overflow-hidden">
           <div className="p-3 border-b border-background/20 flex justify-between items-center bg-background/5">
             <div className="flex gap-2">
               <div className="w-2.5 h-2.5 bg-red-500 rounded-full opacity-50"></div>
@@ -88,15 +88,17 @@ export const Hero: React.FC = () => {
           </div>
           
           {/* Decorative Footer of Terminal */}
-          <div className="p-4 border-t border-background/20 grid grid-cols-2 gap-4 text-background/60 text-[10px] font-mono">
-             <div>
-               <div className="uppercase mb-1">Memory</div>
-               <div className="w-full bg-background/10 h-1"><div className="w-[42%] bg-green-500 h-full"></div></div>
-             </div>
-             <div>
-               <div className="uppercase mb-1">Latency</div>
-               <div className="text-background">12ms</div>
-             </div>
+          <div className="p-4 border-t border-background/20 text-background/60 text-[10px] font-mono">
+            <div className="flex gap-4">
+              <div className="flex-1 overflow-hidden">
+                <div className="uppercase mb-1">Memory</div>
+                <div className="w-full bg-background/10 h-1"><div className="w-[42%] bg-green-500 h-full"></div></div>
+              </div>
+              <div className="flex-1 overflow-hidden">
+                <div className="uppercase mb-1">Latency</div>
+                <div className="text-background">12ms</div>
+              </div>
+            </div>
           </div>
         </div>
 
