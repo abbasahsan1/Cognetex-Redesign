@@ -19,6 +19,8 @@ View your app in AI Studio: https://ai.studio/apps/drive/1ioEjtTuhUc3Q87-g9Z_x6T
    - `VITE_FIREBASE_*` values
    - `VITE_ADMIN_EMAIL`
    - `VITE_CLOUDINARY_CLOUD_NAME`
-   - `VITE_CLOUDINARY_UPLOAD_PRESET`
+   - `VITE_CLOUDINARY_UPLOAD_PRESET` (if using unsigned uploads)
+   - `VITE_USE_SERVER_UPLOAD=true` (to force server-side uploads)
+   - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` (server-side uploads)
 3. Run the app:
    `npm run dev`

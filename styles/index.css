@@ -71,4 +71,47 @@
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
     background: var(--signal);
   }
+
+  /* Animation utilities */
+  .animate-in {
+    animation: animate-in 0.2s ease-out forwards;
+  }
+  .fade-in {
+    --tw-enter-opacity: 0;
+  }
+  .slide-in-from-top-2 {
+    --tw-enter-translate-y: -0.5rem;
+  }
+  @keyframes animate-in {
+    from {
+      opacity: var(--tw-enter-opacity, 1);
+      transform: translate(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0));
+    }
+    to {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+}
+
+/* React Image Crop Theme Overrides */
+.ReactCrop {
+  --rc-border-color: var(--primary);
+  --rc-focus-color: var(--signal);
+  --rc-resize-handle-size: 10px;
+  --rc-resize-handle-bg-color: var(--signal);
+  --rc-resize-handle-border: 0;
+  --rc-drag-handle-size: 4px;
+}
+
+.ReactCrop__crop-selection {
+  border: 2px solid var(--signal) !important;
+}
+
+.ReactCrop__drag-handle {
+  background-color: var(--signal) !important;
+}
+
+.ReactCrop__drag-bar {
+  background-color: transparent !important;
 }

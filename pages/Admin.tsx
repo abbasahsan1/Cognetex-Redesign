@@ -1,8 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useRef } from 'react';
 import { z } from 'zod';
+import { Upload, Image as ImageIcon, X } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/GlassCard';
 import { CloudinaryImage } from '../components/CloudinaryImage';
+import { ImageCropper } from '../components/ImageCropper';
 import { useAdminAuth } from '../hooks/useAdminAuth';
 import { useAdminData } from '../hooks/useAdminData';
 import {
@@ -90,8 +92,11 @@ export const Admin: React.FC = () => {
   const [formError, setFormError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [teamImageFile, setTeamImageFile] = useState<File | null>(null);
+  const [croppedImageFile, setCroppedImageFile] = useState<File | null>(null);
+  const [showCropper, setShowCropper] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [editingServiceId, setEditingServiceId] = useState<string | null>(null);
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
@@ -104,7 +109,39 @@ export const Admin: React.FC = () => {
   const [techForm, setTechForm] = useState(initialTech);
 
   const cloudinaryCloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME ?? 'duxaktggz';
-  const cloudinaryUploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+  const cloudinaryUploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET ?? 'cognetex';
+
+  const parseJsonSafe = async (response: Response) => {
+    const text = await response.text();
+    if (!text) return null;
+    try {
+      return JSON.parse(text);
+    } catch {
+      return { error: text };
+    }
+  };
+
+  const uploadToCloudinary = async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', cloudinaryUploadPreset);
+    formData.append('folder', 'cognetex/team');
+
+    const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/image/upload`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    const payload = await parseJsonSafe(response);
+    if (!response.ok) {
+      const errorMessage = payload?.error?.message ?? payload?.error ?? 'Upload failed.';
+      throw new Error(errorMessage);
+    }
+    if (!payload?.public_id) {
+      throw new Error('Upload succeeded but no public ID was returned.');
+    }
+    return payload;
+  };
 
   const iconOptions = useMemo(() => Object.keys(iconMap), []);
 
@@ -195,13 +232,34 @@ export const Admin: React.FC = () => {
     }
   };
 
-  const handleUploadTeamImage = async () => {
-    if (!teamImageFile) {
-      setUploadError('Select an image before uploading.');
-      return;
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] ?? null;
+    if (file) {
+      setTeamImageFile(file);
+      setCroppedImageFile(null);
+      setShowCropper(true);
+      setUploadError(null);
     }
-    if (!cloudinaryUploadPreset) {
-      setUploadError('Missing Cloudinary upload preset configuration.');
+  };
+
+  const handleCropComplete = (_blob: Blob, croppedFile: File) => {
+    setCroppedImageFile(croppedFile);
+    setShowCropper(false);
+  };
+
+  const handleCancelCrop = () => {
+    setShowCropper(false);
+    setTeamImageFile(null);
+    setCroppedImageFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleUploadTeamImage = async () => {
+    const fileToUpload = croppedImageFile || teamImageFile;
+    if (!fileToUpload) {
+      setUploadError('Select and crop an image before uploading.');
       return;
     }
 
@@ -209,26 +267,16 @@ export const Admin: React.FC = () => {
     setUploadError(null);
 
     try {
-      const formData = new FormData();
-      formData.append('file', teamImageFile);
-      formData.append('upload_preset', cloudinaryUploadPreset);
-      formData.append('folder', 'cognetex/team');
-
-      const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/image/upload`, {
-        method: 'POST',
-        body: formData,
-      });
-
-      const payload = await response.json();
-      if (!response.ok) {
-        throw new Error(payload?.error?.message ?? 'Upload failed.');
-      }
-
+      const payload = await uploadToCloudinary(fileToUpload);
       setTeamForm((prev) => ({ ...prev, image: payload.public_id }));
       setTeamImageFile(null);
+      setCroppedImageFile(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     } catch (err) {
-      console.error(err);
-      setUploadError('Image upload failed. Please retry.');
+      console.error('Cloudinary upload error:', err);
+      setUploadError(err instanceof Error ? err.message : 'Image upload failed. Please retry.');
     } finally {
       setUploadingImage(false);
     }
@@ -537,27 +585,95 @@ export const Admin: React.FC = () => {
                   value={teamForm.image}
                   onChange={(event) => setTeamForm({ ...teamForm, image: event.target.value })}
                 />
-                <div className="space-y-2">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="w-full bg-paper border border-border px-4 py-2 text-sm"
-                    onChange={(event) => {
-                      const file = event.target.files?.[0] ?? null;
-                      setTeamImageFile(file);
-                      setUploadError(null);
-                    }}
-                  />
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleUploadTeamImage}
-                    disabled={uploadingImage || !teamImageFile}
-                  >
-                    {uploadingImage ? 'Uploading...' : 'Upload to Cloudinary'}
-                  </Button>
-                  {uploadError && <p className="text-red-600 text-xs font-mono">{uploadError}</p>}
+                
+                {/* Image Upload Section */}
+                <div className="space-y-3">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-mono text-muted uppercase tracking-wide">
+                      Upload Photo
+                    </label>
+                    <div className="relative">
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleFileSelect}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="w-full flex items-center justify-center gap-3 bg-paper border-2 border-dashed border-border hover:border-primary px-4 py-6 text-sm transition-all duration-200 group"
+                      >
+                        <Upload className="w-5 h-5 text-muted group-hover:text-primary transition-colors" />
+                        <span className="text-muted group-hover:text-foreground transition-colors font-mono">
+                          {teamImageFile ? teamImageFile.name : 'Choose an image to upload'}
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Image Cropper */}
+                  {showCropper && teamImageFile && (
+                    <div className="animate-in fade-in slide-in-from-top-2 duration-200">
+                      <ImageCropper
+                        file={teamImageFile}
+                        onCropComplete={handleCropComplete}
+                        onCancel={handleCancelCrop}
+                        aspectRatio={4 / 5}
+                      />
+                    </div>
+                  )}
+
+                  {/* Cropped Preview & Upload Button */}
+                  {croppedImageFile && !showCropper && (
+                    <div className="space-y-3 animate-in fade-in duration-200">
+                      <div className="relative border border-border bg-background p-2">
+                        <img
+                          src={URL.createObjectURL(croppedImageFile)}
+                          alt="Cropped preview"
+                          className="w-full h-48 object-cover"
+                        />
+                        <button
+                          type="button"
+                          onClick={handleCancelCrop}
+                          className="absolute top-3 right-3 p-1 bg-background/80 border border-border hover:bg-red-500 hover:border-red-500 hover:text-white transition-all duration-200"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={handleUploadTeamImage}
+                        disabled={uploadingImage}
+                        className="w-full"
+                      >
+                        {uploadingImage ? (
+                          <span className="flex items-center justify-center gap-2">
+                            <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                            </svg>
+                            Uploading to Cloudinary...
+                          </span>
+                        ) : (
+                          <span className="flex items-center justify-center gap-2">
+                            <Upload className="w-4 h-4" />
+                            Upload Image
+                          </span>
+                        )}
+                      </Button>
+                    </div>
+                  )}
+
+                  {uploadError && (
+                    <p className="text-red-500 text-xs font-mono bg-red-500/10 border border-red-500/20 px-3 py-2">
+                      {uploadError}
+                    </p>
+                  )}
                 </div>
+
                 <textarea
                   className="w-full bg-paper border border-border px-4 py-2 text-sm"
                   rows={3}
@@ -566,14 +682,20 @@ export const Admin: React.FC = () => {
                   onChange={(event) => setTeamForm({ ...teamForm, bio: event.target.value })}
                 />
                 {teamForm.image && (
-                  <div className="border border-border bg-background p-2">
-                    <CloudinaryImage
-                      publicId={teamForm.image}
-                      alt={teamForm.name || 'Team member'}
-                      width={400}
-                      height={500}
-                      className="w-full h-56 object-cover"
-                    />
+                  <div className="space-y-2">
+                    <label className="text-xs font-mono text-muted uppercase tracking-wide flex items-center gap-2">
+                      <ImageIcon className="w-3 h-3" />
+                      Current Image
+                    </label>
+                    <div className="border border-border bg-background p-2">
+                      <CloudinaryImage
+                        publicId={teamForm.image}
+                        alt={teamForm.name || 'Team member'}
+                        width={400}
+                        height={500}
+                        className="w-full h-56 object-cover"
+                      />
+                    </div>
                   </div>
                 )}
                 <Button onClick={handleSubmitTeam}>
@@ -602,7 +724,12 @@ export const Admin: React.FC = () => {
                             image: member.image,
                           });
                           setTeamImageFile(null);
+                          setCroppedImageFile(null);
+                          setShowCropper(false);
                           setUploadError(null);
+                          if (fileInputRef.current) {
+                            fileInputRef.current.value = '';
+                          }
                         }}
                       >
                         Edit
