@@ -28,7 +28,7 @@ export const teamMemberSchema = z.object({
   name: z.string(),
   role: z.string(),
   bio: z.string(),
-  image: z.string().url(),
+  image: z.string().min(1),
 });
 
 export const approachItemSchema = z.object({

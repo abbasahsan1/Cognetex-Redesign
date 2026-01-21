@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { z } from 'zod';
 import { Button } from '../components/Button';
 import { Card } from '../components/GlassCard';
+import { CloudinaryImage } from '../components/CloudinaryImage';
 import { useAdminAuth } from '../hooks/useAdminAuth';
 import { useAdminData } from '../hooks/useAdminData';
 import {
@@ -41,7 +42,7 @@ const teamSchema = z.object({
   name: z.string().min(2),
   role: z.string().min(2),
   bio: z.string().min(10),
-  image: z.string().url(),
+  image: z.string().min(2),
 });
 
 const techSchema = z.object({
@@ -88,6 +89,9 @@ export const Admin: React.FC = () => {
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [teamImageFile, setTeamImageFile] = useState<File | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   const [editingServiceId, setEditingServiceId] = useState<string | null>(null);
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
@@ -98,6 +102,9 @@ export const Admin: React.FC = () => {
   const [projectForm, setProjectForm] = useState(initialProject);
   const [teamForm, setTeamForm] = useState(initialTeam);
   const [techForm, setTechForm] = useState(initialTech);
+
+  const cloudinaryCloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME ?? 'duxaktggz';
+  const cloudinaryUploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
   const iconOptions = useMemo(() => Object.keys(iconMap), []);
 
@@ -177,6 +184,7 @@ export const Admin: React.FC = () => {
         await createTeamMember(parsed.data);
       }
       setTeamForm(initialTeam);
+      setTeamImageFile(null);
       setEditingTeamId(null);
       await refresh();
     } catch (err) {
@@ -184,6 +192,45 @@ export const Admin: React.FC = () => {
       setFormError('Failed to save team member.');
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleUploadTeamImage = async () => {
+    if (!teamImageFile) {
+      setUploadError('Select an image before uploading.');
+      return;
+    }
+    if (!cloudinaryUploadPreset) {
+      setUploadError('Missing Cloudinary upload preset configuration.');
+      return;
+    }
+
+    setUploadingImage(true);
+    setUploadError(null);
+
+    try {
+      const formData = new FormData();
+      formData.append('file', teamImageFile);
+      formData.append('upload_preset', cloudinaryUploadPreset);
+      formData.append('folder', 'cognetex/team');
+
+      const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/image/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const payload = await response.json();
+      if (!response.ok) {
+        throw new Error(payload?.error?.message ?? 'Upload failed.');
+      }
+
+      setTeamForm((prev) => ({ ...prev, image: payload.public_id }));
+      setTeamImageFile(null);
+    } catch (err) {
+      console.error(err);
+      setUploadError('Image upload failed. Please retry.');
+    } finally {
+      setUploadingImage(false);
     }
   };
 
@@ -486,10 +533,31 @@ export const Admin: React.FC = () => {
                 />
                 <input
                   className="w-full bg-paper border border-border px-4 py-2 text-sm"
-                  placeholder="Image URL"
+                  placeholder="Image Public ID or URL"
                   value={teamForm.image}
                   onChange={(event) => setTeamForm({ ...teamForm, image: event.target.value })}
                 />
+                <div className="space-y-2">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0] ?? null;
+                      setTeamImageFile(file);
+                      setUploadError(null);
+                    }}
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleUploadTeamImage}
+                    disabled={uploadingImage || !teamImageFile}
+                  >
+                    {uploadingImage ? 'Uploading...' : 'Upload to Cloudinary'}
+                  </Button>
+                  {uploadError && <p className="text-red-600 text-xs font-mono">{uploadError}</p>}
+                </div>
                 <textarea
                   className="w-full bg-paper border border-border px-4 py-2 text-sm"
                   rows={3}
@@ -497,6 +565,17 @@ export const Admin: React.FC = () => {
                   value={teamForm.bio}
                   onChange={(event) => setTeamForm({ ...teamForm, bio: event.target.value })}
                 />
+                {teamForm.image && (
+                  <div className="border border-border bg-background p-2">
+                    <CloudinaryImage
+                      publicId={teamForm.image}
+                      alt={teamForm.name || 'Team member'}
+                      width={400}
+                      height={500}
+                      className="w-full h-56 object-cover"
+                    />
+                  </div>
+                )}
                 <Button onClick={handleSubmitTeam}>
                   {editingTeamId ? 'Update Member' : 'Add Member'}
                 </Button>
@@ -522,6 +601,8 @@ export const Admin: React.FC = () => {
                             bio: member.bio,
                             image: member.image,
                           });
+                          setTeamImageFile(null);
+                          setUploadError(null);
                         }}
                       >
                         Edit

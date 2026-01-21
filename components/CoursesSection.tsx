@@ -7,7 +7,7 @@ import { SectionHeading } from './SectionHeading';
 export const CoursesSection: React.FC = () => {
   const { courses } = useContent();
   return (
-    <section id="courses" className="py-20 md:py-28 bg-paper border-b border-border">
+    <section id="courses" className="py-20 md:py-28 bg-paper border-b border-border overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12 md:mb-16">
           <SectionHeading
@@ -26,11 +26,14 @@ export const CoursesSection: React.FC = () => {
             Upgrade your skills with our carefully curated training programs designed for real-world application.
             Each course is structured to help you learn, apply, and grow confidently in the tech industry.
           </p>
+          <div className="lg:hidden font-mono text-[10px] text-muted animate-pulse">
+            <span className="mr-2">←</span> SWIPE <span className="ml-2">→</span>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 md:grid md:grid-cols-2 md:gap-6 md:pb-0 md:mx-0 md:px-0 scrollbar-thin">
           {courses.map((course, idx) => (
-            <Card key={course.id} hoverEffect className="h-full flex flex-col">
+            <Card key={course.id} hoverEffect className="min-w-[85vw] sm:min-w-[360px] md:min-w-0 snap-center h-full flex flex-col">
               <div className="flex items-center justify-between mb-6">
                 <span className="text-[10px] font-mono uppercase border border-border px-2 py-1 bg-background">
                   {course.badge}

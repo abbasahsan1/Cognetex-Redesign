@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/GlassCard';
 import { Button } from '../components/Button';
+import { CloudinaryImage } from '../components/CloudinaryImage';
 import { useContent } from '../hooks/useContent';
 
 const highlights = [
@@ -75,8 +76,8 @@ export const Team: React.FC = () => {
             {team.map((member) => (
               <Card key={member.id} className="h-full flex flex-col">
                 <div className="relative aspect-[4/5] mb-4 overflow-hidden border border-border bg-background">
-                  <img
-                    src={member.image}
+                  <CloudinaryImage
+                    publicId={member.image}
                     alt={member.name}
                     loading="lazy"
                     width={400}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useContent } from '../hooks/useContent';
 import { SectionHeading } from './SectionHeading';
+import { CloudinaryImage } from './CloudinaryImage';
 
 export const Team: React.FC = () => {
   const { team } = useContent();
@@ -31,8 +32,8 @@ export const Team: React.FC = () => {
           {team.map((member) => (
             <div key={member.id} className="group min-w-[85vw] sm:min-w-[320px] md:min-w-0 snap-center">
               <div className="relative aspect-[4/5] mb-4 overflow-hidden border border-border bg-paper">
-                <img 
-                  src={member.image} 
+                <CloudinaryImage
+                  publicId={member.image}
                   alt={member.name}
                   loading="lazy"
                   width={400}

@@ -11,6 +11,7 @@ const navLinks = [
   { name: 'AI SERVICES', to: '/ai-services' },
   { name: 'TECH STACK', to: '/tech-stack' },
   { name: 'OUR TEAM', to: '/team' },
+  { name: 'CAREERS', to: '/careers' },
 ];
 
 export const Navbar: React.FC = () => {

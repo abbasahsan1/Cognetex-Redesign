@@ -10,13 +10,13 @@
     "analyze": "ANALYZE=true vite build"
   },
   "dependencies": {
-    "@hookform/resolvers": "^5.2.2",
+    "@hookform/resolvers": "^3.6.0",
     "clsx": "^2.1.1",
-    "firebase": "^11.2.0",
+    "firebase": "^10.12.5",
     "lucide-react": "^0.562.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "react-hook-form": "^7.71.1",
+    "react-hook-form": "^7.52.2",
     "react-router-dom": "^7.12.0",
     "tailwind-merge": "^3.4.0",
     "zod": "^4.3.5"

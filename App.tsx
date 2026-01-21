@@ -11,6 +11,7 @@ const AIServices = React.lazy(() => import('./pages/AIServices').then((module) =
 const TechStack = React.lazy(() => import('./pages/TechStack').then((module) => ({ default: module.TechStack })));
 const Contact = React.lazy(() => import('./pages/Contact').then((module) => ({ default: module.Contact })));
 const Team = React.lazy(() => import('./pages/Team').then((module) => ({ default: module.Team })));
+const Careers = React.lazy(() => import('./pages/Careers').then((module) => ({ default: module.Careers })));
 const NotFound = React.lazy(() => import('./pages/NotFound').then((module) => ({ default: module.NotFound })));
 const Admin = React.lazy(() => import('./pages/Admin').then((module) => ({ default: module.Admin })));
 
@@ -27,6 +28,7 @@ function App() {
               <Route path="/ai-services" element={<AIServices />} />
               <Route path="/tech-stack" element={<TechStack />} />
               <Route path="/team" element={<Team />} />
+              <Route path="/careers" element={<Careers />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/ghq" element={<Admin />} />
               <Route path="*" element={<NotFound />} />
