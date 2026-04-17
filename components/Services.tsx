@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { useContent } from '../hooks/useContent';
 import { SectionHeading } from './SectionHeading';
 import { getIconByName } from '../utils/iconMap';
+import { DottedSurface } from './ui/dotted-surface';
 
 export const Services: React.FC = () => {
   const { services } = useContent();
@@ -13,7 +14,7 @@ export const Services: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 border-b border-border pb-8">
           <SectionHeading
             className="max-w-2xl"
-            eyebrow="01. Capabilities"
+            eyebrow="03. Capabilities"
             title={
               <>
                 TECHNICAL<br />DEEP DIVE
@@ -35,13 +36,15 @@ export const Services: React.FC = () => {
           Mobile: Flex carousel with borders
           Desktop: Grid with gap-based borders 
         */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-[1px] md:pb-0 md:mx-0 md:px-0 md:bg-border md:border md:border-border scrollbar-thin">
-          {services.map((service, idx) => (
-            <Card 
-              key={service.id} 
-              hoverEffect 
-              className="min-w-[85vw] sm:min-w-[350px] md:min-w-0 snap-center border border-border md:border-none shadow-none h-full"
-            >
+        <div className="relative overflow-hidden border border-border bg-background p-2 sm:p-3 md:p-4">
+          <DottedSurface className="opacity-45 [mask-image:radial-gradient(circle_at_center,black_30%,transparent_80%)]" />
+          <div className="relative z-10 flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-[1px] md:pb-0 md:mx-0 md:px-0 md:bg-border md:border md:border-border scrollbar-thin">
+            {services.map((service, idx) => (
+              <Card 
+                key={service.id} 
+                hoverEffect 
+                className="min-w-[85vw] sm:min-w-[350px] md:min-w-0 snap-center border border-border md:border-none shadow-none h-full"
+              >
               <div className="flex justify-between items-start mb-12">
                 <span className="font-mono text-xs text-muted">SRV_0{idx + 1}</span>
                 {(() => {
@@ -55,7 +58,7 @@ export const Services: React.FC = () => {
               </h3>
               
               <p className="text-sm font-mono text-signal mb-6">
-                // {service.tagline}
+                {service.tagline}
               </p>
               
               <p className="text-muted mb-8 leading-relaxed text-sm">
@@ -73,8 +76,9 @@ export const Services: React.FC = () => {
                   ))}
                 </ul>
               </div>
-            </Card>
-          ))}
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </section>

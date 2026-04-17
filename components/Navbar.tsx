@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, Moon, Sun, X } from 'lucide-react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Button } from './Button';
 import { useThemePreference } from '../hooks/useThemePreference';
+import logo from '../templates/logo.svg';
 
 const navLinks = [
   { name: 'HOME', to: '/', end: true },
@@ -37,10 +38,8 @@ export const Navbar: React.FC = () => {
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
             <Link to="/" onClick={handleNavClick} className="flex items-center gap-2 cursor-pointer">
-              <div className="w-5 h-5 bg-primary flex items-center justify-center">
-                <span className="text-on-primary text-[10px] font-bold">C</span>
-              </div>
-              <span className="text-sm font-mono font-bold tracking-tight text-primary">
+              <img src={logo} alt="Cognetex logo" className="w-7 h-7 object-contain" />
+              <span className="text-sm font-sans font-semibold tracking-tight text-primary">
                 COGNETEX
               </span>
             </Link>
@@ -54,7 +53,7 @@ export const Navbar: React.FC = () => {
                     end={link.end}
                     onClick={handleNavClick}
                     className={({ isActive }) =>
-                      `text-xs font-mono font-medium transition-colors px-6 ${
+                      `text-xs font-sans font-semibold tracking-wide transition-colors px-6 ${
                         isActive ? 'text-signal' : 'text-muted hover:text-signal'
                       }`
                     }
@@ -72,10 +71,10 @@ export const Navbar: React.FC = () => {
             <div className="hidden md:flex items-center gap-3 pl-6 border-l border-border h-full">
               <button
                 onClick={toggleTheme}
-                className="px-3 py-2 border border-border text-xs font-mono font-medium tracking-wide text-muted hover:text-signal hover:border-signal transition-all duration-200"
+                className="p-2 border border-border text-muted hover:text-signal hover:border-signal transition-all duration-200"
                 aria-label="Toggle dark mode"
               >
-                {isDark ? 'LHT' : 'DRK'}
+                {isDark ? <Sun size={14} /> : <Moon size={14} />}
               </button>
               <Button size="sm" variant="primary" onClick={handleContactClick}>
                 INITIATE PROJECT
@@ -121,9 +120,10 @@ export const Navbar: React.FC = () => {
               ))}
               <button
                 onClick={toggleTheme}
-                className="mt-2 flex items-center gap-2 text-sm font-mono text-muted hover:text-signal transition-colors"
+                className="mt-2 flex items-center gap-2 text-sm font-sans font-semibold text-muted hover:text-signal transition-colors"
+                aria-label="Toggle dark mode"
               >
-                {isDark ? 'LHT MODE' : 'DRK MODE'}
+                {isDark ? <Sun size={14} /> : <Moon size={14} />}
               </button>
             </div>
             <div className="p-6 border-t border-border mb-safe">

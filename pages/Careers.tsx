@@ -217,7 +217,7 @@ export const Careers: React.FC = () => {
                   <span className="font-mono text-xs text-muted">ROLE_{role.id.substring(0, 3).toUpperCase()}</span>
                 </div>
                 <h3 className="text-2xl font-bold text-foreground mb-2">{role.title}</h3>
-                <p className="text-xs font-mono text-signal mb-4">// {role.location}</p>
+                <p className="text-xs font-mono text-signal mb-4">{role.location}</p>
                 <p className="text-sm text-muted leading-relaxed mb-6">{role.summary}</p>
                 <div className="mt-auto">
                   <div className="h-px w-full bg-border mb-4" />
