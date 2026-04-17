@@ -3,6 +3,7 @@ import { Card } from './GlassCard';
 import { Button } from './Button';
 import { useContent } from '../hooks/useContent';
 import { SectionHeading } from './SectionHeading';
+import { DottedSurface } from './ui/dotted-surface';
 
 export const CoursesSection: React.FC = () => {
   const { courses } = useContent();
@@ -31,9 +32,11 @@ export const CoursesSection: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 md:grid md:grid-cols-2 md:gap-6 md:pb-0 md:mx-0 md:px-0 scrollbar-thin">
-          {courses.map((course, idx) => (
-            <Card key={course.id} hoverEffect className="min-w-[85vw] sm:min-w-[360px] md:min-w-0 snap-center h-full flex flex-col border border-border md:border-none shadow-none">
+        <div className="relative overflow-hidden border border-border bg-background p-2 sm:p-3 md:p-4">
+          <DottedSurface className="opacity-42 [mask-image:radial-gradient(circle_at_center,black_30%,transparent_80%)]" />
+          <div className="relative z-10 flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 md:grid md:grid-cols-2 md:gap-6 md:pb-0 md:mx-0 md:px-0 scrollbar-thin">
+            {courses.map((course, idx) => (
+              <Card key={course.id} hoverEffect className="min-w-[85vw] sm:min-w-[360px] md:min-w-0 snap-center h-full flex flex-col border border-border md:border-none shadow-none">
               <div className="flex items-center justify-between mb-6">
                 <span className="text-[10px] font-mono uppercase border border-border px-2 py-1 bg-background">
                   {course.badge}
@@ -44,7 +47,7 @@ export const CoursesSection: React.FC = () => {
               <h3 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight mb-2">
                 {course.title}
               </h3>
-              <p className="text-sm font-mono text-signal mb-4">// {course.subtitle}</p>
+              <p className="text-sm font-mono text-signal mb-4">{course.subtitle}</p>
               <p className="text-sm text-muted leading-relaxed mb-8">
                 {course.description}
               </p>
@@ -57,8 +60,9 @@ export const CoursesSection: React.FC = () => {
                   ENROLL NOW
                 </Button>
               </div>
-            </Card>
-          ))}
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </section>

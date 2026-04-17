@@ -3,6 +3,7 @@ import { Card } from './GlassCard';
 import { ArrowUpRight } from 'lucide-react';
 import { useContent } from '../hooks/useContent';
 import { SectionHeading } from './SectionHeading';
+import { DottedSurface } from './ui/dotted-surface';
 
 export const Projects: React.FC = () => {
   const { projects } = useContent();
@@ -29,12 +30,14 @@ export const Projects: React.FC = () => {
           Mobile: Horizontal scroll (Carousel)
           Desktop: Grid
         */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-8 md:pb-0 md:mx-0 md:px-0 scrollbar-thin">
-          {projects.map((project, idx) => (
-            <Card 
-              key={project.id} 
-              className="min-w-[85vw] sm:min-w-[400px] md:min-w-0 snap-center group hover:border-primary transition-colors duration-300 h-full flex flex-col"
-            >
+        <div className="relative overflow-hidden border border-border bg-background p-2 sm:p-3 md:p-4">
+          <DottedSurface className="opacity-55 [mask-image:radial-gradient(circle_at_center,black_30%,transparent_80%)]" />
+          <div className="relative z-10 flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-8 md:pb-0 md:mx-0 md:px-0 scrollbar-thin">
+            {projects.map((project, idx) => (
+              <Card 
+                key={project.id} 
+                className="min-w-[85vw] sm:min-w-[400px] md:min-w-0 snap-center group hover:border-primary transition-colors duration-300 h-full flex flex-col"
+              >
               <div className="flex justify-between items-start mb-6 md:mb-8">
                 <div className="inline-block px-2 py-1 bg-background border border-border text-xs font-mono text-muted uppercase">
                   {project.clientSector}
@@ -65,8 +68,9 @@ export const Projects: React.FC = () => {
                   </div>
                 ))}
               </div>
-            </Card>
-          ))}
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </section>

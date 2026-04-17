@@ -26,6 +26,7 @@
     "react-image-crop": "^11.0.10",
     "react-router-dom": "^7.12.0",
     "tailwind-merge": "^3.4.0",
+    "three": "^0.184.0",
     "zod": "^4.3.5"
   },
   "devDependencies": {

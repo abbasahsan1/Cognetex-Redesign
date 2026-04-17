@@ -1,5 +1,6 @@
 import React from 'react';
 import { GlobePulse } from './ui/cobe-globe-pulse';
+import { DottedSurface } from './ui/dotted-surface';
 import { SectionHeading } from './SectionHeading';
 
 export const GlobalPresence: React.FC = () => {
@@ -26,8 +27,9 @@ export const GlobalPresence: React.FC = () => {
           </div>
 
           <div className="lg:col-span-7 flex justify-center">
-            <div className="w-full max-w-[1200px] border border-border bg-background p-4 sm:p-6 md:p-8 2xl:p-10 flex items-center justify-center">
-              <div className="w-full max-w-[320px] sm:max-w-[460px] lg:max-w-[700px] xl:max-w-[840px] 2xl:max-w-[980px] aspect-square flex items-center justify-center">
+            <div className="relative w-full max-w-[1040px] border border-border bg-background p-4 sm:p-6 md:p-8 2xl:p-10 flex items-center justify-center overflow-hidden">
+              <DottedSurface className="opacity-100" />
+              <div className="relative z-10 w-full max-w-[280px] sm:max-w-[400px] lg:max-w-[620px] xl:max-w-[740px] 2xl:max-w-[860px] aspect-square flex items-center justify-center">
                 <GlobePulse
                   className="w-full h-full"
                   speed={0.0018}
