@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, Moon, Sun, X } from 'lucide-react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Button } from './Button';
 import { useThemePreference } from '../hooks/useThemePreference';
@@ -72,10 +72,10 @@ export const Navbar: React.FC = () => {
             <div className="hidden md:flex items-center gap-3 pl-6 border-l border-border h-full">
               <button
                 onClick={toggleTheme}
-                className="px-3 py-2 border border-border text-xs font-mono font-medium tracking-wide text-muted hover:text-signal hover:border-signal transition-all duration-200"
+                className="p-2 border border-border text-muted hover:text-signal hover:border-signal transition-all duration-200"
                 aria-label="Toggle dark mode"
               >
-                {isDark ? 'LHT' : 'DRK'}
+                {isDark ? <Sun size={14} /> : <Moon size={14} />}
               </button>
               <Button size="sm" variant="primary" onClick={handleContactClick}>
                 INITIATE PROJECT
@@ -122,8 +122,9 @@ export const Navbar: React.FC = () => {
               <button
                 onClick={toggleTheme}
                 className="mt-2 flex items-center gap-2 text-sm font-mono text-muted hover:text-signal transition-colors"
+                aria-label="Toggle dark mode"
               >
-                {isDark ? 'LHT MODE' : 'DRK MODE'}
+                {isDark ? <Sun size={14} /> : <Moon size={14} />}
               </button>
             </div>
             <div className="p-6 border-t border-border mb-safe">

@@ -12,7 +12,7 @@ export const CoursesSection: React.FC = () => {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12 md:mb-16">
           <SectionHeading
             className="max-w-2xl"
-            eyebrow="04. Training Programs"
+            eyebrow="05. Training Programs"
             titleClassName="md:text-6xl"
             title={
               <>
@@ -33,7 +33,7 @@ export const CoursesSection: React.FC = () => {
 
         <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 md:grid md:grid-cols-2 md:gap-6 md:pb-0 md:mx-0 md:px-0 scrollbar-thin">
           {courses.map((course, idx) => (
-            <Card key={course.id} hoverEffect className="min-w-[85vw] sm:min-w-[360px] md:min-w-0 snap-center h-full flex flex-col">
+            <Card key={course.id} hoverEffect className="min-w-[85vw] sm:min-w-[360px] md:min-w-0 snap-center h-full flex flex-col border border-border md:border-none shadow-none">
               <div className="flex items-center justify-between mb-6">
                 <span className="text-[10px] font-mono uppercase border border-border px-2 py-1 bg-background">
                   {course.badge}

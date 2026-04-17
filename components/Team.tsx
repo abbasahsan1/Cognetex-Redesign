@@ -10,7 +10,7 @@ export const Team: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-end mb-12 md:mb-16">
           <SectionHeading
-            eyebrow="03. The Engineers"
+            eyebrow="04. The Engineers"
             titleClassName="md:text-4xl"
             title={
               <>
@@ -24,13 +24,9 @@ export const Team: React.FC = () => {
           </div>
         </div>
 
-        {/* 
-          Mobile: Flex row with horizontal scroll and snap points
-          Desktop: Standard Grid 
-        */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-4 px-4 md:grid md:grid-cols-2 lg:grid-cols-4 md:pb-0 md:mx-0 md:px-0 scrollbar-thin">
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-thin">
           {team.map((member) => (
-            <div key={member.id} className="group min-w-[85vw] sm:min-w-[320px] md:min-w-0 snap-center">
+            <div key={member.id} className="group min-w-[85vw] sm:min-w-[320px] md:min-w-[360px] lg:min-w-[320px] snap-center">
               <div className="relative aspect-[4/5] mb-4 overflow-hidden border border-border bg-paper">
                 <CloudinaryImage
                   publicId={member.image}
