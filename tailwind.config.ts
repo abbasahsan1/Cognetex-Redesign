@@ -34,8 +34,9 @@ export default {
         'ring-offset-background': 'var(--background)',
       },
       fontFamily: {
-        sans: ["'Inter Tight'", 'sans-serif'],
-        mono: ["'JetBrains Mono'", 'monospace'],
+        sans: ["'Noto Sans Cham'", 'sans-serif'],
+        display: ["'Noto Sans Cham'", 'sans-serif'],
+        mono: ["'Noto Sans Cham'", 'sans-serif'],
       },
       borderRadius: {
         DEFAULT: '2px',

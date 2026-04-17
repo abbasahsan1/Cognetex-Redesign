@@ -6,6 +6,7 @@ import { CoursesSection } from '../components/CoursesSection';
 import { Projects } from '../components/Projects';
 import { Team } from '../components/Team';
 import { ArrowRight } from 'lucide-react';
+import { GlobalPresence } from '../components/GlobalPresence';
 
 export const Home: React.FC = () => {
   return (
@@ -52,6 +53,7 @@ export const Home: React.FC = () => {
       <Projects />
       <Services />
       <TechMarquee />
+      <GlobalPresence />
       <Team />
       <CoursesSection />
     </>

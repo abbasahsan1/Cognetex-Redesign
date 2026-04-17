@@ -10,7 +10,7 @@
     --muted: #52525b;
     --border: #e4e4e7;
     --primary: #09090b;
-    --signal: #f97316;
+    --signal: #7c3aed;
     --on-primary: #f4f4f5;
   }
 
@@ -21,7 +21,7 @@
     --muted: #a1a1aa;
     --border: #27272a;
     --primary: #f4f4f5;
-    --signal: #f97316;
+    --signal: #7c3aed;
     --on-primary: #0b0b0d;
   }
 
@@ -29,6 +29,21 @@
     background-color: var(--background);
     color: var(--foreground);
     font-feature-settings: "ss01", "ss02";
+    font-family: "Noto Sans Cham", sans-serif;
+    font-optical-sizing: auto;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .section-title {
+    font-family: "Noto Sans Cham", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-optical-sizing: auto;
   }
 
   .bg-grid {
