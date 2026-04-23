@@ -12,7 +12,7 @@ export const Footer: React.FC = () => {
               <Logo className="h-16 w-auto text-foreground" />
             </div>
             <p className="text-muted text-sm max-w-xs leading-relaxed">
-              Engineering the intelligence of tomorrow. Precise, autonomous, and scalable systems for the modern enterprise.
+              Rethinking how thinking works. Precise, autonomous, and scalable systems for the modern enterprise.
             </p>
           </div>
           
