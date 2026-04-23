@@ -56,9 +56,21 @@ const teamSchema = z.object({
   bio: z.string().min(10),
   image: z.string().min(2),
   imageAlt: z.string().optional(),
+  expertise: z.array(z.string().min(2)).optional(),
+  experience: z.array(z.object({
+    company: z.string().min(1),
+    role: z.string().min(1),
+    period: z.string().min(1),
+  })).optional(),
+  socials: z.object({
+    linkedin: z.string().optional(),
+    twitter: z.string().optional(),
+    github: z.string().optional(),
+  }).optional(),
   seoTitle: z.string().max(60).optional(),
   seoDescription: z.string().max(160).optional(),
 });
+
 
 const techSchema = z.object({
   title: z.string().min(2),
@@ -105,9 +117,17 @@ const initialTeam: Omit<ITeamMember, 'id'> = {
   bio: '',
   image: '',
   imageAlt: '',
+  expertise: [],
+  experience: [],
+  socials: {
+    linkedin: '',
+    twitter: '',
+    github: '',
+  },
   seoTitle: '',
   seoDescription: '',
 };
+
 
 const initialTech: Omit<IAITechCategory, 'id'> = {
   title: '',
@@ -738,7 +758,7 @@ export const Admin: React.FC = () => {
 
         {activeTab === 'team' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <Card className="lg:col-span-5">
+            <Card className="lg:col-span-12">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">{editingTeamId ? 'Edit Team Member' : 'Add Team Member'}</h2>
                 {editingTeamId && (
@@ -757,224 +777,192 @@ export const Admin: React.FC = () => {
                   </Button>
                 )}
               </div>
-              <div className="space-y-4">
-                <input
-                  className="w-full bg-paper border border-border px-4 py-2 text-sm"
-                  placeholder="Name"
-                  value={teamForm.name}
-                  onChange={(event) => setTeamForm({ ...teamForm, name: event.target.value })}
-                />
-                <input
-                  className="w-full bg-paper border border-border px-4 py-2 text-sm"
-                  placeholder="Role"
-                  value={teamForm.role}
-                  onChange={(event) => setTeamForm({ ...teamForm, role: event.target.value })}
-                />
-                <input
-                  className="w-full bg-paper border border-border px-4 py-2 text-sm"
-                  placeholder="Image Alt Text (e.g. Portrait of Abbas Ahsan)"
-                  value={teamForm.imageAlt}
-                  onChange={(event) => setTeamForm({ ...teamForm, imageAlt: event.target.value })}
-                />
-                
-                {/* Image Upload Section */}
-                <div className="space-y-3">
-                  <div className="flex flex-col gap-2">
-                    <label className="text-xs font-mono text-muted uppercase tracking-wide">
-                      Upload Photo
-                    </label>
-                    <div className="relative">
-                      <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={handleFileSelect}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => fileInputRef.current?.click()}
-                        className="w-full flex items-center justify-center gap-3 bg-paper border-2 border-dashed border-border hover:border-primary px-4 py-6 text-sm transition-all duration-200 group"
-                      >
-                        <Upload className="w-5 h-5 text-muted group-hover:text-primary transition-colors" />
-                        <span className="text-muted group-hover:text-foreground transition-colors font-mono">
-                          {teamImageFile ? teamImageFile.name : 'Choose an image to upload'}
-                        </span>
-                      </button>
-                    </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-4">
+                  <input
+                    className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                    placeholder="Name"
+                    value={teamForm.name}
+                    onChange={(event) => setTeamForm({ ...teamForm, name: event.target.value })}
+                  />
+                  <input
+                    className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                    placeholder="Role"
+                    value={teamForm.role}
+                    onChange={(event) => setTeamForm({ ...teamForm, role: event.target.value })}
+                  />
+                  <textarea
+                    className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                    rows={4}
+                    placeholder="Short Bio"
+                    value={teamForm.bio}
+                    onChange={(event) => setTeamForm({ ...teamForm, bio: event.target.value })}
+                  />
+                  
+                  <div className="space-y-4 pt-4 border-t border-border">
+                    <label className="text-xs font-mono text-muted uppercase tracking-widest">Expertise</label>
+                    <input
+                      className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                      placeholder="Expertise (e.g. AI Architecture, NLP - comma separated)"
+                      value={teamForm.expertise?.join(', ') || ''}
+                      onChange={(e) => setTeamForm({
+                        ...teamForm,
+                        expertise: e.target.value.split(',').map(s => s.trim()).filter(Boolean)
+                      })}
+                    />
                   </div>
 
-                  {/* Image Cropper */}
-                  {showCropper && teamImageFile && (
-                    <div className="animate-in fade-in slide-in-from-top-2 duration-200">
-                      <ImageCropper
-                        file={teamImageFile}
-                        onCropComplete={handleCropComplete}
-                        onCancel={handleCancelCrop}
-                        aspectRatio={4 / 5}
-                      />
-                    </div>
-                  )}
-
-                  {/* Cropped Preview & Upload Button */}
-                  {croppedImageFile && !showCropper && (
-                    <div className="space-y-3 animate-in fade-in duration-200">
-                      <div className="relative border border-border bg-background p-2">
-                        <div className="aspect-[4/5] overflow-hidden">
-                          <img
-                            src={URL.createObjectURL(croppedImageFile)}
-                            alt="Cropped preview"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <button
-                          type="button"
-                          onClick={handleCancelCrop}
-                          className="absolute top-3 right-3 p-1 bg-background/80 border border-border hover:bg-red-500 hover:border-red-500 hover:text-white transition-all duration-200"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
-                      <Button
-                        variant="primary"
-                        size="sm"
-                        onClick={handleUploadTeamImage}
-                        disabled={uploadingImage}
-                        className="w-full"
-                      >
-                        {uploadingImage ? (
-                          <span className="flex items-center justify-center gap-2">
-                            <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                            </svg>
-                            Uploading...
-                          </span>
-                        ) : (
-                          <span className="flex items-center justify-center gap-2">
-                            <Upload className="w-4 h-4" />
-                            Use This Crop
-                          </span>
-                        )}
-                      </Button>
-                    </div>
-                  )}
-
-                  {uploadError && (
-                    <p className="text-red-500 text-xs font-mono bg-red-500/10 border border-red-500/20 px-3 py-2">
-                      {uploadError}
-                    </p>
-                  )}
+                  <div className="space-y-4 pt-4 border-t border-border">
+                    <label className="text-xs font-mono text-muted uppercase tracking-widest">Social Links</label>
+                    <input
+                      className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                      placeholder="LinkedIn URL"
+                      value={teamForm.socials?.linkedin || ''}
+                      onChange={(e) => setTeamForm({
+                        ...teamForm,
+                        socials: { ...(teamForm.socials || {}), linkedin: e.target.value }
+                      })}
+                    />
+                    <input
+                      className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                      placeholder="Github URL"
+                      value={teamForm.socials?.github || ''}
+                      onChange={(e) => setTeamForm({
+                        ...teamForm,
+                        socials: { ...(teamForm.socials || {}), github: e.target.value }
+                      })}
+                    />
+                  </div>
                 </div>
 
-                <input
-                  className="w-full bg-paper border border-border px-4 py-2 text-xs font-mono"
-                  placeholder="Manual Public ID"
-                  value={teamForm.image}
-                  onChange={(event) => setTeamForm({ ...teamForm, image: event.target.value })}
-                />
+                <div className="space-y-4">
+                  <div className="space-y-4">
+                    <label className="text-xs font-mono text-muted uppercase tracking-widest">Career History</label>
+                    <textarea
+                      className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                      rows={5}
+                      placeholder="Experience (Format: Role at Company | Period per line, e.g. CEO at Cognetex | 2022 - Present)"
+                      value={teamForm.experience?.map(e => `${e.role} at ${e.company} | ${e.period}`).join('\n') || ''}
+                      onChange={(e) => {
+                        const lines = e.target.value.split('\n').filter(Boolean);
+                        const experience = lines.map(line => {
+                          const [roleAndCompany, period] = line.split('|').map(s => s.trim());
+                          const [role, company] = (roleAndCompany || '').split(' at ').map(s => s.trim());
+                          return { role: role || '', company: company || '', period: period || '' };
+                        });
+                        setTeamForm({ ...teamForm, experience });
+                      }}
+                    />
+                  </div>
 
-                <textarea
-                  className="w-full bg-paper border border-border px-4 py-2 text-sm"
-                  rows={3}
-                  placeholder="Bio"
-                  value={teamForm.bio}
-                  onChange={(event) => setTeamForm({ ...teamForm, bio: event.target.value })}
-                />
-                {teamForm.image && !croppedImageFile && (
-                  <div className="space-y-2">
-                    <label className="text-xs font-mono text-muted uppercase tracking-wide flex items-center gap-2">
-                      <ImageIcon className="w-3 h-3" />
-                      Current Image
-                    </label>
-                    <div className="border border-border bg-background p-2">
-                      <div className="aspect-[4/5] overflow-hidden">
-                        <CloudinaryImage
-                          publicId={teamForm.image}
-                          alt={teamForm.name || 'Team member'}
-                          width={400}
-                          height={500}
-                          className="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-300"
-                        />
+                  <div className="pt-4 border-t border-border">
+                    <label className="text-xs font-mono text-muted uppercase tracking-widest">Profile Image</label>
+                    <div className="flex flex-col gap-4 mt-2">
+                       {teamForm.image && (
+                         <CloudinaryImage 
+                            publicId={teamForm.image} 
+                            alt={teamForm.name} 
+                            className="w-24 h-24 object-cover border border-border"
+                          />
+                       )}
+                        <div className="flex gap-2">
+                          <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={handleFileSelect}
+                          />
+                          <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>
+                            {uploadingImage ? 'Uploading...' : 'Upload Image'}
+                          </Button>
+                          {(teamImageFile || croppedImageFile) && (
+                            <Button size="sm" onClick={handleUploadTeamImage} disabled={uploadingImage}>
+                              Confirm Upload
+                            </Button>
+                          )}
+                        </div>
+                    </div>
+                  </div>
+
+                  <SEOFormFields
+                    seoTitle={teamForm.seoTitle || ''}
+                    seoDescription={teamForm.seoDescription || ''}
+                    onChange={(field, value) => setTeamForm({ ...teamForm, [field]: value })}
+                  />
+                  
+                  <div className="pt-6">
+                    <Button fullWidth onClick={handleSubmitTeam}>
+                      {editingTeamId ? 'Update Team Member' : 'Add Team Member'}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+              {team.map((member) => (
+                <Card key={member.id} className={`flex flex-col ${editingTeamId === member.id ? 'border-signal ring-1 ring-signal' : ''}`}>
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="flex items-center gap-3">
+                      <CloudinaryImage 
+                        publicId={member.image} 
+                        alt={member.name} 
+                        className="w-10 h-10 object-cover border border-border"
+                      />
+                      <div>
+                        <h3 className="text-sm font-bold">{member.name}</h3>
+                        <p className="text-[10px] text-muted font-mono">{member.role}</p>
                       </div>
                     </div>
                   </div>
-                )}
-                <SEOFormFields
-                  seoTitle={teamForm.seoTitle || ''}
-                  seoDescription={teamForm.seoDescription || ''}
-                  onChange={(field, value) => setTeamForm({ ...teamForm, [field]: value })}
-                />
-                <Button onClick={handleSubmitTeam} className="w-full">
-                  {editingTeamId ? 'Update Member' : 'Add Member'}
-                </Button>
-              </div>
-            </Card>
-            <div className="lg:col-span-7 space-y-4">
-              {team.map((member) => (
-                <Card key={member.id} className={`${editingTeamId === member.id ? 'border-primary ring-1 ring-primary' : ''}`}>
-                  <div className="flex justify-between items-start">
-                    <div className="flex gap-4">
-                      <div className="w-12 h-12 bg-paper border border-border overflow-hidden">
-                        <CloudinaryImage
-                           publicId={member.image}
-                           alt={member.name}
-                           width={50}
-                           height={50}
-                           className="w-full h-full object-cover grayscale"
-                        />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-bold leading-tight">{member.name}</h3>
-                        <p className="text-xs text-signal font-mono">{member.role}</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          setEditingTeamId(member.id);
-                          setTeamForm({
-                            name: member.name,
-                            role: member.role,
-                            bio: member.bio,
-                            image: member.image,
-                            imageAlt: member.imageAlt || '',
-                            seoTitle: member.seoTitle || '',
-                            seoDescription: member.seoDescription || '',
-                          });
-                          setTeamImageFile(null);
-                          setCroppedImageFile(null);
-                          setShowCropper(false);
-                          setUploadError(null);
-                          if (fileInputRef.current) {
-                            fileInputRef.current.value = '';
-                          }
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={async () => {
-                          if (confirm('Delete this team member?')) {
-                             await deleteTeamMember(member.id);
-                             refresh();
-                          }
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </div>
+                  <div className="flex gap-2 mt-auto">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      fullWidth
+                      onClick={() => {
+                        setEditingTeamId(member.id);
+                        setTeamForm({
+                          name: member.name,
+                          role: member.role,
+                          bio: member.bio,
+                          image: member.image,
+                          imageAlt: member.imageAlt || '',
+                          expertise: member.expertise || [],
+                          experience: member.experience || [],
+                          socials: {
+                            linkedin: member.socials?.linkedin || '',
+                            twitter: member.socials?.twitter || '',
+                            github: member.socials?.github || '',
+                          },
+                          seoTitle: member.seoTitle || '',
+                          seoDescription: member.seoDescription || '',
+                        });
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={async () => {
+                        if (confirm('Delete this team member?')) {
+                          await deleteTeamMember(member.id);
+                          refresh();
+                        }
+                      }}
+                    >
+                      Delete
+                    </Button>
                   </div>
                 </Card>
               ))}
             </div>
           </div>
         )}
+
 
         {activeTab === 'tech' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

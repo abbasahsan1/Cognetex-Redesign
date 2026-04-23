@@ -25,8 +25,9 @@ export const ComplianceSection: React.FC = () => {
                 <img 
                   src={item.src} 
                   alt={item.alt} 
-                  className="max-w-full max-h-full opacity-60 dark:invert grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                  className="max-w-full max-h-full dark:invert"
                 />
+
               </div>
               <span className="text-[9px] font-mono text-muted/60 uppercase tracking-widest hidden sm:block">
                 {item.name}

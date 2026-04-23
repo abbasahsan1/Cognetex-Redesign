@@ -23,16 +23,19 @@ export const Card: React.FC<CardProps> = ({
   return (
     <div 
       className={cn(
-        "bg-paper border border-border relative overflow-hidden transition-all duration-200",
-        hoverEffect && "hover:border-signal hover:shadow-hard hover:-translate-y-1",
-        !noPadding && "p-6",
+        "bg-paper border border-border relative overflow-hidden transition-all duration-300 shadow-sm",
+
+        hoverEffect && "hover:border-signal",
+        !noPadding && "p-6 md:p-8",
         className
       )}
+
     >
       {children}
     </div>
   );
 };
+
 
 // Alias for backward compatibility if needed, though we will update consumers
 export const GlassCard = Card;

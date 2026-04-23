@@ -30,9 +30,21 @@ export interface ITeamMember {
   bio: string;
   image: string;
   imageAlt?: string;
+  expertise?: string[];
+  experience?: {
+    company: string;
+    role: string;
+    period: string;
+  }[];
+  socials?: {
+    linkedin?: string;
+    twitter?: string;
+    github?: string;
+  };
   seoTitle?: string;
   seoDescription?: string;
 }
+
 
 export interface IApproachItem {
   id: string;
@@ -65,9 +77,15 @@ export interface ICourse {
   title: string;
   subtitle: string;
   description: string;
+  price: string;
+  medium: string;
+  duration: string;
+  syllabus?: string[];
+  instructorId?: string;
   seoTitle?: string;
   seoDescription?: string;
 }
+
 
 export interface IMenuItem {
   label: string;

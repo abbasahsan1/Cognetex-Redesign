@@ -41,7 +41,7 @@ export const Home: React.FC = () => {
           </div>
 
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-[1px] md:bg-border md:border md:border-border">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {[
               { href: '#projects', label: 'Business Leaders', sub: 'See measurable ROI and outcomes' },
               { href: '#services', label: 'Technical Teams', sub: 'Review architecture and capabilities' },
@@ -51,16 +51,21 @@ export const Home: React.FC = () => {
               <a
                 key={item.href}
                 href={item.href}
-                className="group border border-border md:border-none bg-background p-5 md:p-6 hover:border-signal transition-colors"
+                className="group p-8 bg-paper border border-border hover:border-signal transition-all duration-300 flex flex-col justify-between"
+
+
               >
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <p className="text-base font-bold text-foreground tracking-tight">{item.label}</p>
-                  <ArrowRight className="w-4 h-4 text-muted group-hover:text-signal transition-colors" />
+                <div>
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <p className="text-lg font-bold text-foreground tracking-tight">{item.label}</p>
+                    <ArrowRight className="w-5 h-5 text-muted group-hover:text-signal transition-transform group-hover:translate-x-1" />
+                  </div>
+                  <p className="text-sm text-muted leading-relaxed">{item.sub}</p>
                 </div>
-                <p className="text-sm text-muted leading-relaxed">{item.sub}</p>
               </a>
             ))}
           </div>
+
         </div>
       </section>
 

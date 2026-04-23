@@ -1,7 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Card } from '../components/GlassCard';
 import { Button } from '../components/Button';
+
 import { CloudinaryImage } from '../components/CloudinaryImage';
 import { useContent } from '../hooks/useContent';
 import { PageSEO } from '../components/PageSEO';
@@ -79,25 +80,34 @@ export const Team: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {team.map((member) => (
-              <Card key={member.id} className="h-full flex flex-col group hover:border-primary transition-colors duration-300">
-                <div className="relative aspect-[4/5] mb-6 overflow-hidden">
-                  <CloudinaryImage
-                    publicId={member.image}
-                    alt={member.name}
-                    loading="lazy"
-                    width={400}
-                    height={500}
-                    className="w-full h-full object-cover transition-all duration-500"
-                  />
-                </div>
-                <div className="border-l-2 border-primary pl-4">
-                  <p className="text-foreground font-bold text-lg uppercase tracking-tight">{member.name}</p>
-                  <p className="text-signal text-xs font-mono mb-2">{member.role}</p>
-                  <p className="text-xs text-muted leading-relaxed">{member.bio}</p>
-                </div>
-              </Card>
+              <Link 
+                key={member.id} 
+                to={`/team/${member.id}`}
+                className="group block cursor-pointer transition-all duration-300"
+              >
+                <Card className="h-full flex flex-col group-hover:border-signal transition-colors duration-300">
+                  <div className="relative aspect-[4/5] mb-6 overflow-hidden">
+                    <CloudinaryImage
+                      publicId={member.image}
+                      alt={member.name}
+                      loading="lazy"
+                      width={400}
+                      height={500}
+                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+
+                    />
+                    <div className="absolute inset-0 bg-signal/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                  <div className="border-l-2 border-signal pl-4">
+                    <p className="text-foreground font-bold text-lg uppercase tracking-tight group-hover:text-signal transition-colors">{member.name}</p>
+                    <p className="text-signal text-xs font-mono mb-2">{member.role}</p>
+                    <p className="text-xs text-muted leading-relaxed line-clamp-3">{member.bio}</p>
+                  </div>
+                </Card>
+              </Link>
             ))}
           </div>
+
         </div>
       </section>
 

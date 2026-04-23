@@ -85,17 +85,37 @@ export const team: ITeamMember[] = [
     bio: 'Pioneer in bridging business logic with distributed AI systems. Expert in architecting scalable agentic workflows for enterprise clients.',
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop',
     imageAlt: 'Abbas Ahsan - CEO and AI Architect',
+    expertise: ['AI Architecture', 'Distributed Systems', 'Product Strategy'],
+    experience: [
+      { company: 'Cognetex', role: 'CEO', period: '2022 - Present' },
+      { company: 'Tech Innovators', role: 'Lead Architect', period: '2018 - 2022' }
+    ],
+    socials: {
+      linkedin: 'https://linkedin.com/in/abbasahsan',
+      github: 'https://github.com/abbasahsan'
+    },
     seoTitle: 'Abbas Ahsan | Enterprise AI Architect & CEO'
   },
   {
     id: 'manahil',
     name: 'Manahil Ahmed',
     role: 'Lead AI Research Engineer',
-    bio: 'NLP Specialist focused on transformer architecture and hallucination mitigation. Transforming raw research into production-ready AI models.',
+    bio: 'Specializing in NLP and Transformer architectures. Manahil bridges the gap between frontier research and production-scale AI implementations, with a core focus on LLM reliability and hallucination mitigation in high-stakes enterprise environments.',
     image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop',
     imageAlt: 'Manahil Ahmed - Lead AI Research Engineer',
-    seoTitle: 'Manahil Ahmed | NLP & Transformer Research Expert'
+    expertise: ['Natural Language Processing', 'Transformer Architecture', 'PyTorch', 'Model Fine-tuning'],
+    experience: [
+      { company: 'Cognetex', role: 'Lead AI Research Engineer', period: '2023 - Present' },
+      { company: 'Frontier AI Labs', role: 'Senior Research Scientist', period: '2020 - 2023' },
+      { company: 'Data Systems Inc.', role: 'Machine Learning Engineer', period: '2018 - 2020' }
+    ],
+    socials: {
+      linkedin: 'https://linkedin.com/in/manahilahmed',
+      github: 'https://github.com/manahil-ahmed'
+    },
+    seoTitle: 'Manahil Ahmed | NLP Research & AI Engineering Lead'
   },
+
   {
     id: 'jahanzeb',
     name: 'Jahanzeb Khan',
@@ -103,6 +123,14 @@ export const team: ITeamMember[] = [
     bio: 'Distributed systems expert specializing in high-throughput architectures. Ensuring performance reliability for massive AI workloads.',
     image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop',
     imageAlt: 'Jahanzeb Khan - Specialist in Distributed Systems',
+    expertise: ['Distributed Systems', 'Rust', 'Cloud Infrastructure'],
+    experience: [
+      { company: 'Cognetex', role: 'Senior Backend Engineer', period: '2023 - Present' },
+      { company: 'Scale Systems', role: 'Backend Dev', period: '2019 - 2023' }
+    ],
+    socials: {
+      github: 'https://github.com/jahanzebk'
+    },
     seoTitle: 'Jahanzeb Khan | Senior Backend & Distributed Systems Engineer'
   },
   {
@@ -112,9 +140,18 @@ export const team: ITeamMember[] = [
     bio: 'Architecting ultra-low latency interfaces. Expert in React and interactive 3D visualizations for complex data environments.',
     image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop',
     imageAlt: 'Abdullah Farooqui - Frontend Architecture Expert',
+    expertise: ['React', 'Three.js', 'UI/UX Design'],
+    experience: [
+      { company: 'Cognetex', role: 'Head of Frontend', period: '2022 - Present' },
+      { company: 'Design Co', role: 'Senior UI/UX', period: '2018 - 2022' }
+    ],
+    socials: {
+      linkedin: 'https://linkedin.com/in/abdullahfarooqui'
+    },
     seoTitle: 'Abdullah Farooqui | Head of Frontend & UI/UX Strategy'
   }
 ];
+
 
 
 

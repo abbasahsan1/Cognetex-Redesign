@@ -1,5 +1,8 @@
 import React, { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import { useContent } from '../hooks/useContent';
+
 import { SectionHeading } from './SectionHeading';
 import { CloudinaryImage } from './CloudinaryImage';
 import { Card } from './GlassCard';
@@ -45,30 +48,40 @@ export const Team: React.FC = () => {
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {team.map((member) => (
-            <Card 
+            <Link 
               key={member.id} 
-              className="min-w-[85vw] sm:min-w-[320px] md:min-w-[400px] snap-center group hover:border-signal transition-colors duration-300 h-full flex flex-col"
+              to={`/team/${member.id}`}
+              className="min-w-[85vw] sm:min-w-[320px] md:min-w-[400px] snap-center h-full block cursor-pointer group"
             >
-              <div className="relative aspect-[4/5] mb-6 overflow-hidden">
-                <CloudinaryImage
-                  publicId={member.image}
-                  alt={member.name}
-                  loading="lazy"
-                  width={400}
-                  height={500}
-                  className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
-                />
-              </div>
-              <div className="border-l-2 border-primary pl-4">
-                <p className="text-foreground font-bold text-lg uppercase tracking-tight">{member.name}</p>
-                <p className="text-signal text-xs font-mono mb-2">{member.role}</p>
-                <p className="text-xs text-muted leading-relaxed">
-                  {member.bio}
-                </p>
-              </div>
-            </Card>
+              <Card 
+                className="h-full flex flex-col group-hover:border-signal transition-colors transition-all duration-300"
+              >
+                <div className="relative aspect-[4/5] mb-6 overflow-hidden bg-paper">
+                  <CloudinaryImage
+                    publicId={member.image}
+                    alt={member.name}
+                    loading="lazy"
+                    width={400}
+                    height={500}
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+
+                  />
+                  <div className="absolute inset-0 bg-signal/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+                <div className="border-l border-signal/30 pl-4">
+                  <p className="text-foreground font-bold text-lg uppercase tracking-tight group-hover:text-signal transition-colors">{member.name}</p>
+                  <p className="text-signal text-xs font-mono mb-2">{member.role}</p>
+                  <p className="text-xs text-muted leading-relaxed line-clamp-3">
+                    {member.bio}
+                  </p>
+                </div>
+              </Card>
+            </Link>
           ))}
+
         </div>
+
+
 
         {/* Custom Signal Progress Track */}
         <div className="mt-8 h-[2px] w-full bg-border relative overflow-hidden hidden md:block">

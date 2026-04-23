@@ -15,6 +15,7 @@ const NotFound = React.lazy(() => import('./pages/NotFound').then((module) => ({
 const Admin = React.lazy(() => import('./pages/Admin').then((module) => ({ default: module.Admin })));
 const ServiceDetail = React.lazy(() => import('./pages/ServiceDetail').then((module) => ({ default: module.ServiceDetail })));
 const ProjectDetail = React.lazy(() => import('./pages/ProjectDetail').then((module) => ({ default: module.ProjectDetail })));
+const EmployeeDetail = React.lazy(() => import('./pages/EmployeeDetail').then((module) => ({ default: module.EmployeeDetail })));
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
                 <Route path="/services/:id" element={<ServiceDetail />} />
                 <Route path="/projects/:id" element={<ProjectDetail />} />
                 <Route path="/team" element={<Team />} />
+                <Route path="/team/:id" element={<EmployeeDetail />} />
                 <Route path="/careers" element={<Careers />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/ghq" element={<Admin />} />
@@ -42,5 +44,6 @@ function App() {
     </HelmetProvider>
   );
 }
+
 
 export default App;

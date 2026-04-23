@@ -5,7 +5,7 @@
 @layer base {
   :root {
     --background: #f4f4f5;
-    --paper: #ffffff;
+    --paper: #e4e4e7;
     --foreground: #09090b;
     --muted: #52525b;
     --border: #e4e4e7;
@@ -16,7 +16,7 @@
 
   .dark {
     --background: #0b0b0d;
-    --paper: #111113;
+    --paper: #09090b;
     --foreground: #f4f4f5;
     --muted: #a1a1aa;
     --border: #27272a;
@@ -24,6 +24,8 @@
     --signal: #8b5cf6;
     --on-primary: #0b0b0d;
   }
+
+
 
   body {
     background-color: var(--background);
@@ -155,4 +157,10 @@
 
 .ReactCrop__drag-bar {
   background-color: transparent !important;
+}
+
+.outline-text {
+  -webkit-text-stroke: 1px var(--muted);
+  color: transparent;
+  opacity: 0.3;
 }

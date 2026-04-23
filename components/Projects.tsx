@@ -15,7 +15,8 @@ export const Projects: React.FC = () => {
         <DottedSurface className="opacity-40" />
       </React.Suspense>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex justify-between items-end mb-12 md:mb-16 border-l-4 border-primary pl-6">
+        <div className="flex justify-between items-end mb-12 md:mb-16">
+
           <SectionHeading
             eyebrow="02. Case Studies"
             eyebrowClassName="text-muted"
@@ -69,14 +70,16 @@ export const Projects: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="bg-background border border-border p-4 grid grid-cols-3 gap-2 md:gap-4 mt-auto">
+                <div className="bg-paper border border-border p-6 grid grid-cols-3 gap-4 md:gap-8 mt-auto">
+
                   {project.stats.map((stat, sIdx) => (
-                    <div key={sIdx} className="text-center">
-                      <p className="text-lg md:text-2xl font-bold text-primary mb-1 font-mono break-all">{stat.value}</p>
-                      <p className="text-[10px] text-muted uppercase tracking-wide">{stat.label}</p>
+                    <div key={sIdx} className="text-center group/stat">
+                      <p className="text-xl md:text-3xl font-bold text-foreground mb-1 font-mono tracking-tighter transition-colors group-hover/stat:text-signal">{stat.value}</p>
+                      <p className="text-[9px] text-muted uppercase tracking-[0.2em] font-semibold">{stat.label}</p>
                     </div>
                   ))}
                 </div>
+
                 </Card>
               </Link>
             ))}
