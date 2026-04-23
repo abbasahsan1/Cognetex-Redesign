@@ -24,9 +24,9 @@ export const Team: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-thin">
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-4 px-4 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-8 md:pb-0 md:mx-0 md:px-0 scrollbar-thin">
           {team.map((member) => (
-            <Card key={member.id} className="min-w-[85vw] sm:min-w-[320px] md:min-w-[360px] lg:min-w-[320px] snap-center group hover:border-primary transition-colors duration-300 h-full flex flex-col">
+            <Card key={member.id} className="min-w-[85vw] sm:min-w-[320px] md:min-w-0 snap-center group hover:border-signal transition-colors duration-300 h-full flex flex-col">
               <div className="relative aspect-[4/5] mb-6 overflow-hidden">
                 <CloudinaryImage
                   publicId={member.image}
@@ -40,7 +40,7 @@ export const Team: React.FC = () => {
               <div className="border-l-2 border-primary pl-4">
                 <p className="text-foreground font-bold text-lg uppercase tracking-tight">{member.name}</p>
                 <p className="text-signal text-xs font-mono mb-2">{member.role}</p>
-                <p className="text-xs text-muted leading-relaxed max-w-[280px]">
+                <p className="text-xs text-muted leading-relaxed">
                   {member.bio}
                 </p>
               </div>

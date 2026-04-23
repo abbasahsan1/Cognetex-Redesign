@@ -38,7 +38,7 @@ export const CoursesSection: React.FC = () => {
             {courses.map((course, idx) => (
               <Card 
                 key={course.id} 
-                className="min-w-[85vw] sm:min-w-[360px] md:min-w-0 snap-center h-full flex flex-col border border-border shadow-none group hover:border-primary transition-colors duration-300"
+                className="min-w-[85vw] sm:min-w-[360px] md:min-w-0 snap-center h-full flex flex-col border border-border shadow-none group hover:border-signal transition-colors duration-300"
               >
               <div className="mb-6 h-1 w-full" />
 

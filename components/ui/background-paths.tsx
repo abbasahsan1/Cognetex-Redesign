@@ -20,7 +20,7 @@ function FloatingPaths({
         } ${343 - i * 6}C${616 - i * 5 * position} ${470 - i * 6} ${
             684 - i * 5 * position
         } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
-        color: `rgba(15,23,42,${0.1 + i * 0.03})`,
+        color: `rgba(139, 92, 246, ${0.1 + i * 0.03})`,
         width: 0.5 + i * 0.03,
         duration: 12 + i * 0.45,
         delay: i * 0.08,
@@ -29,7 +29,7 @@ function FloatingPaths({
     return (
         <div className="absolute inset-0 pointer-events-none [contain:layout_paint]">
             <svg
-                className="w-full h-full text-slate-950 dark:text-white"
+                className="w-full h-full text-signal"
                 viewBox="0 0 696 316"
                 fill="none"
             >

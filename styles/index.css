@@ -60,31 +60,37 @@
   .section-eyebrow {
     @apply font-mono text-eyebrow uppercase tracking-[0.2em] text-signal block;
   }
+
   .section-title {
     @apply text-4xl md:text-5xl font-bold text-foreground tracking-tight;
   }
+
   .section-lead {
     @apply text-muted text-lg leading-relaxed;
   }
+
   .section-caption {
     @apply font-mono text-caption uppercase tracking-[0.2em] text-muted;
   }
+
   .scrollbar-thin {
     scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
   }
+
   .scrollbar-thin::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
+    width: 10px;
+    height: 10px;
   }
+
   .scrollbar-thin::-webkit-scrollbar-track {
-    background: transparent;
+    background: var(--background);
   }
+
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 0px;
-    transition: background 0.2s ease;
+    background: var(--primary);
+    border: 2px solid var(--background);
   }
+
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
     background: var(--signal);
   }
@@ -93,17 +99,21 @@
   .animate-in {
     animation: animate-in 0.2s ease-out forwards;
   }
+
   .fade-in {
     --tw-enter-opacity: 0;
   }
+
   .slide-in-from-top-2 {
     --tw-enter-translate-y: -0.5rem;
   }
+
   @keyframes animate-in {
     from {
       opacity: var(--tw-enter-opacity, 1);
       transform: translate(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0));
     }
+
     to {
       opacity: 1;
       transform: translate(0, 0);

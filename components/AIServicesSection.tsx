@@ -26,10 +26,14 @@ export const AIServicesSection: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {aiServices.map((service, idx) => (
-            <Card key={service.id} className="h-full flex flex-col group hover:border-primary transition-colors duration-300">
-              <div className="mb-6 h-1 w-full" />
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 md:grid md:grid-cols-2 xl:grid-cols-3 md:gap-6 md:pb-0 md:mx-0 md:px-0 scrollbar-thin">
+          {aiServices.map((service) => (
+            <Card key={service.id} className="h-full flex flex-col min-w-[85vw] sm:min-w-[350px] md:min-w-0 snap-center group hover:border-signal transition-colors duration-300">
+              <div className="flex items-center justify-between mb-8">
+                <div className="p-2 border border-border group-hover:border-primary transition-colors">
+                  <ArrowRight size={16} className="text-signal group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
               <h3 className="text-xl font-bold text-foreground mb-3 tracking-tight">
                 {service.title}
               </h3>
@@ -37,7 +41,7 @@ export const AIServicesSection: React.FC = () => {
                 {service.description}
               </p>
               <div className="mt-auto">
-                <div className="h-px w-full bg-border mb-4" />
+                <div className="h-px w-full bg-border md:group-hover:bg-primary transition-colors mb-4" />
                 <ul className="space-y-2">
                   {service.outcomes.map((outcome, oIdx) => (
                     <li key={oIdx} className="flex items-center gap-2 text-xs font-mono text-foreground">

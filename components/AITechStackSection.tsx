@@ -25,18 +25,21 @@ export const AITechStackSection: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {aiTechStack.map((category, idx) => (
-            <Card key={category.id} className="h-full group hover:border-primary transition-colors duration-300">
-              <div className="mb-6 h-1 w-full" />
-              <h3 className="text-xl font-bold text-foreground mb-4 tracking-tight">
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 md:grid md:grid-cols-2 xl:grid-cols-3 md:gap-6 md:pb-0 md:mx-0 md:px-0 scrollbar-thin">
+          {aiTechStack.map((category) => (
+            <Card key={category.id} className="h-full min-w-[85vw] sm:min-w-[350px] md:min-w-0 snap-center group hover:border-signal transition-colors duration-300">
+              <div className="flex items-center justify-between mb-8 text-foreground">
+                <div className="h-px w-20 bg-border group-hover:bg-primary transition-colors" />
+                <div className="text-[10px] font-mono tracking-tighter opacity-50 uppercase">Stack_Layer</div>
+              </div>
+              <h3 className="text-xl font-bold mb-4 tracking-tight group-hover:text-primary transition-colors">
                 {category.title}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {category.items.map((item) => (
                   <span
                     key={item}
-                    className="text-xs font-mono border border-border px-2 py-1 bg-background text-foreground"
+                    className="text-[10px] font-mono border border-border px-2 py-1 bg-background text-foreground group-hover:border-signal transition-colors uppercase"
                   >
                     {item}
                   </span>

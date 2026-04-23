@@ -31,14 +31,17 @@ export const AISolutionsSection: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {aiSolutionPillars.map((pillar, idx) => (
-            <Card key={pillar.id} className="h-full group hover:border-primary transition-colors duration-300">
-              <div className="mb-6 h-1 w-full" />
-              <h3 className="text-2xl font-bold text-foreground mb-3 tracking-tight">
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 md:grid md:grid-cols-2 md:gap-6 md:pb-0 md:mx-0 md:px-0 scrollbar-thin">
+          {aiSolutionPillars.map((pillar) => (
+            <Card key={pillar.id} className="h-full min-w-[85vw] sm:min-w-[400px] md:min-w-0 snap-center group hover:border-signal transition-colors duration-300">
+              <div className="flex items-center justify-between mb-8">
+                <div className="h-px w-24 bg-border group-hover:bg-primary transition-colors" />
+                <div className="w-2 h-2 rounded-full border border-signal group-hover:bg-signal transition-colors" />
+              </div>
+              <h3 className="text-2xl font-bold text-foreground mb-4 tracking-tight group-hover:text-primary transition-colors">
                 {pillar.title}
               </h3>
-              <p className="text-sm text-muted leading-relaxed">
+              <p className="text-sm text-muted leading-relaxed max-w-sm">
                 {pillar.description}
               </p>
             </Card>

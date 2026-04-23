@@ -11,13 +11,14 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen pt-16">
+    <section id="hero" className="relative min-h-screen pt-16 overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(139,92,246,0.15),transparent_70%)] pointer-events-none" />
       <BackgroundPaths title="rethink how thinking works">
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 bg-background/30 backdrop-blur-[1px]">
           <div className="w-full min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center text-center py-12 md:py-20">
           <h1 className="text-5xl sm:text-6xl md:text-8xl font-bold tracking-tighter text-foreground mb-6 md:mb-8 leading-[0.9] uppercase">
             RETHINK HOW<br/>
-            <span className="text-muted">THINKING WORKS.</span>
+            <span className="text-signal">THINKING WORKS.</span>
           </h1>
           
           <p className="text-lg md:text-xl text-muted mb-8 md:mb-12 max-w-xl font-medium leading-relaxed">
