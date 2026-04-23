@@ -16,8 +16,9 @@ export const Services: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 border-b border-border pb-8">
           <SectionHeading
             className="max-w-2xl"
-            eyebrow="03. Capabilities"
+            eyebrow="04. Capabilities"
             title={
+
               <>
                 TECHNICAL<br />DEEP DIVE
               </>

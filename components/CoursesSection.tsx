@@ -13,8 +13,9 @@ export const CoursesSection: React.FC = () => {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12 md:mb-16">
           <SectionHeading
             className="max-w-2xl"
-            eyebrow="05. Training Programs"
+            eyebrow="06. Training Programs"
             titleClassName="md:text-6xl"
+
             title={
               <>
                 EXPLORE OUR MOST

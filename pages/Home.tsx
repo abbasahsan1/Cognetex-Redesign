@@ -9,6 +9,8 @@ import { ArrowRight } from 'lucide-react';
 import { GlobalPresence } from '../components/GlobalPresence';
 import { PageSEO } from '../components/PageSEO';
 import { Schema, getOrganizationSchema } from '../components/Schema';
+import { ComplianceSection } from '../components/ComplianceSection';
+
 
 import { useContent } from '../hooks/useContent';
 
@@ -62,7 +64,9 @@ export const Home: React.FC = () => {
       </section>
 
       <Projects />
+      <ComplianceSection />
       <Services />
+
       <TechMarquee />
       <GlobalPresence />
       <Team />

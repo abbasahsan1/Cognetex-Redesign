@@ -78,22 +78,26 @@
   }
 
   .scrollbar-thin::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 4px;
+    height: 4px;
   }
 
   .scrollbar-thin::-webkit-scrollbar-track {
-    background: var(--background);
+    background: transparent;
+    border-radius: 10px;
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: var(--primary);
-    border: 2px solid var(--background);
+    background: var(--border);
+    border-radius: 10px;
+    border: none;
+    transition: background 0.3s ease;
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
     background: var(--signal);
   }
+
 
   /* Animation utilities */
   .animate-in {
@@ -119,9 +123,18 @@
       transform: translate(0, 0);
     }
   }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 /* React Image Crop Theme Overrides */
+
 .ReactCrop {
   --rc-border-color: var(--primary);
   --rc-focus-color: var(--signal);
