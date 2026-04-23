@@ -74,19 +74,16 @@ export const Team: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {team.map((member) => (
-              <Card key={member.id} className="h-full flex flex-col">
-                <div className="relative aspect-[4/5] mb-4 overflow-hidden border border-border bg-background">
+              <Card key={member.id} className="h-full flex flex-col group hover:border-primary transition-colors duration-300">
+                <div className="relative aspect-[4/5] mb-6 overflow-hidden">
                   <CloudinaryImage
                     publicId={member.image}
                     alt={member.name}
                     loading="lazy"
                     width={400}
                     height={500}
-                    className="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-500"
+                    className="w-full h-full object-cover transition-all duration-500"
                   />
-                  <div className="absolute top-2 right-2 text-[10px] font-mono bg-background px-1 border border-border text-foreground">
-                    ID: {member.id.substring(0, 3).toUpperCase()}
-                  </div>
                 </div>
                 <div className="border-l-2 border-primary pl-4">
                   <p className="text-foreground font-bold text-lg uppercase tracking-tight">{member.name}</p>
