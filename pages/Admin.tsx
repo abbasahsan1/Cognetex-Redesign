@@ -8,20 +8,23 @@ import { ImageCropper } from '../components/ImageCropper';
 import { useAdminAuth } from '../hooks/useAdminAuth';
 import { useAdminData } from '../hooks/useAdminData';
 import {
-  createProject,
   createService,
+  createProject,
   createTeamMember,
   createTechCategory,
+  createCourse,
   deleteProject,
   deleteService,
   deleteTeamMember,
   deleteTechCategory,
+  deleteCourse,
   updateProject,
   updateService,
   updateTeamMember,
   updateTechCategory,
+  updateCourse
 } from '../repositories/adminRepository';
-import { IService, IProject, ITeamMember, IAITechCategory } from '../types';
+import { IService, IProject, ITeamMember, IAITechCategory, ICourse } from '../types';
 import { iconMap } from '../utils/iconMap';
 
 const serviceSchema = z.object({
@@ -52,7 +55,14 @@ const techSchema = z.object({
   items: z.array(z.string().min(1)),
 });
 
-const tabs = ['services', 'projects', 'team', 'tech'] as const;
+const courseSchema = z.object({
+  badge: z.string(),
+  title: z.string().min(2),
+  subtitle: z.string().min(2),
+  description: z.string().min(10),
+});
+
+const tabs = ['services', 'projects', 'team', 'tech', 'courses'] as const;
 
 type Tab = (typeof tabs)[number];
 
@@ -84,9 +94,16 @@ const initialTech: Omit<IAITechCategory, 'id'> = {
   items: [],
 };
 
+const initialCourse: Omit<ICourse, 'id'> = {
+  badge: '',
+  title: '',
+  subtitle: '',
+  description: '',
+};
+
 export const Admin: React.FC = () => {
   const { user, isLoading: authLoading, error: authError, login, logout } = useAdminAuth();
-  const { services, projects, team, techStack, isLoading, error, refresh } = useAdminData();
+  const { services, projects, team, techStack, courses, isLoading, error, refresh } = useAdminData();
   const [activeTab, setActiveTab] = useState<Tab>('services');
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState<string | null>(null);
@@ -102,11 +119,13 @@ export const Admin: React.FC = () => {
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
   const [editingTeamId, setEditingTeamId] = useState<string | null>(null);
   const [editingTechId, setEditingTechId] = useState<string | null>(null);
+  const [editingCourseId, setEditingCourseId] = useState<string | null>(null);
 
   const [serviceForm, setServiceForm] = useState(initialService);
   const [projectForm, setProjectForm] = useState(initialProject);
   const [teamForm, setTeamForm] = useState(initialTeam);
   const [techForm, setTechForm] = useState(initialTech);
+  const [courseForm, setCourseForm] = useState(initialCourse);
 
   const cloudinaryCloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME ?? 'duxaktggz';
   const cloudinaryUploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET ?? 'cognetex';
@@ -307,6 +326,31 @@ export const Admin: React.FC = () => {
     }
   };
 
+  const handleSubmitCourse = async () => {
+    setFormError(null);
+    const parsed = courseSchema.safeParse(courseForm);
+    if (!parsed.success) {
+      setFormError('Please fill in all course fields correctly.');
+      return;
+    }
+    setSaving(true);
+    try {
+      if (editingCourseId) {
+        await updateCourse(editingCourseId, parsed.data);
+      } else {
+        await createCourse(parsed.data);
+      }
+      setCourseForm(initialCourse);
+      setEditingCourseId(null);
+      await refresh();
+    } catch (err) {
+      console.error(err);
+      setFormError('Failed to save course.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (authLoading) {
     return (
       <section className="py-24 bg-background">
@@ -377,7 +421,12 @@ export const Admin: React.FC = () => {
         {activeTab === 'services' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <Card className="lg:col-span-5">
-              <h2 className="text-xl font-bold mb-4">Service</h2>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">{editingServiceId ? 'Edit Service' : 'Add Service'}</h2>
+                {editingServiceId && (
+                  <Button variant="outline" size="sm" onClick={() => { setEditingServiceId(null); setServiceForm(initialService); }}>Add New Instead</Button>
+                )}
+              </div>
               <div className="space-y-4">
                 <input
                   className="w-full bg-paper border border-border px-4 py-2 text-sm"
@@ -444,6 +493,7 @@ export const Admin: React.FC = () => {
                             capabilities: service.capabilities,
                             iconName: service.iconName,
                           });
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                       >
                         Edit
@@ -452,8 +502,10 @@ export const Admin: React.FC = () => {
                         variant="ghost"
                         size="sm"
                         onClick={async () => {
-                          await deleteService(service.id);
-                          refresh();
+                          if (confirm('Delete this service?')) {
+                            await deleteService(service.id);
+                            refresh();
+                          }
                         }}
                       >
                         Delete
@@ -469,7 +521,12 @@ export const Admin: React.FC = () => {
         {activeTab === 'projects' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <Card className="lg:col-span-5">
-              <h2 className="text-xl font-bold mb-4">Project</h2>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">{editingProjectId ? 'Edit Project' : 'Add Project'}</h2>
+                {editingProjectId && (
+                  <Button variant="outline" size="sm" onClick={() => { setEditingProjectId(null); setProjectForm(initialProject); }}>Add New Instead</Button>
+                )}
+              </div>
               <div className="space-y-4">
                 <input
                   className="w-full bg-paper border border-border px-4 py-2 text-sm"
@@ -540,6 +597,7 @@ export const Admin: React.FC = () => {
                             solution: project.solution,
                             stats: project.stats,
                           });
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                       >
                         Edit
@@ -548,8 +606,10 @@ export const Admin: React.FC = () => {
                         variant="ghost"
                         size="sm"
                         onClick={async () => {
-                          await deleteProject(project.id);
-                          refresh();
+                          if (confirm('Delete this project?')) {
+                            await deleteProject(project.id);
+                            refresh();
+                          }
                         }}
                       >
                         Delete
@@ -565,7 +625,24 @@ export const Admin: React.FC = () => {
         {activeTab === 'team' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <Card className="lg:col-span-5">
-              <h2 className="text-xl font-bold mb-4">Team Member</h2>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">{editingTeamId ? 'Edit Team Member' : 'Add Team Member'}</h2>
+                {editingTeamId && (
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => {
+                      setEditingTeamId(null);
+                      setTeamForm(initialTeam);
+                      setTeamImageFile(null);
+                      setCroppedImageFile(null);
+                      setShowCropper(false);
+                    }}
+                  >
+                    Add New Instead
+                  </Button>
+                )}
+              </div>
               <div className="space-y-4">
                 <input
                   className="w-full bg-paper border border-border px-4 py-2 text-sm"
@@ -578,12 +655,6 @@ export const Admin: React.FC = () => {
                   placeholder="Role"
                   value={teamForm.role}
                   onChange={(event) => setTeamForm({ ...teamForm, role: event.target.value })}
-                />
-                <input
-                  className="w-full bg-paper border border-border px-4 py-2 text-sm"
-                  placeholder="Image Public ID or URL"
-                  value={teamForm.image}
-                  onChange={(event) => setTeamForm({ ...teamForm, image: event.target.value })}
                 />
                 
                 {/* Image Upload Section */}
@@ -629,11 +700,13 @@ export const Admin: React.FC = () => {
                   {croppedImageFile && !showCropper && (
                     <div className="space-y-3 animate-in fade-in duration-200">
                       <div className="relative border border-border bg-background p-2">
-                        <img
-                          src={URL.createObjectURL(croppedImageFile)}
-                          alt="Cropped preview"
-                          className="w-full h-48 object-cover"
-                        />
+                        <div className="aspect-[4/5] overflow-hidden">
+                          <img
+                            src={URL.createObjectURL(croppedImageFile)}
+                            alt="Cropped preview"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
                         <button
                           type="button"
                           onClick={handleCancelCrop}
@@ -655,12 +728,12 @@ export const Admin: React.FC = () => {
                               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                             </svg>
-                            Uploading to Cloudinary...
+                            Uploading...
                           </span>
                         ) : (
                           <span className="flex items-center justify-center gap-2">
                             <Upload className="w-4 h-4" />
-                            Upload Image
+                            Use This Crop
                           </span>
                         )}
                       </Button>
@@ -674,6 +747,13 @@ export const Admin: React.FC = () => {
                   )}
                 </div>
 
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-xs font-mono"
+                  placeholder="Manual Public ID"
+                  value={teamForm.image}
+                  onChange={(event) => setTeamForm({ ...teamForm, image: event.target.value })}
+                />
+
                 <textarea
                   className="w-full bg-paper border border-border px-4 py-2 text-sm"
                   rows={3}
@@ -681,35 +761,48 @@ export const Admin: React.FC = () => {
                   value={teamForm.bio}
                   onChange={(event) => setTeamForm({ ...teamForm, bio: event.target.value })}
                 />
-                {teamForm.image && (
+                {teamForm.image && !croppedImageFile && (
                   <div className="space-y-2">
                     <label className="text-xs font-mono text-muted uppercase tracking-wide flex items-center gap-2">
                       <ImageIcon className="w-3 h-3" />
                       Current Image
                     </label>
                     <div className="border border-border bg-background p-2">
-                      <CloudinaryImage
-                        publicId={teamForm.image}
-                        alt={teamForm.name || 'Team member'}
-                        width={400}
-                        height={500}
-                        className="w-full h-56 object-cover"
-                      />
+                      <div className="aspect-[4/5] overflow-hidden">
+                        <CloudinaryImage
+                          publicId={teamForm.image}
+                          alt={teamForm.name || 'Team member'}
+                          width={400}
+                          height={500}
+                          className="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-300"
+                        />
+                      </div>
                     </div>
                   </div>
                 )}
-                <Button onClick={handleSubmitTeam}>
+                <Button onClick={handleSubmitTeam} className="w-full">
                   {editingTeamId ? 'Update Member' : 'Add Member'}
                 </Button>
               </div>
             </Card>
             <div className="lg:col-span-7 space-y-4">
               {team.map((member) => (
-                <Card key={member.id}>
+                <Card key={member.id} className={`${editingTeamId === member.id ? 'border-primary ring-1 ring-primary' : ''}`}>
                   <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="text-lg font-bold">{member.name}</h3>
-                      <p className="text-xs text-muted font-mono">{member.role}</p>
+                    <div className="flex gap-4">
+                      <div className="w-12 h-12 bg-paper border border-border overflow-hidden">
+                        <CloudinaryImage
+                           publicId={member.image}
+                           alt={member.name}
+                           width={50}
+                           height={50}
+                           className="w-full h-full object-cover grayscale"
+                        />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold leading-tight">{member.name}</h3>
+                        <p className="text-xs text-signal font-mono">{member.role}</p>
+                      </div>
                     </div>
                     <div className="flex gap-2">
                       <Button
@@ -730,6 +823,7 @@ export const Admin: React.FC = () => {
                           if (fileInputRef.current) {
                             fileInputRef.current.value = '';
                           }
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                       >
                         Edit
@@ -738,8 +832,10 @@ export const Admin: React.FC = () => {
                         variant="ghost"
                         size="sm"
                         onClick={async () => {
-                          await deleteTeamMember(member.id);
-                          refresh();
+                          if (confirm('Delete this team member?')) {
+                             await deleteTeamMember(member.id);
+                             refresh();
+                          }
                         }}
                       >
                         Delete
@@ -755,7 +851,12 @@ export const Admin: React.FC = () => {
         {activeTab === 'tech' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <Card className="lg:col-span-5">
-              <h2 className="text-xl font-bold mb-4">Tech Stack Category</h2>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">{editingTechId ? 'Edit Category' : 'Add Category'}</h2>
+                {editingTechId && (
+                  <Button variant="outline" size="sm" onClick={() => { setEditingTechId(null); setTechForm(initialTech); }}>Add New Instead</Button>
+                )}
+              </div>
               <div className="space-y-4">
                 <input
                   className="w-full bg-paper border border-border px-4 py-2 text-sm"
@@ -797,6 +898,7 @@ export const Admin: React.FC = () => {
                             title: category.title,
                             items: category.items,
                           });
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                       >
                         Edit
@@ -805,8 +907,98 @@ export const Admin: React.FC = () => {
                         variant="ghost"
                         size="sm"
                         onClick={async () => {
-                          await deleteTechCategory(category.id);
-                          refresh();
+                          if (confirm('Delete this tech category?')) {
+                            await deleteTechCategory(category.id);
+                            refresh();
+                          }
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'courses' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <Card className="lg:col-span-5">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">{editingCourseId ? 'Edit Course' : 'Add Course'}</h2>
+                {editingCourseId && (
+                  <Button variant="outline" size="sm" onClick={() => { setEditingCourseId(null); setCourseForm(initialCourse); }}>Add New Instead</Button>
+                )}
+              </div>
+              <div className="space-y-4">
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                  placeholder="Badge (e.g. FREE, NEW)"
+                  value={courseForm.badge}
+                  onChange={(e) => setCourseForm({ ...courseForm, badge: e.target.value })}
+                />
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                  placeholder="Title"
+                  value={courseForm.title}
+                  onChange={(e) => setCourseForm({ ...courseForm, title: e.target.value })}
+                />
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                  placeholder="Subtitle"
+                  value={courseForm.subtitle}
+                  onChange={(e) => setCourseForm({ ...courseForm, subtitle: e.target.value })}
+                />
+                <textarea
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                  rows={4}
+                  placeholder="Description"
+                  value={courseForm.description}
+                  onChange={(e) => setCourseForm({ ...courseForm, description: e.target.value })}
+                />
+                <Button onClick={handleSubmitCourse} className="w-full">
+                  {editingCourseId ? 'Update Course' : 'Add Course'}
+                </Button>
+              </div>
+            </Card>
+            <div className="lg:col-span-7 space-y-4">
+              {courses.map((course) => (
+                <Card key={course.id} className={`${editingCourseId === course.id ? 'border-primary ring-1 ring-primary' : ''}`}>
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="text-lg font-bold">{course.title}</h3>
+                        {course.badge && <span className="text-[10px] font-mono border border-border px-1 px-1 bg-background">{course.badge}</span>}
+                      </div>
+                      <p className="text-xs text-signal font-mono">{course.subtitle}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setEditingCourseId(course.id);
+                          setCourseForm({
+                            badge: course.badge || '',
+                            title: course.title,
+                            subtitle: course.subtitle,
+                            description: course.description,
+                          });
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={async () => {
+                          if (confirm('Delete this course?')) {
+                            await deleteCourse(course.id);
+                            refresh();
+                          }
                         }}
                       >
                         Delete

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db, firebaseEnabled } from '../lib/firebase';
-import { IAITechCategory, IProject, IService, ITeamMember } from '../types';
+import { IAITechCategory, IProject, IService, ITeamMember, ICourse } from '../types';
 
 const mapDocs = async <T extends { id?: string }>(name: string) => {
   const snapshot = await getDocs(collection(db, name));
@@ -13,6 +13,7 @@ export const useAdminData = () => {
   const [projects, setProjects] = useState<IProject[]>([]);
   const [team, setTeam] = useState<ITeamMember[]>([]);
   const [techStack, setTechStack] = useState<IAITechCategory[]>([]);
+  const [courses, setCourses] = useState<ICourse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,16 +25,18 @@ export const useAdminData = () => {
         return;
       }
       setIsLoading(true);
-      const [servicesData, projectsData, teamData, techStackData] = await Promise.all([
+      const [servicesData, projectsData, teamData, techStackData, coursesData] = await Promise.all([
         mapDocs<IService>('services'),
         mapDocs<IProject>('projects'),
         mapDocs<ITeamMember>('team'),
         mapDocs<IAITechCategory>('techStack'),
+        mapDocs<ICourse>('courses'),
       ]);
-      setServices(servicesData);
-      setProjects(projectsData);
-      setTeam(teamData);
-      setTechStack(techStackData);
+      setServices(servicesData.sort((a, b) => a.title.localeCompare(b.title)));
+      setProjects(projectsData.sort((a, b) => a.title.localeCompare(b.title)));
+      setTeam(teamData.sort((a, b) => a.name.localeCompare(b.name)));
+      setTechStack(techStackData.sort((a, b) => a.title.localeCompare(b.title)));
+      setCourses(coursesData.sort((a, b) => a.title.localeCompare(b.title)));
       setError(null);
     } catch (err) {
       console.error('Admin data load error:', err);
@@ -47,5 +50,5 @@ export const useAdminData = () => {
     refresh();
   }, [refresh]);
 
-  return { services, projects, team, techStack, isLoading, error, refresh };
+  return { services, projects, team, techStack, courses, isLoading, error, refresh };
 };
