@@ -19,11 +19,12 @@ export const CoursesSection: React.FC = () => {
 
             title={
               <>
-                EXPLORE OUR MOST
+                Explore Our Most
                 <br />
-                IN-DEMAND COURSES
+                In-Demand Courses
               </>
             }
+
           />
           <p className="section-lead max-w-xl">
             Upgrade your skills with our carefully curated training programs designed for real-world application.

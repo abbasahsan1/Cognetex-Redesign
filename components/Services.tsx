@@ -18,12 +18,11 @@ export const Services: React.FC = () => {
             className="max-w-2xl"
             eyebrow="03. Capabilities"
             title={
-
-
               <>
-                TECHNICAL<br />DEEP DIVE
+                Technical<br />Deep Dive
               </>
             }
+
           />
           <div className="mt-6 md:mt-0">
              <p className="section-lead max-w-md font-medium">

@@ -19,10 +19,11 @@ export const GlobalPresence: React.FC = () => {
               titleClassName="text-4xl md:text-5xl lg:text-6xl leading-none"
               title={
                 <>
-                  DELIVERY ACROSS
+                  Delivery Across
                   <br />
-                  TIME ZONES
+                  Time Zones
                 </>
+
               }
             />
             <p className="text-base md:text-lg mt-8 max-w-xl text-foreground/70 leading-relaxed">

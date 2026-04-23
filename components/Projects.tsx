@@ -21,9 +21,10 @@ export const Projects: React.FC = () => {
             eyebrowClassName="text-muted"
             title={
               <>
-                PROVEN<br />ROI
+                Proven<br />ROI
               </>
             }
+
           />
           {/* Mobile Swipe Hint */}
           <div className="md:hidden font-mono text-[10px] text-muted animate-pulse mb-1">

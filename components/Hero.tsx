@@ -31,11 +31,13 @@ export const Hero: React.FC = () => {
           
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
             <Button size="lg" onClick={() => scrollTo('#services')}>
-              EXPLORE SOLUTIONS <ArrowRight className="ml-2 w-4 h-4" />
+              Explore Solutions <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
+
             <Button variant="outline" size="lg" onClick={() => navigate('/contact')}>
-              TECHNICAL CONSULT
+              Technical Consult
             </Button>
+
           </div>
         </div>
       </div>

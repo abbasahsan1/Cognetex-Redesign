@@ -30,9 +30,10 @@ export const Home: React.FC = () => {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-8 mb-6 md:mb-8">
             <div>
               <p className="section-eyebrow mb-2">01. Choose Your Path</p>
-              <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-foreground uppercase">
+              <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-foreground">
                 {siteConfig.heroTitle}
               </h2>
+
             </div>
             <p className="section-lead max-w-xl text-base md:text-lg">
               {siteConfig.heroLead}

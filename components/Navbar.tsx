@@ -72,9 +72,10 @@ export const Navbar: React.FC = () => {
                 {isDark ? <Sun size={14} /> : <Moon size={14} />}
               </button>
               <Button size="sm" variant="primary" onClick={handleContactClick}>
-                INITIATE PROJECT
+                Initiate Project
               </Button>
             </div>
+
 
             {/* Mobile Menu Toggle */}
             <button 
@@ -96,8 +97,9 @@ export const Navbar: React.FC = () => {
           <div className="absolute inset-0 bg-primary/20 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
           <div className="absolute right-0 top-0 bottom-0 w-full max-w-xs bg-paper border-l border-primary shadow-hard p-0 flex flex-col">
             <div className="flex justify-between items-center p-6 border-b border-border">
-              <span className="font-mono font-bold">MENU</span>
+              <span className="font-mono font-bold">Menu</span>
               <button onClick={() => setMobileMenuOpen(false)} className="text-primary hover:text-signal">
+
                 <X size={24} />
               </button>
             </div>
@@ -123,9 +125,10 @@ export const Navbar: React.FC = () => {
             </div>
             <div className="p-6 border-t border-border mb-safe">
               <Button fullWidth onClick={handleContactClick}>
-                INITIATE PROJECT
+                Initiate Project
               </Button>
             </div>
+
           </div>
         </div>
       )}

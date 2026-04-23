@@ -27,9 +27,10 @@ export const Team: React.FC = () => {
 
             title={
               <>
-                HUMAN<br />CAPITAL
+                Human<br />Capital
               </>
             }
+
           />
           {/* Mobile Swipe Hint */}
           <div className="hidden md:block font-mono text-[10px] text-muted uppercase tracking-widest">
