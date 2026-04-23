@@ -6,9 +6,7 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 
 const Home = React.lazy(() => import('./pages/Home').then((module) => ({ default: module.Home })));
 const Approach = React.lazy(() => import('./pages/Approach').then((module) => ({ default: module.Approach })));
-const AISolutions = React.lazy(() => import('./pages/AISolutions').then((module) => ({ default: module.AISolutions })));
 const AIServices = React.lazy(() => import('./pages/AIServices').then((module) => ({ default: module.AIServices })));
-const TechStack = React.lazy(() => import('./pages/TechStack').then((module) => ({ default: module.TechStack })));
 const Contact = React.lazy(() => import('./pages/Contact').then((module) => ({ default: module.Contact })));
 const Team = React.lazy(() => import('./pages/Team').then((module) => ({ default: module.Team })));
 const Careers = React.lazy(() => import('./pages/Careers').then((module) => ({ default: module.Careers })));
@@ -24,9 +22,7 @@ function App() {
             <Route element={<AppLayout />}>
               <Route index element={<Home />} />
               <Route path="/approach" element={<Approach />} />
-              <Route path="/solutions" element={<AISolutions />} />
               <Route path="/ai-services" element={<AIServices />} />
-              <Route path="/tech-stack" element={<TechStack />} />
               <Route path="/team" element={<Team />} />
               <Route path="/careers" element={<Careers />} />
               <Route path="/contact" element={<Contact />} />

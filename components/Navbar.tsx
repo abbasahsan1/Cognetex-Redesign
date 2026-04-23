@@ -8,9 +8,7 @@ import { Logo } from './Logo';
 const navLinks = [
   { name: 'HOME', to: '/', end: true },
   { name: 'APPROACH', to: '/approach' },
-  { name: 'AI SOLUTIONS', to: '/solutions' },
   { name: 'AI SERVICES', to: '/ai-services' },
-  { name: 'TECH STACK', to: '/tech-stack' },
   { name: 'OUR TEAM', to: '/team' },
   { name: 'CAREERS', to: '/careers' },
 ];
