@@ -3,7 +3,7 @@ import { Menu, Moon, Sun, X } from 'lucide-react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Button } from './Button';
 import { useThemePreference } from '../hooks/useThemePreference';
-import logo from '../templates/logo.svg';
+import { Logo } from './Logo';
 
 const navLinks = [
   { name: 'HOME', to: '/', end: true },
@@ -37,11 +37,8 @@ export const Navbar: React.FC = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
-            <Link to="/" onClick={handleNavClick} className="flex items-center gap-2 cursor-pointer">
-              <img src={logo} alt="Cognetex logo" className="w-7 h-7 object-contain" />
-              <span className="text-sm font-sans font-semibold tracking-tight text-primary">
-                COGNETEX
-              </span>
+            <Link to="/" onClick={handleNavClick} className="flex items-center cursor-pointer py-1">
+              <Logo className="h-9 w-auto text-primary" />
             </Link>
 
             {/* Desktop Menu */}

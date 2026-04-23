@@ -6,7 +6,7 @@ import { SectionHeading } from './SectionHeading';
 export const AISolutionsSection: React.FC = () => {
   const { aiSolutionPillars } = useContent();
   return (
-    <section className="py-20 md:py-28 bg-paper border-b border-border">
+    <section className="py-20 md:py-28 bg-background border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 items-start mb-12 md:mb-16">
           <SectionHeading
