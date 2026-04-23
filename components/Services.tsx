@@ -42,14 +42,13 @@ export const Services: React.FC = () => {
             {services.map((service, idx) => (
               <Card 
                 key={service.id} 
-                hoverEffect 
-                className="min-w-[85vw] sm:min-w-[350px] md:min-w-0 snap-center border border-border md:border-none shadow-none h-full"
+                className="min-w-[85vw] sm:min-w-[350px] md:min-w-0 snap-center border border-border md:border-none shadow-none h-full group hover:border-primary transition-colors duration-300"
               >
               <div className="flex justify-between items-start mb-12">
                 <span className="font-mono text-xs text-muted">SRV_0{idx + 1}</span>
                 {(() => {
                   const Icon = getIconByName(service.iconName);
-                  return <Icon size={24} className="text-primary" strokeWidth={1.5} />;
+                  return <Icon size={24} className="text-muted group-hover:text-signal transition-colors" strokeWidth={1.5} />;
                 })()}
               </div>
               

@@ -27,7 +27,7 @@ export const Team: React.FC = () => {
         <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-thin">
           {team.map((member) => (
             <div key={member.id} className="group min-w-[85vw] sm:min-w-[320px] md:min-w-[360px] lg:min-w-[320px] snap-center">
-              <div className="relative aspect-[4/5] mb-4 overflow-hidden border border-border bg-paper">
+              <div className="relative aspect-[4/5] mb-4 overflow-hidden border border-border bg-paper group-hover:border-primary transition-colors duration-300">
                 <CloudinaryImage
                   publicId={member.image}
                   alt={member.name}
@@ -36,10 +36,6 @@ export const Team: React.FC = () => {
                   height={500}
                   className="w-full h-full object-cover filter grayscale contrast-125 group-hover:grayscale-0 transition-all duration-500"
                 />
-                {/* Overlay Text */}
-                <div className="absolute top-2 right-2 text-[10px] font-mono bg-paper px-1 border border-primary text-foreground">
-                   ID: {member.id.substring(0,3).toUpperCase()}
-                </div>
               </div>
               <div className="border-l-2 border-primary pl-4">
                 <p className="text-foreground font-bold text-lg uppercase tracking-tight">{member.name}</p>
