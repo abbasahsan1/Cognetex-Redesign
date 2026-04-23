@@ -38,6 +38,15 @@ export function GlobePulse({
   const [isInView, setIsInView] = useState(true);
   const [isPageVisible, setIsPageVisible] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const checkTheme = () => setIsDark(document.documentElement.classList.contains('dark'));
+    checkTheme();
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
 
   const normalizedMarkers = useMemo(
     () => markers.map((m) => ({ ...m, location: m.location as [number, number] })),
@@ -145,14 +154,12 @@ export function GlobePulse({
         scale: 1,
         dark: 1,
         diffuse: 1.2,
-        mapSamples: 9000,
+        mapSamples: 12000,
         mapBrightness: 6,
-        baseColor: [0.5, 0.5, 0.5],
-        markerColor: [0.49, 0.23, 0.92],
-        glowColor: [0.05, 0.05, 0.05],
-        markerElevation: 0,
+        baseColor: [0.3, 0.3, 0.3],
+        markerColor: [0.54, 0.36, 0.96],
+        glowColor: [0.1, 0.1, 0.1],
         markers: normalizedMarkers.map((m) => ({ location: m.location, size: 0.04 })),
-        arcs: [],
         opacity: 0.95,
         onRender: (state) => {
           const shouldAnimate = !reducedMotion && isInView && isPageVisible && pointerInteracting.current === null;
@@ -185,7 +192,7 @@ export function GlobePulse({
       resizeObserver?.disconnect();
       globe?.destroy();
     };
-  }, [normalizedMarkers, speed, reducedMotion, isInView, isPageVisible]);
+  }, [normalizedMarkers, speed, reducedMotion, isInView, isPageVisible, isDark]);
 
   return (
     <div

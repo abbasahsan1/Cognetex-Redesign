@@ -6,7 +6,7 @@ import { SectionHeading } from './SectionHeading';
 export const AISolutionsSection: React.FC = () => {
   const { aiSolutionPillars } = useContent();
   return (
-    <section className="py-20 md:py-28 bg-paper border-b border-border">
+    <section className="py-20 md:py-28 bg-background border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 items-start mb-12 md:mb-16">
           <SectionHeading
@@ -33,11 +33,8 @@ export const AISolutionsSection: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {aiSolutionPillars.map((pillar, idx) => (
-            <Card key={pillar.id} className="h-full">
-              <div className="flex items-center justify-between mb-6">
-                <span className="font-mono text-xs text-muted">SOL_0{idx + 1}</span>
-                <div className="h-px w-16 bg-border" />
-              </div>
+            <Card key={pillar.id} className="h-full group hover:border-primary transition-colors duration-300">
+              <div className="mb-6 h-1 w-full" />
               <h3 className="text-2xl font-bold text-foreground mb-3 tracking-tight">
                 {pillar.title}
               </h3>

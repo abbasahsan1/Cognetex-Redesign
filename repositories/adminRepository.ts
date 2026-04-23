@@ -1,6 +1,6 @@
 import { addDoc, collection, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { db, firebaseEnabled } from '../lib/firebase';
-import { IAITechCategory, IProject, IService, ITeamMember } from '../types';
+import { IAITechCategory, IProject, IService, ITeamMember, ICourse } from '../types';
 
 export const createService = async (payload: Omit<IService, 'id'>) => {
   if (!firebaseEnabled || !db) throw new Error('Firebase not configured.');
@@ -60,4 +60,19 @@ export const updateTechCategory = async (id: string, payload: Partial<IAITechCat
 export const deleteTechCategory = async (id: string) => {
   if (!firebaseEnabled || !db) throw new Error('Firebase not configured.');
   return deleteDoc(doc(db, 'techStack', id));
+};
+
+export const createCourse = async (payload: Omit<ICourse, 'id'>) => {
+  if (!firebaseEnabled || !db) throw new Error('Firebase not configured.');
+  return addDoc(collection(db, 'courses'), payload);
+};
+
+export const updateCourse = async (id: string, payload: Partial<ICourse>) => {
+  if (!firebaseEnabled || !db) throw new Error('Firebase not configured.');
+  return updateDoc(doc(db, 'courses', id), payload);
+};
+
+export const deleteCourse = async (id: string) => {
+  if (!firebaseEnabled || !db) throw new Error('Firebase not configured.');
+  return deleteDoc(doc(db, 'courses', id));
 };

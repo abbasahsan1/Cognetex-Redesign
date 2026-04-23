@@ -28,13 +28,8 @@ export const ApproachSection: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
           {uniqueApproach.map((item, idx) => (
-            <Card key={item.id} className="h-full">
-              <div className="flex items-center justify-between mb-6">
-                <span className="font-mono text-xs text-muted">AP_0{idx + 1}</span>
-                <div className="w-8 h-8 border border-border flex items-center justify-center font-mono text-xs text-muted">
-                  {idx + 1}
-                </div>
-              </div>
+            <Card key={item.id} className="h-full group hover:border-primary transition-colors duration-300">
+              <div className="mb-6 h-1 w-full" />
               <h3 className="text-xl font-bold text-foreground mb-3 tracking-tight">
                 {item.title}
               </h3>

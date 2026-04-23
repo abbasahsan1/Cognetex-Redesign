@@ -38,20 +38,12 @@ export const Services: React.FC = () => {
         */}
         <div className="relative overflow-hidden border border-border bg-background p-2 sm:p-3 md:p-4">
           <DottedSurface className="opacity-45 [mask-image:radial-gradient(circle_at_center,black_30%,transparent_80%)]" />
-          <div className="relative z-10 flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-[1px] md:pb-0 md:mx-0 md:px-0 md:bg-border md:border md:border-border scrollbar-thin">
+          <div className="relative z-10 flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:pb-0 md:mx-0 md:px-0 scrollbar-thin">
             {services.map((service, idx) => (
               <Card 
                 key={service.id} 
-                hoverEffect 
-                className="min-w-[85vw] sm:min-w-[350px] md:min-w-0 snap-center border border-border md:border-none shadow-none h-full"
+                className="min-w-[85vw] sm:min-w-[350px] md:min-w-0 snap-center border border-border mt-1 shadow-none h-full group hover:border-primary transition-colors duration-300"
               >
-              <div className="flex justify-between items-start mb-12">
-                <span className="font-mono text-xs text-muted">SRV_0{idx + 1}</span>
-                {(() => {
-                  const Icon = getIconByName(service.iconName);
-                  return <Icon size={24} className="text-primary" strokeWidth={1.5} />;
-                })()}
-              </div>
               
               <h3 className="text-2xl font-bold text-foreground mb-3 tracking-tight">
                 {service.title}

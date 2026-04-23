@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Logo } from './Logo';
 
 export const Footer: React.FC = () => {
   return (
@@ -7,9 +8,8 @@ export const Footer: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-16">
           <div className="md:col-span-5">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="w-4 h-4 bg-foreground"></div>
-              <span className="font-mono font-bold tracking-tight text-foreground">COGNETEX</span>
+            <div className="mb-8">
+              <Logo className="h-16 w-auto text-foreground" />
             </div>
             <p className="text-muted text-sm max-w-xs leading-relaxed">
               Engineering the intelligence of tomorrow. Precise, autonomous, and scalable systems for the modern enterprise.
