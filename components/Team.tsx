@@ -22,8 +22,9 @@ export const Team: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-end mb-12 md:mb-16">
           <SectionHeading
-            eyebrow="05. Human Capital"
+            eyebrow="04. Human Capital"
             titleClassName="md:text-4xl"
+
             title={
               <>
                 HUMAN<br />CAPITAL
