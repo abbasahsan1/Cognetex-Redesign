@@ -28,11 +28,8 @@ export const AIServicesSection: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {aiServices.map((service, idx) => (
-            <Card key={service.id} className="h-full flex flex-col">
-              <div className="flex items-center justify-between mb-6">
-                <span className="font-mono text-xs text-muted">AI_0{idx + 1}</span>
-                <ArrowRight size={16} className="text-signal" />
-              </div>
+            <Card key={service.id} className="h-full flex flex-col group hover:border-primary transition-colors duration-300">
+              <div className="mb-6 h-1 w-full" />
               <h3 className="text-xl font-bold text-foreground mb-3 tracking-tight">
                 {service.title}
               </h3>

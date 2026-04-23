@@ -27,11 +27,8 @@ export const AITechStackSection: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {aiTechStack.map((category, idx) => (
-            <Card key={category.id} className="h-full">
-              <div className="flex items-center justify-between mb-6">
-                <span className="font-mono text-xs text-muted">TS_0{idx + 1}</span>
-                <div className="h-px w-10 bg-border" />
-              </div>
+            <Card key={category.id} className="h-full group hover:border-primary transition-colors duration-300">
+              <div className="mb-6 h-1 w-full" />
               <h3 className="text-xl font-bold text-foreground mb-4 tracking-tight">
                 {category.title}
               </h3>
