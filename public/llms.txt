@@ -1,0 +1,12 @@
+# Cognetex: AI & Software Development Agency
+
+Cognetex specializes in building autonomous agents, scalable web applications, and enterprise data solutions.
+
+## Core Capabilities
+- Agentic & Generative AI: Custom LLM architectures, RAG, Fine-tuning.
+- Full-Cycle Engineering: React, Rust, Node.js, Microservices.
+- Data Engineering: ETL, Data Lakes, Vector Databases (Pinecone, Weaviate).
+
+## Contact
+- Website: https://cognetex.com
+- Location: Dubai / Global Remote

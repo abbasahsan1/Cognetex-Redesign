@@ -1,57 +1,79 @@
 import { BrainCircuit, Code2, Server, ShieldCheck } from 'lucide-react';
-import { IService, IProject, ITeamMember, IApproachItem, IAISolutionPillar, IAIService, IAITechCategory, ICourse } from '../types';
+import { IService, IProject, ITeamMember, IApproachItem, IAISolutionPillar, IAIService, IAITechCategory, ICourse, ISiteConfig } from '../types';
+
+export const siteConfig: ISiteConfig = {
+  heroTitle: 'BUILT FOR LEADERS, OPERATORS, AND BUILDERS',
+  heroSubTitle: 'RETHINK HOW THINKING WORKS',
+  heroLead: 'Jump directly to the part that matters most to you—business outcomes, technical capabilities, delivery team, or upskilling resources.',
+  serviceSectionTitle: 'OUR AI SERVICES',
+  serviceSectionLead: 'Modular service lines that help you deploy AI faster, safer, and with long-term scalability in mind.',
+  contactSectionTitle: 'INITIATE THE FUTURE',
+  contactSectionLead: 'Ready to integrate autonomous intelligence into your operations? Let’s map your AI readiness today.',
+  defaultSeoTitle: 'Cognetex | Enterprise AI & Software Development Agency',
+  defaultSeoDescription: 'Cognetex is a premier AI & Software Development agency. We specialize in building autonomous agents, custom LLM solutions, and scalable enterprise platforms.'
+};
 
 export const services: IService[] = [
   {
     id: 'agentic-ai',
-    title: 'Agentic & Generative AI',
-    tagline: 'Systems that think.',
-    description: 'Move beyond static automation. We deploy custom LLM architectures that can ingest your proprietary data, understand context, and take autonomous actions.',
-    capabilities: ['RAG Implementation', 'Fine-tuning (Llama/Mistral)', 'LangChain Integration'],
-    iconName: 'BrainCircuit'
+    title: 'Agentic & Custom LLM Development',
+    tagline: 'Smarter systems. Faster execution.',
+    description: 'Premier AI Agency specializing in custom LLM architectures and autonomous agents. We integrate RAG workflows and proprietary data to build enterprise-grade intelligence that acts on your behalf.',
+    capabilities: ['Custom RAG Pipelines', 'Llama 3 & Mistral Fine-Tuning', 'Multi-Agent Orchestration', 'Vector Search Integration'],
+    iconName: 'BrainCircuit',
+    seoTitle: 'Custom LLM & Agentic AI Development Agency',
+    seoDescription: 'Leverage our expertise in building autonomous agents and RAG-based LLM applications for enterprise workflows. Scalable, secure, and data-centric AI solutions.'
   },
   {
     id: 'full-cycle',
-    title: 'Full-Cycle Engineering',
-    tagline: 'Scalability is not an afterthought.',
-    description: 'We build the engines that power your business. Using React for blazing-fast frontends and Rust/Node.js for high-throughput backends.',
-    capabilities: ['Microservices', 'Serverless Architecture', 'Real-time WebSockets'],
-    iconName: 'Layers'
+    title: 'Enterprise Full-Stack Engineering',
+    tagline: 'High-performance digital infrastructure.',
+    description: 'Building the backbone of modern business. From blazingly fast React frontends to robust Rust, Node.js, and Python backends designed for millions of concurrent users.',
+    capabilities: ['Scalable Microservices', 'Serverless Infrastructure', 'Real-time Vector APIs', 'Edge Computing Solutions'],
+    iconName: 'Layers',
+    seoTitle: 'Enterprise Software Engineering & Full-Stack Development',
+    seoDescription: 'High-performance custom software development using React, Node.js, and Rust. Scalable architectures built for speed and long-term business growth.'
   },
   {
     id: 'data-engineering',
-    title: 'Data Engineering',
-    tagline: 'Turning noise into signal.',
-    description: 'AI is only as good as the data it feeds on. We build robust ETL pipelines, data lakes, and vector databases ensuring real-time access.',
-    capabilities: ['Vector Search', 'BigQuery', 'Data Warehousing'],
-    iconName: 'Database'
+    title: 'Data Engineering & Vector Strategy',
+    tagline: 'Foundational data for AI excellence.',
+    description: 'Transforming legacy data into AI-ready assets. We architect robust ETL pipelines, data lakes, and vector databases that power next-generation generative AI applications.',
+    capabilities: ['BigQuery & Snowflake Architecture', 'Real-time ETL Pipelines', 'Vector Database Strategy', 'Data Governance for AI'],
+    iconName: 'Database',
+    seoTitle: 'Data Engineering Services for AI & Machine Learning',
+    seoDescription: 'Specialized data engineering for AI. Build high-throughput ETL pipelines and vector database architectures to fuel your generative AI models.'
   }
 ];
 
 export const projects: IProject[] = [
   {
     id: 'project-a',
-    title: '"Sentient" Analytics Platform',
+    title: 'Sentient Fraud Detection Platform',
     clientSector: 'FinTech',
-    challenge: 'Processing 500GB of daily financial logs to detect fraud in real-time, previously taking 48 hours.',
-    solution: 'Custom anomaly detection engine using TensorFlow and stream processing. React-based real-time visualization.',
+    challenge: 'Real-time processing of 500GB+ daily transaction logs to minimize fraud exposure, previously a manual 48-hour process.',
+    solution: 'Engineered a custom anomaly detection engine utilizing TensorFlow and stream processing, integrated with a React-based real-time command center.',
     stats: [
-      { label: 'Accuracy', value: '99.2%' },
-      { label: 'Latency', value: '<200ms' },
-      { label: 'Saved Annually', value: '$2M+' }
-    ]
+      { label: 'Fraud Detection Accuracy', value: '99.2%' },
+      { label: 'Inference Latency', value: '<200ms' },
+      { label: 'Annual Savings', value: '$2.4M' }
+    ],
+    seoTitle: 'CASE STUDY: Real-time AI Fraud Detection for FinTech',
+    seoDescription: 'How we used TensorFlow and stream processing to reduce fraud detection time from 48 hours to 200ms for a leading FinTech client.'
   },
   {
     id: 'project-b',
-    title: 'Autonomous Success Agent',
-    clientSector: 'E-Commerce',
-    challenge: 'Handling 10,000+ support tickets during Black Friday sales spikes.',
-    solution: 'Agentic AI solution utilizing LLMs with a Vector Database memory stream to recall past interactions.',
+    title: 'Autonomous E-Commerce Support Agent',
+    clientSector: 'Retail / E-Commerce',
+    challenge: 'Managing 10,000+ simultaneous support requests during high-traffic events without increasing headcount.',
+    solution: 'Deployed an Agentic AI solution with persistent Vector memory, capable of resolving complex returns and exchanges autonomously.',
     stats: [
-      { label: 'Auto-Handled', value: '1M+' },
-      { label: 'Avg Response', value: '<2s' },
-      { label: 'Ticket Reduction', value: '70%' }
-    ]
+      { label: 'Resolved Autonomously', value: '1.2M+' },
+      { label: 'Customer Satisfaction', value: '4.8/5' },
+      { label: 'Operational Efficiency', value: '75%' }
+    ],
+    seoTitle: 'CASE STUDY: Autonomous AI Support Agents for E-Commerce',
+    seoDescription: 'Scaling customer support with autonomous agents and vector databases. How we achieved 75% efficiency gains for a retail giant.'
   }
 ];
 
@@ -60,172 +82,159 @@ export const team: ITeamMember[] = [
     id: 'abbas',
     name: 'Abbas Ahsan',
     role: 'CEO & Chief Architect',
-    bio: 'Bridging the gap between business logic and distributed system design.',
-    image: 'https://picsum.photos/400/400?random=1'
+    bio: 'Pioneer in bridging business logic with distributed AI systems. Expert in architecting scalable agentic workflows for enterprise clients.',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop',
+    imageAlt: 'Abbas Ahsan - CEO and AI Architect',
+    seoTitle: 'Abbas Ahsan | Enterprise AI Architect & CEO'
   },
   {
     id: 'manahil',
     name: 'Manahil Ahmed',
     role: 'Lead AI Research Engineer',
-    bio: 'Specialist in NLP and Transformers. Focuses on reducing hallucination rates.',
-    image: 'https://picsum.photos/400/400?random=2'
+    bio: 'NLP Specialist focused on transformer architecture and hallucination mitigation. Transforming raw research into production-ready AI models.',
+    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop',
+    imageAlt: 'Manahil Ahmed - Lead AI Research Engineer',
+    seoTitle: 'Manahil Ahmed | NLP & Transformer Research Expert'
   },
   {
     id: 'jahanzeb',
     name: 'Jahanzeb Khan',
     role: 'Senior Backend Engineer',
-    bio: 'Ensures that when traffic spikes, our systems don’t just survive—they thrive.',
-    image: 'https://picsum.photos/400/400?random=3'
+    bio: 'Distributed systems expert specializing in high-throughput architectures. Ensuring performance reliability for massive AI workloads.',
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop',
+    imageAlt: 'Jahanzeb Khan - Specialist in Distributed Systems',
+    seoTitle: 'Jahanzeb Khan | Senior Backend & Distributed Systems Engineer'
   },
   {
     id: 'abdullah',
     name: 'Abdullah Farooqui',
     role: 'Head of Frontend',
-    bio: 'Obsessed with the "100ms rule". Crafts pixel-perfect interfaces that feel instant.',
-    image: 'https://picsum.photos/400/400?random=4'
+    bio: 'Architecting ultra-low latency interfaces. Expert in React and interactive 3D visualizations for complex data environments.',
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop',
+    imageAlt: 'Abdullah Farooqui - Frontend Architecture Expert',
+    seoTitle: 'Abdullah Farooqui | Head of Frontend & UI/UX Strategy'
   }
 ];
 
+
+
 export const trustLogos = [
-  { name: 'AWS', icon: Server },
-  { name: 'OpenAI', icon: BrainCircuit },
-  { name: 'Vercel', icon: Code2 },
-  { name: 'Security', icon: ShieldCheck },
+  { name: 'AWS Partner', icon: Server },
+  { name: 'OpenAI Expert', icon: BrainCircuit },
+  { name: 'Vercel Deployment', icon: Code2 },
+  { name: 'SOC2 Compliant', icon: ShieldCheck },
 ];
 
 export const uniqueApproach: IApproachItem[] = [
   {
-    id: 'client-centric',
-    title: 'Client-Centric Design',
-    description: 'We treat each client as unique, crafting tailored digital ecosystems that align perfectly with their vision and goals.'
+    id: 'outcomes-first',
+    title: 'Outcomes-First Strategy',
+    description: 'We don’t just build models; we architect business solutions. Every AI deployment is mapped to specific ROI targets and operational KPIs.'
   },
   {
-    id: 'strategic-thinking',
-    title: 'Strategic Thinking',
-    description: 'Our experts guide you through every transformation phase, combining innovation with business strategy for lasting growth.'
+    id: 'agentic-focus',
+    title: 'Agentic Native Design',
+    description: 'Moving beyond chat. Our systems are built to take action, interact with your existing APIs, and resolve workflows autonomously.'
   },
   {
-    id: 'extra-mile',
-    title: 'Extra Mile Support',
-    description: 'We go beyond expectations ensuring continuous improvement, scalability, and returns from our technology solutions.'
+    id: 'data-integrity',
+    title: 'Data Integrity & Privacy',
+    description: 'Enterprise security is baked in. We prioritize PII redaction, secure vector storage, and SOC2-compliant data handling at every layer.'
   },
   {
-    id: 'high-impact',
-    title: 'High-Impact Delivery',
-    description: 'Every client is different so we deliver personalized, high-impact technology strategies designed to drive measurable success and long-term value.'
+    id: 'iterative-growth',
+    title: 'Iterative Scalability',
+    description: 'Stay ahead of the curve. Our modular architectures allow for seamless model upgrades as state-of-the-art AI evolves.'
   }
 ];
 
 export const aiSolutionPillars: IAISolutionPillar[] = [
   {
     id: 'decision-intelligence',
-    title: 'Decision Intelligence',
-    description: 'Turn operational data into real-time decision systems that adapt to changing market signals and customer behavior.'
+    title: 'Decision Intelligence Systems',
+    description: 'Convert unstructured operational data into real-time decision frameworks that adapt to market volatility.'
   },
   {
-    id: 'autonomous-ops',
-    title: 'Autonomous Operations',
-    description: 'Automate high-volume workflows with guardrails, approvals, and audit trails to boost efficiency without sacrificing control.'
+    id: 'autonomous-agents',
+    title: 'Autonomous Workflows',
+    description: 'Bridge the gap between insight and action with agents that navigate complex corporate workflows without manual intervention.'
   },
   {
-    id: 'customer-experience',
-    title: 'AI-First Customer Experience',
-    description: 'Elevate support, onboarding, and retention with multilingual conversational AI that learns from every interaction.'
+    id: 'generative-cx',
+    title: 'Generative Support (CX)',
+    description: 'Transform customer touchpoints with 24/7 multilingual agents that access your entire knowledge base for instant resolution.'
   },
   {
-    id: 'intelligent-products',
-    title: 'Intelligent Products',
-    description: 'Embed AI into your product roadmap to unlock personalization, forecasting, and proactive insights.'
+    id: 'ai-roadmap',
+    title: 'Product-Led AI Roadmaps',
+    description: 'Embed intelligence into your core product offering to unlock personalization at scale and predictive functionality.'
   }
 ];
 
 export const aiServices: IAIService[] = [
   {
-    id: 'strategy',
-    title: 'AI Strategy & Readiness',
-    description: 'Audit your data, people, and systems to define a clear AI roadmap with measurable KPIs and governance controls.',
-    outcomes: ['AI opportunity mapping', 'ROI modeling', 'Governance frameworks']
+    id: 'readiness',
+    title: 'AI Audit & Readiness',
+    description: 'Consultative deep-dive into your data infrastructure and organizational readiness for large-scale AI integration.',
+    outcomes: ['Infrastructure Gap Analysis', 'Model Selection Strategy', 'Risk & Compliance Roadmap']
   },
   {
-    id: 'agentic',
-    title: 'Agentic Automation',
-    description: 'Deploy autonomous agents that coordinate tasks, query knowledge bases, and act with human-in-the-loop approvals.',
-    outcomes: ['RAG orchestration', 'Workflow automation', 'Actionable insights']
+    id: 'agent-build',
+    title: 'Custom Agent Development',
+    description: 'Bespoke development of autonomous agents for specialized workflows including sales, support, and technical operations.',
+    outcomes: ['Working Agentic Prototypes', 'Production-Scale Deployment', 'API Integration']
   },
   {
-    id: 'predictive',
-    title: 'Predictive Analytics',
-    description: 'Forecast demand, identify risk, and optimize operations using statistical modeling and modern ML pipelines.',
-    outcomes: ['Demand forecasting', 'Churn prediction', 'Anomaly detection']
+    id: 'rag-architecture',
+    title: 'Advanced RAG Systems',
+    description: 'Retrieval Augmented Generation systems designed to ground LLMs in your proprietary technical documentation and data.',
+    outcomes: ['Vector Database Integration', 'Semantic Search Optimization', 'Improved Answer Accuracy']
   },
   {
-    id: 'conversational',
-    title: 'Conversational AI',
-    description: 'Design branded assistants that handle support, sales enablement, and internal enablement across channels.',
-    outcomes: ['Multichannel bots', 'Knowledge retrieval', 'Sentiment analysis']
-  },
-  {
-    id: 'computer-vision',
-    title: 'Computer Vision',
-    description: 'Turn images and video into structured insights for quality control, safety, and real-time monitoring.',
-    outcomes: ['OCR & document AI', 'Defect detection', 'Visual analytics']
-  },
-  {
-    id: 'mlops',
-    title: 'MLOps & Monitoring',
-    description: 'Keep models reliable with continuous evaluation, drift monitoring, and secure deployment pipelines.',
-    outcomes: ['Model observability', 'CI/CD for ML', 'Compliance reporting']
+    id: 'mlops-lifecycle',
+    title: 'MLOps & CI/CD for AI',
+    description: 'Establishing the pipelines for continuous evaluation, versioning, and monitoring of production AI models.',
+    outcomes: ['Automated Testing for LLMs', 'Drift Detection Systems', 'Performance Dashboards']
   }
 ];
 
 export const aiTechStack: IAITechCategory[] = [
   {
-    id: 'modeling',
-    title: 'Modeling & Frameworks',
-    items: ['PyTorch', 'TensorFlow', 'Transformers', 'XGBoost', 'ONNX']
+    id: 'frameworks',
+    title: 'Core Frameworks',
+    items: ['PyTorch', 'LangChain', 'LlamaIndex', 'AutoGPT', 'CrewAI']
   },
   {
-    id: 'data',
-    title: 'Data & Vector Stores',
-    items: ['Postgres', 'Snowflake', 'BigQuery', 'Pinecone', 'Weaviate']
+    id: 'vector-data',
+    title: 'Vector & Data Lakes',
+    items: ['Pinecone', 'Weaviate', 'ChromaDB', 'BigQuery', 'Snowflake']
   },
   {
-    id: 'infra',
-    title: 'Infrastructure & DevOps',
-    items: ['AWS', 'GCP', 'Docker', 'Kubernetes', 'Terraform']
-  },
-  {
-    id: 'orchestration',
-    title: 'Orchestration',
-    items: ['LangChain', 'LlamaIndex', 'Airflow', 'Prefect', 'Temporal']
-  },
-  {
-    id: 'observability',
-    title: 'Observability',
-    items: ['Prometheus', 'Grafana', 'OpenTelemetry', 'Sentry', 'Evidently AI']
-  },
-  {
-    id: 'security',
-    title: 'Security & Governance',
-    items: ['RBAC', 'PII Redaction', 'SOC2 Controls', 'Audit Logging', 'Policy Engines']
+    id: 'cloud-infra',
+    title: 'Next-Gen Infrastructure',
+    items: ['AWS Bedrock', 'GCP Vertex AI', 'Azure AI', 'Docker', 'Kubernetes']
   }
 ];
 
 export const courses: ICourse[] = [
   {
-    id: 'kubernetes',
-    badge: 'FREE',
-    title: 'Kubernetes',
-    subtitle: 'Introduction to Kubernetes',
+    id: 'agentic-course',
+    badge: 'NEW',
+    title: 'Agentic AI Mastery',
+    subtitle: 'Building Autonomous Agents',
     description:
-      'Learn the basics of Kubernetes, its architecture, and why it’s essential for modern cloud applications and technologies.'
+      'A deep dive into multi-agent systems, tool-use, and complex orchestration for the next generation of AI builders.',
+    seoTitle: 'Agentic AI Course: Build Autonomous Systems with LangChain',
+    seoDescription: 'Master the art of building autonomous AI agents. Learn orchestration, tool-calling, and RAG implementation in our free course.'
   },
   {
-    id: 'docker',
+    id: 'rag-fundamentals',
     badge: 'FREE',
-    title: 'Docker',
-    subtitle: 'Introduction to Docker',
+    title: 'RAG Fundamentals',
+    subtitle: 'Vector-Based Retrieval',
     description:
-      'Get started with Docker, containerization, and running applications efficiently in isolated environments.'
+      'Essential training on vector databases, semantic chunking, and grounding LLMs in proprietary enterprise data.',
+    seoTitle: 'RAG Fundamentals Course: Semantic Search & Vector DBs',
+    seoDescription: 'Learn how to build high-accuracy Retrieval Augmented Generation systems. Free course on vector databases and LLM grounding.'
   }
 ];

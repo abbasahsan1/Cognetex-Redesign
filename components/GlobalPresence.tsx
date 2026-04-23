@@ -1,14 +1,17 @@
-import React from 'react';
-import { GlobePulse } from './ui/cobe-globe-pulse';
-import { DottedSurface } from './ui/dotted-surface';
+import React, { Suspense, lazy } from 'react';
 import { SectionHeading } from './SectionHeading';
+
+const GlobePulse = lazy(() => import('./ui/cobe-globe-pulse').then(m => ({ default: m.GlobePulse })));
+const DottedSurface = lazy(() => import('./ui/dotted-surface').then(m => ({ default: m.DottedSurface })));
 
 export const GlobalPresence: React.FC = () => {
   return (
     <section className="py-24 bg-background border-b border-border overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1300px]">
         <div className="relative w-full border border-border bg-background p-8 md:p-12 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 overflow-hidden shadow-hard">
-          <DottedSurface className="opacity-30" />
+          <Suspense fallback={null}>
+            <DottedSurface className="opacity-30" />
+          </Suspense>
           
           <div className="relative z-20 lg:w-5/12 text-left">
             <SectionHeading
@@ -30,10 +33,12 @@ export const GlobalPresence: React.FC = () => {
 
           <div className="relative z-10 lg:w-7/12 flex items-center justify-center">
             <div className="relative w-full max-w-[300px] sm:max-w-[450px] lg:max-w-[600px] xl:max-w-[700px] aspect-square flex items-center justify-center">
-              <GlobePulse
-                className="w-full h-full"
-                speed={0.0018}
-              />
+              <Suspense fallback={<div className="w-full h-full bg-paper/50 animate-pulse rounded-full" />}>
+                <GlobePulse
+                  className="w-full h-full"
+                  speed={0.0018}
+                />
+              </Suspense>
             </div>
           </div>
         </div>

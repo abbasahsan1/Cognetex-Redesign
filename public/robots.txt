@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /ghq
+Disallow: /admin
+
+Sitemap: https://cognetex.com/sitemap.xml

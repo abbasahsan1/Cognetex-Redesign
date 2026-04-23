@@ -5,6 +5,8 @@ export interface IService {
   description: string;
   capabilities: string[];
   iconName: string;
+  seoTitle?: string;
+  seoDescription?: string;
 }
 
 export interface IProject {
@@ -17,6 +19,8 @@ export interface IProject {
     label: string;
     value: string;
   }[];
+  seoTitle?: string;
+  seoDescription?: string;
 }
 
 export interface ITeamMember {
@@ -25,6 +29,9 @@ export interface ITeamMember {
   role: string;
   bio: string;
   image: string;
+  imageAlt?: string;
+  seoTitle?: string;
+  seoDescription?: string;
 }
 
 export interface IApproachItem {
@@ -58,6 +65,8 @@ export interface ICourse {
   title: string;
   subtitle: string;
   description: string;
+  seoTitle?: string;
+  seoDescription?: string;
 }
 
 export interface IMenuItem {
@@ -74,4 +83,16 @@ export interface IContactFormData {
   projectType: ProjectType;
   budget: BudgetRange;
   message?: string;
+}
+
+export interface ISiteConfig {
+  heroTitle: string;
+  heroSubTitle: string;
+  heroLead: string;
+  serviceSectionTitle: string;
+  serviceSectionLead: string;
+  contactSectionTitle: string;
+  contactSectionLead: string;
+  defaultSeoTitle: string;
+  defaultSeoDescription: string;
 }

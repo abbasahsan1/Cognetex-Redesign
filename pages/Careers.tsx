@@ -6,6 +6,7 @@ import { ArrowRight, Check, Loader2 } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/GlassCard';
 import { SectionHeading } from '../components/SectionHeading';
+import { PageSEO } from '../components/PageSEO';
 
 const roleCards = [
   {
@@ -134,6 +135,10 @@ export const Careers: React.FC = () => {
 
   return (
     <>
+      <PageSEO 
+        title="Careers" 
+        description="Join Cognetex and build the autonomous systems that power enterprise business. We are looking for senior talent in AI, Full-Stack, and Infrastructure."
+      />
       <section className="pt-24 md:pt-32 pb-16 bg-background border-b border-border">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 items-end">

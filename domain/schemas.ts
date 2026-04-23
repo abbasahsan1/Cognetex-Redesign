@@ -7,6 +7,8 @@ export const serviceSchema = z.object({
   description: z.string(),
   capabilities: z.array(z.string()),
   iconName: z.string(),
+  seoTitle: z.string().optional(),
+  seoDescription: z.string().optional(),
 });
 
 export const projectSchema = z.object({
@@ -21,6 +23,8 @@ export const projectSchema = z.object({
       value: z.string(),
     })
   ),
+  seoTitle: z.string().optional(),
+  seoDescription: z.string().optional(),
 });
 
 export const teamMemberSchema = z.object({
@@ -29,6 +33,9 @@ export const teamMemberSchema = z.object({
   role: z.string(),
   bio: z.string(),
   image: z.string().min(1),
+  imageAlt: z.string().optional(),
+  seoTitle: z.string().optional(),
+  seoDescription: z.string().optional(),
 });
 
 export const approachItemSchema = z.object({
@@ -62,6 +69,20 @@ export const courseSchema = z.object({
   title: z.string(),
   subtitle: z.string(),
   description: z.string(),
+  seoTitle: z.string().optional(),
+  seoDescription: z.string().optional(),
+});
+
+export const siteConfigSchema = z.object({
+  heroTitle: z.string(),
+  heroSubTitle: z.string(),
+  heroLead: z.string(),
+  serviceSectionTitle: z.string(),
+  serviceSectionLead: z.string(),
+  contactSectionTitle: z.string(),
+  contactSectionLead: z.string(),
+  defaultSeoTitle: z.string(),
+  defaultSeoDescription: z.string(),
 });
 
 export const contentSchema = z.object({
@@ -74,4 +95,6 @@ export const contentSchema = z.object({
   aiServices: z.array(aiServiceSchema),
   aiTechStack: z.array(aiTechCategorySchema),
   courses: z.array(courseSchema),
+  siteConfig: siteConfigSchema,
 });
+

@@ -7,25 +7,36 @@ import { Projects } from '../components/Projects';
 import { Team } from '../components/Team';
 import { ArrowRight } from 'lucide-react';
 import { GlobalPresence } from '../components/GlobalPresence';
+import { PageSEO } from '../components/PageSEO';
+import { Schema, getOrganizationSchema } from '../components/Schema';
+
+import { useContent } from '../hooks/useContent';
 
 export const Home: React.FC = () => {
+  const { siteConfig } = useContent();
+
   return (
     <>
+      <PageSEO 
+        title={siteConfig.defaultSeoTitle} 
+        description={siteConfig.defaultSeoDescription}
+      />
+      <Schema data={getOrganizationSchema()} />
       <Hero />
       <section className="py-10 md:py-14 bg-paper border-b border-border">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-8 mb-6 md:mb-8">
             <div>
               <p className="section-eyebrow mb-2">01. Choose Your Path</p>
-              <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-foreground">
-                BUILT FOR LEADERS,<br />OPERATORS, AND BUILDERS
+              <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-foreground uppercase">
+                {siteConfig.heroTitle}
               </h2>
             </div>
             <p className="section-lead max-w-xl text-base md:text-lg">
-              Jump directly to the part that matters most to you—business outcomes, technical capabilities,
-              delivery team, or upskilling resources.
+              {siteConfig.heroLead}
             </p>
           </div>
+
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-[1px] md:bg-border md:border md:border-border">
             {[

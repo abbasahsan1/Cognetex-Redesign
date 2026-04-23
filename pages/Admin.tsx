@@ -22,9 +22,12 @@ import {
   updateService,
   updateTeamMember,
   updateTechCategory,
-  updateCourse
+  updateCourse,
+  updateSiteConfig
 } from '../repositories/adminRepository';
-import { IService, IProject, ITeamMember, IAITechCategory, ICourse } from '../types';
+import { IService, IProject, ITeamMember, IAITechCategory, ICourse, ISiteConfig } from '../types';
+
+import { SEOFormFields } from '../components/SEOFormFields';
 import { iconMap } from '../utils/iconMap';
 
 const serviceSchema = z.object({
@@ -33,6 +36,8 @@ const serviceSchema = z.object({
   description: z.string().min(10),
   capabilities: z.array(z.string().min(2)),
   iconName: z.string().min(2),
+  seoTitle: z.string().max(60).optional(),
+  seoDescription: z.string().max(160).optional(),
 });
 
 const projectSchema = z.object({
@@ -41,6 +46,8 @@ const projectSchema = z.object({
   challenge: z.string().min(10),
   solution: z.string().min(10),
   stats: z.array(z.object({ label: z.string().min(1), value: z.string().min(1) })),
+  seoTitle: z.string().max(60).optional(),
+  seoDescription: z.string().max(160).optional(),
 });
 
 const teamSchema = z.object({
@@ -48,6 +55,9 @@ const teamSchema = z.object({
   role: z.string().min(2),
   bio: z.string().min(10),
   image: z.string().min(2),
+  imageAlt: z.string().optional(),
+  seoTitle: z.string().max(60).optional(),
+  seoDescription: z.string().max(160).optional(),
 });
 
 const techSchema = z.object({
@@ -60,9 +70,12 @@ const courseSchema = z.object({
   title: z.string().min(2),
   subtitle: z.string().min(2),
   description: z.string().min(10),
+  seoTitle: z.string().max(60).optional(),
+  seoDescription: z.string().max(160).optional(),
 });
 
-const tabs = ['services', 'projects', 'team', 'tech', 'courses'] as const;
+const tabs = ['services', 'projects', 'team', 'tech', 'courses', 'config'] as const;
+
 
 type Tab = (typeof tabs)[number];
 
@@ -72,6 +85,8 @@ const initialService: Omit<IService, 'id'> = {
   description: '',
   capabilities: [],
   iconName: 'BrainCircuit',
+  seoTitle: '',
+  seoDescription: '',
 };
 
 const initialProject: Omit<IProject, 'id'> = {
@@ -80,6 +95,8 @@ const initialProject: Omit<IProject, 'id'> = {
   challenge: '',
   solution: '',
   stats: [],
+  seoTitle: '',
+  seoDescription: '',
 };
 
 const initialTeam: Omit<ITeamMember, 'id'> = {
@@ -87,6 +104,9 @@ const initialTeam: Omit<ITeamMember, 'id'> = {
   role: '',
   bio: '',
   image: '',
+  imageAlt: '',
+  seoTitle: '',
+  seoDescription: '',
 };
 
 const initialTech: Omit<IAITechCategory, 'id'> = {
@@ -99,11 +119,14 @@ const initialCourse: Omit<ICourse, 'id'> = {
   title: '',
   subtitle: '',
   description: '',
+  seoTitle: '',
+  seoDescription: '',
 };
 
 export const Admin: React.FC = () => {
   const { user, isLoading: authLoading, error: authError, login, logout } = useAdminAuth();
-  const { services, projects, team, techStack, courses, isLoading, error, refresh } = useAdminData();
+  const { services, projects, team, techStack, courses, siteConfig, isLoading, error, refresh } = useAdminData();
+
   const [activeTab, setActiveTab] = useState<Tab>('services');
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState<string | null>(null);
@@ -126,8 +149,17 @@ export const Admin: React.FC = () => {
   const [teamForm, setTeamForm] = useState(initialTeam);
   const [techForm, setTechForm] = useState(initialTech);
   const [courseForm, setCourseForm] = useState(initialCourse);
+  const [configForm, setConfigForm] = useState<ISiteConfig | null>(null);
+
+  React.useEffect(() => {
+    if (siteConfig) {
+      setConfigForm(siteConfig);
+    }
+  }, [siteConfig]);
+
 
   const cloudinaryCloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME ?? 'duxaktggz';
+
   const cloudinaryUploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET ?? 'cognetex';
 
   const parseJsonSafe = async (response: Response) => {
@@ -412,6 +444,74 @@ export const Admin: React.FC = () => {
           ))}
         </div>
 
+        {activeTab === 'config' && (
+           <div className="max-w-4xl mx-auto">
+             <Card>
+               <h2 className="text-xl font-bold mb-6">Site Configuration & Global SEO</h2>
+               <div className="space-y-6">
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                   <div className="space-y-4">
+                     <label className="text-xs font-mono text-muted uppercase tracking-wider">Hero Section</label>
+                     <input
+                        className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                        placeholder="Hero Title"
+                        value={configForm?.heroTitle || ''}
+                        onChange={(e) => setConfigForm(prev => prev ? { ...prev, heroTitle: e.target.value } : null)}
+                     />
+                     <textarea
+                        className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                        placeholder="Hero Lead"
+                        rows={3}
+                        value={configForm?.heroLead || ''}
+                        onChange={(e) => setConfigForm(prev => prev ? { ...prev, heroLead: e.target.value } : null)}
+                     />
+                   </div>
+                   <div className="space-y-4">
+                     <label className="text-xs font-mono text-muted uppercase tracking-wider">Global SEO Defaults</label>
+                     <input
+                        className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                        placeholder="Default SEO Title"
+                        value={configForm?.defaultSeoTitle || ''}
+                        onChange={(e) => setConfigForm(prev => prev ? { ...prev, defaultSeoTitle: e.target.value } : null)}
+                     />
+                     <textarea
+                        className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                        placeholder="Default SEO Description"
+                        rows={3}
+                        value={configForm?.defaultSeoDescription || ''}
+                        onChange={(e) => setConfigForm(prev => prev ? { ...prev, defaultSeoDescription: e.target.value } : null)}
+                     />
+                   </div>
+                 </div>
+
+                 <div className="pt-6 border-t border-border">
+                   <Button 
+                    className="w-full md:w-auto"
+                    onClick={async () => {
+                      if (!configForm) return;
+                      setSaving(true);
+                      try {
+                        await updateSiteConfig(configForm);
+                        await refresh();
+                        alert('Site configuration updated successfully.');
+                      } catch (err) {
+                        console.error(err);
+                        setFormError('Failed to update configuration.');
+                      } finally {
+                        setSaving(false);
+                      }
+                    }}
+                    disabled={saving}
+                   >
+                     Save Global Configuration
+                   </Button>
+                 </div>
+               </div>
+             </Card>
+           </div>
+        )}
+
+
         {(isLoading || saving) && (
           <div className="text-muted text-xs font-mono mb-4">{saving ? 'Saving...' : 'Loading data...'}</div>
         )}
@@ -467,6 +567,11 @@ export const Admin: React.FC = () => {
                     <option key={icon} value={icon}>{icon}</option>
                   ))}
                 </select>
+                <SEOFormFields
+                  seoTitle={serviceForm.seoTitle || ''}
+                  seoDescription={serviceForm.seoDescription || ''}
+                  onChange={(field, value) => setServiceForm({ ...serviceForm, [field]: value })}
+                />
                 <Button onClick={handleSubmitService}>
                   {editingServiceId ? 'Update Service' : 'Add Service'}
                 </Button>
@@ -492,6 +597,8 @@ export const Admin: React.FC = () => {
                             description: service.description,
                             capabilities: service.capabilities,
                             iconName: service.iconName,
+                            seoTitle: service.seoTitle || '',
+                            seoDescription: service.seoDescription || '',
                           });
                           window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
@@ -571,6 +678,11 @@ export const Admin: React.FC = () => {
                     setProjectForm({ ...projectForm, stats });
                   }}
                 />
+                <SEOFormFields
+                  seoTitle={projectForm.seoTitle || ''}
+                  seoDescription={projectForm.seoDescription || ''}
+                  onChange={(field, value) => setProjectForm({ ...projectForm, [field]: value })}
+                />
                 <Button onClick={handleSubmitProject}>
                   {editingProjectId ? 'Update Project' : 'Add Project'}
                 </Button>
@@ -596,6 +708,8 @@ export const Admin: React.FC = () => {
                             challenge: project.challenge,
                             solution: project.solution,
                             stats: project.stats,
+                            seoTitle: project.seoTitle || '',
+                            seoDescription: project.seoDescription || '',
                           });
                           window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
@@ -655,6 +769,12 @@ export const Admin: React.FC = () => {
                   placeholder="Role"
                   value={teamForm.role}
                   onChange={(event) => setTeamForm({ ...teamForm, role: event.target.value })}
+                />
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                  placeholder="Image Alt Text (e.g. Portrait of Abbas Ahsan)"
+                  value={teamForm.imageAlt}
+                  onChange={(event) => setTeamForm({ ...teamForm, imageAlt: event.target.value })}
                 />
                 
                 {/* Image Upload Section */}
@@ -780,6 +900,11 @@ export const Admin: React.FC = () => {
                     </div>
                   </div>
                 )}
+                <SEOFormFields
+                  seoTitle={teamForm.seoTitle || ''}
+                  seoDescription={teamForm.seoDescription || ''}
+                  onChange={(field, value) => setTeamForm({ ...teamForm, [field]: value })}
+                />
                 <Button onClick={handleSubmitTeam} className="w-full">
                   {editingTeamId ? 'Update Member' : 'Add Member'}
                 </Button>
@@ -815,6 +940,9 @@ export const Admin: React.FC = () => {
                             role: member.role,
                             bio: member.bio,
                             image: member.image,
+                            imageAlt: member.imageAlt || '',
+                            seoTitle: member.seoTitle || '',
+                            seoDescription: member.seoDescription || '',
                           });
                           setTeamImageFile(null);
                           setCroppedImageFile(null);
@@ -958,6 +1086,11 @@ export const Admin: React.FC = () => {
                   value={courseForm.description}
                   onChange={(e) => setCourseForm({ ...courseForm, description: e.target.value })}
                 />
+                <SEOFormFields
+                  seoTitle={courseForm.seoTitle || ''}
+                  seoDescription={courseForm.seoDescription || ''}
+                  onChange={(field, value) => setCourseForm({ ...courseForm, [field]: value })}
+                />
                 <Button onClick={handleSubmitCourse} className="w-full">
                   {editingCourseId ? 'Update Course' : 'Add Course'}
                 </Button>
@@ -985,6 +1118,8 @@ export const Admin: React.FC = () => {
                             title: course.title,
                             subtitle: course.subtitle,
                             description: course.description,
+                            seoTitle: course.seoTitle || '',
+                            seoDescription: course.seoDescription || '',
                           });
                           window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}

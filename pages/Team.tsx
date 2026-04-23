@@ -4,6 +4,7 @@ import { Card } from '../components/GlassCard';
 import { Button } from '../components/Button';
 import { CloudinaryImage } from '../components/CloudinaryImage';
 import { useContent } from '../hooks/useContent';
+import { PageSEO } from '../components/PageSEO';
 
 const highlights = [
   {
@@ -29,6 +30,10 @@ export const Team: React.FC = () => {
 
   return (
     <>
+      <PageSEO 
+        title="Our Team" 
+        description="Meet the senior engineers, researchers, and product strategists at Cognetex. Expert leadership for your AI and software projects."
+      />
       <section className="pt-24 md:pt-32 pb-16 bg-background border-b border-border">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 items-end">

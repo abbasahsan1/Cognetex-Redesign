@@ -1,0 +1,40 @@
+# Cognetex Full Context
+
+## Company Profile
+Cognetex is a premier AI & Software Development agency. We bridge the gap between business logic and distributed system design. Every engagement is led by senior talent with hands-on implementation experience.
+
+## Detailed Services
+
+### Agentic & Generative AI
+Systems that move beyond static automation. We deploy custom LLM architectures (Llama, Mistral) that ingest proprietary data via RAG (Retrieval Augmented Generation) and take autonomous actions using agents.
+- Capabilites: RAG Implementation, Fine-tuning, LangChain/LlamaIndex Integration.
+
+### Full-Cycle Engineering
+High-throughput backends and blazing-fast frontends.
+- Stack: React, TypeScript, Rust, Node.js, Go.
+- Architecture: Microservices, Serverless, Event-driven.
+
+### Data Engineering
+Robust ETL pipelines and vector search capabilities.
+- Stack: BigQuery, Snowflake, Postgres, Pinecone, Weaviate.
+
+## Proven ROI (Case Studies)
+- FinTech: Reduced daily financial log processing from 48h to real-time (<200ms). Saved $2M+ annually.
+- E-Commerce: Automated 1M+ support tickets with <2s response time. 70% ticket reduction.
+
+## Leadership
+- Abbas Ahsan (CEO & Chief Architect): Distributed system design expert.
+- Manahil Ahmed (Lead AI Research): NLP and Transformer specialist.
+- Jahanzeb Khan (Senior Backend): High-traffic infrastructure expert.
+- Abdullah Farooqui (Head of Frontend): Performance-obsessed UI lead.
+
+## Tech Stack
+Modeling: PyTorch, TensorFlow, Transformers.
+Orchestration: LangChain, LlamaIndex, Temporal.
+Infrastructure: AWS, GCP, Kubernetes, Terraform.
+Observability: Prometheus, Grafana, OpenTelemetry.
+
+## Contact
+Email: contact@cognetex.com
+URL: https://cognetex.com
+Location: Dubai, UAE (Remote-First Global)

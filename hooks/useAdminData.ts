@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db, firebaseEnabled } from '../lib/firebase';
-import { IAITechCategory, IProject, IService, ITeamMember, ICourse } from '../types';
+import { IAITechCategory, IProject, IService, ITeamMember, ICourse, ISiteConfig } from '../types';
 
 const mapDocs = async <T extends { id?: string }>(name: string) => {
   const snapshot = await getDocs(collection(db, name));
@@ -14,6 +14,7 @@ export const useAdminData = () => {
   const [team, setTeam] = useState<ITeamMember[]>([]);
   const [techStack, setTechStack] = useState<IAITechCategory[]>([]);
   const [courses, setCourses] = useState<ICourse[]>([]);
+  const [siteConfig, setSiteConfig] = useState<ISiteConfig | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,18 +26,23 @@ export const useAdminData = () => {
         return;
       }
       setIsLoading(true);
-      const [servicesData, projectsData, teamData, techStackData, coursesData] = await Promise.all([
+      const [servicesData, projectsData, teamData, techStackData, coursesData, configSnapshot] = await Promise.all([
         mapDocs<IService>('services'),
         mapDocs<IProject>('projects'),
         mapDocs<ITeamMember>('team'),
         mapDocs<IAITechCategory>('techStack'),
         mapDocs<ICourse>('courses'),
+        getDocs(collection(db, 'config')),
       ]);
+
+      const firestoreConfig = configSnapshot.docs.find(d => d.id === 'site')?.data() as ISiteConfig | undefined;
+
       setServices(servicesData.sort((a, b) => a.title.localeCompare(b.title)));
       setProjects(projectsData.sort((a, b) => a.title.localeCompare(b.title)));
       setTeam(teamData.sort((a, b) => a.name.localeCompare(b.name)));
       setTechStack(techStackData.sort((a, b) => a.title.localeCompare(b.title)));
       setCourses(coursesData.sort((a, b) => a.title.localeCompare(b.title)));
+      if (firestoreConfig) setSiteConfig(firestoreConfig);
       setError(null);
     } catch (err) {
       console.error('Admin data load error:', err);
@@ -50,5 +56,6 @@ export const useAdminData = () => {
     refresh();
   }, [refresh]);
 
-  return { services, projects, team, techStack, courses, isLoading, error, refresh };
+  return { services, projects, team, techStack, courses, siteConfig, isLoading, error, refresh };
 };
+

@@ -29,16 +29,18 @@ export const CloudinaryImage: React.FC<CloudinaryImageProps> = ({
   loading = 'lazy',
   decoding = 'async',
 }) => {
-  if (!publicId) {
+  const trimmedId = publicId.trim();
+
+  if (!trimmedId) {
     return (
       <div className={clsx('bg-background border border-border', className)} aria-hidden="true" />
     );
   }
 
-  if (isRemoteUrl(publicId)) {
+  if (isRemoteUrl(trimmedId)) {
     return (
       <img
-        src={publicId}
+        src={trimmedId}
         alt={alt}
         loading={loading}
         decoding={decoding}
@@ -48,6 +50,7 @@ export const CloudinaryImage: React.FC<CloudinaryImageProps> = ({
       />
     );
   }
+
 
   const cldImg = useMemo(() => {
     let image = cld.image(publicId).format('auto').quality('auto');

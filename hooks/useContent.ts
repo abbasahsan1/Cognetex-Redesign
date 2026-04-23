@@ -31,3 +31,4 @@ export const useContent = () => {
 
   return { ...content, isLoading, error };
 };
+
