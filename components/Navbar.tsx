@@ -80,15 +80,25 @@ export const Navbar: React.FC = () => {
 
 
             {/* Mobile Menu Toggle */}
-            <button 
-              className="md:hidden text-primary hover:text-signal p-2"
-              onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open menu"
-              aria-expanded={mobileMenuOpen}
-              aria-controls="mobile-menu"
-            >
-              <Menu size={24} />
-            </button>
+            <div className="flex md:hidden items-center gap-2">
+              <button
+                onClick={toggleTheme}
+                className="p-2 text-muted hover:text-signal transition-colors"
+                aria-label="Toggle dark mode"
+              >
+                {isDark ? <Sun size={18} /> : <Moon size={18} />}
+              </button>
+              <button 
+                className="text-primary hover:text-signal p-2"
+                onClick={() => setMobileMenuOpen(true)}
+                aria-label="Open menu"
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-menu"
+              >
+                <Menu size={24} />
+              </button>
+            </div>
+
           </div>
         </div>
       </nav>
@@ -96,44 +106,64 @@ export const Navbar: React.FC = () => {
       {/* Mobile Menu Modal */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-[100] md:hidden" id="mobile-menu">
-          <div className="absolute inset-0 bg-primary/20 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
-          <div className="absolute right-0 top-0 bottom-0 w-full max-w-xs bg-paper border-l border-primary shadow-hard p-0 flex flex-col">
-            <div className="flex justify-between items-center p-6 border-b border-border">
-              <span className="font-mono font-bold">Menu</span>
-              <button onClick={() => setMobileMenuOpen(false)} className="text-primary hover:text-signal">
-
-                <X size={24} />
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-xl" onClick={() => setMobileMenuOpen(false)} />
+          <div className="absolute right-0 top-0 bottom-0 w-[85%] max-w-sm bg-paper border-l border-primary shadow-2xl p-0 flex flex-col animate-in slide-in-from-right duration-300">
+            <div className="flex justify-between items-center p-8 border-b border-border">
+              <div className="flex flex-col">
+                <span className="font-mono text-[10px] font-bold text-signal uppercase tracking-[0.2em]">Navigation</span>
+                <span className="font-mono text-xs font-bold uppercase">Ingress_Node_V4</span>
+              </div>
+              <button 
+                onClick={() => setMobileMenuOpen(false)} 
+                className="w-10 h-10 border border-border flex items-center justify-center hover:text-signal hover:border-signal transition-colors"
+              >
+                <X size={18} />
               </button>
             </div>
-            <div className="flex flex-col p-6 gap-6 flex-grow">
-              {navLinks.map((link) => (
+            
+            <div className="flex flex-col p-8 gap-8 flex-grow">
+              {navLinks.map((link, idx) => (
                 <NavLink
                   key={link.name}
                   to={link.to}
                   end={link.end}
                   onClick={handleNavClick}
-                  className="text-2xl font-bold text-left text-primary hover:text-signal font-sans tracking-tight"
+                  className={({ isActive }) => 
+                    `text-4xl font-bold text-left tracking-tighter uppercase leading-none transition-all ${
+                      isActive ? 'text-signal underline decoration-2 underline-offset-8' : 'text-primary'
+                    }`
+                  }
                 >
+                  <span className="text-[10px] font-mono text-muted mr-4">0{idx + 1}.</span>
                   {link.name}
                 </NavLink>
               ))}
-              <button
-                onClick={toggleTheme}
-                className="mt-2 flex items-center gap-2 text-sm font-sans font-semibold text-muted hover:text-signal transition-colors"
-                aria-label="Toggle dark mode"
-              >
-                {isDark ? <Sun size={14} /> : <Moon size={14} />}
-              </button>
-            </div>
-            <div className="p-6 border-t border-border mb-safe">
-              <Button fullWidth onClick={handleContactClick}>
-                Initiate Project
-              </Button>
+              
+              <div className="mt-4 pt-8 border-t border-border space-y-6">
+                <button
+                  onClick={toggleTheme}
+                  className="flex items-center gap-4 text-xs font-mono font-bold text-muted hover:text-signal transition-colors uppercase tracking-widest"
+                >
+                  <div className="w-8 h-8 border border-border flex items-center justify-center">
+                    {isDark ? <Sun size={12} /> : <Moon size={12} />}
+                  </div>
+                  <span>Appearance: {theme}</span>
+                </button>
+              </div>
             </div>
 
+            <div className="p-8 border-t border-border bg-background/50">
+              <Button fullWidth size="lg" onClick={handleContactClick} className="h-16 tracking-widest font-bold">
+                INITIATE PROJECT
+              </Button>
+              <p className="text-[10px] font-mono text-center text-muted uppercase mt-4 tracking-widest">
+                Cognetex Collective © 2024
+              </p>
+            </div>
           </div>
         </div>
       )}
+
     </>
   );
 };

@@ -41,30 +41,29 @@ export const Home: React.FC = () => {
           </div>
 
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
             {[
-              { href: '#projects', label: 'Business Leaders', sub: 'See measurable ROI and outcomes' },
-              { href: '#services', label: 'Technical Teams', sub: 'Review architecture and capabilities' },
-              { href: '#team', label: 'Decision Committees', sub: 'Evaluate delivery leadership' },
-              { href: '#courses', label: 'Learners', sub: 'Explore practical training tracks' },
+              { href: '#projects', label: 'Leaders', sub: 'ROI & Outcomes' },
+              { href: '#services', label: 'Technical', sub: 'Arch & Capability' },
+              { href: '#team', label: 'Committees', sub: 'Delivery Quality' },
+              { href: '#courses', label: 'Learners', sub: 'Practical Tracks' },
             ].map((item) => (
               <a
                 key={item.href}
                 href={item.href}
-                className="group p-8 bg-paper border border-border hover:border-signal transition-all duration-300 flex flex-col justify-between"
-
-
+                className="group p-4 md:p-8 bg-paper border border-border hover:border-signal transition-all duration-300 flex flex-col justify-between min-h-[140px] md:min-h-0"
               >
                 <div>
-                  <div className="flex items-start justify-between gap-3 mb-4">
-                    <p className="text-lg font-bold text-foreground tracking-tight">{item.label}</p>
-                    <ArrowRight className="w-5 h-5 text-muted group-hover:text-signal transition-transform group-hover:translate-x-1" />
+                  <div className="flex items-start justify-between gap-2 mb-2 md:mb-4">
+                    <p className="text-xs md:text-lg font-bold text-foreground tracking-tight uppercase">{item.label}</p>
+                    <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-muted group-hover:text-signal transition-transform group-hover:translate-x-1" />
                   </div>
-                  <p className="text-sm text-muted leading-relaxed">{item.sub}</p>
+                  <p className="text-[10px] md:text-sm text-muted leading-tight md:leading-relaxed">{item.sub}</p>
                 </div>
               </a>
             ))}
           </div>
+
 
         </div>
       </section>

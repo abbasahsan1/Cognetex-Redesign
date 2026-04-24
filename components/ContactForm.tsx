@@ -16,10 +16,13 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
+import { useSounds } from './hooks/useSounds';
+
 export const ContactForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { playSuccess } = useSounds();
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -35,6 +38,7 @@ export const ContactForm: React.FC = () => {
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
       console.log("Form Data:", data);
+      playSuccess(); // Trigger audio cue
       setIsSuccess(true);
       reset();
       setTimeout(() => setIsSuccess(false), 5000);
@@ -45,6 +49,7 @@ export const ContactForm: React.FC = () => {
       setIsSubmitting(false);
     }
   };
+
 
   const inputClasses = "w-full bg-paper border border-border rounded-none px-4 py-3 text-foreground placeholder-muted/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm font-mono";
   const labelClasses = "block text-xs font-bold text-foreground mb-2 uppercase tracking-wide";

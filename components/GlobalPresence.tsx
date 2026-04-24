@@ -32,9 +32,9 @@ export const GlobalPresence: React.FC = () => {
             </p>
           </div>
 
-          <div className="relative z-10 lg:w-7/12 flex items-center justify-center">
-            <div className="relative w-full max-w-[300px] sm:max-w-[450px] lg:max-w-[600px] xl:max-w-[700px] aspect-square flex items-center justify-center">
-              <Suspense fallback={<div className="w-full h-full bg-paper/50 animate-pulse rounded-full" />}>
+          <div className="relative z-10 lg:w-7/12 flex items-center justify-center w-full min-h-[300px] md:min-h-0">
+            <div className="relative w-full aspect-square max-w-[300px] sm:max-w-[450px] lg:max-w-[600px] flex items-center justify-center">
+              <Suspense fallback={<div className="w-48 h-48 bg-paper/50 animate-pulse rounded-full" />}>
                 <GlobePulse
                   className="w-full h-full"
                   speed={0.0018}
@@ -42,6 +42,7 @@ export const GlobalPresence: React.FC = () => {
               </Suspense>
             </div>
           </div>
+
         </div>
       </div>
     </section>
