@@ -42,8 +42,17 @@ export const getContent = async () => {
       projects: projects.length ? projects : content.projects,
       team: team.length ? team : content.team,
       aiTechStack: aiTechStack.length ? aiTechStack : content.aiTechStack,
-      siteConfig: firestoreConfig || content.siteConfig,
+      siteConfig: {
+        ...content.siteConfig,
+        ...(firestoreConfig || {}),
+        socials: {
+          ...(content.siteConfig?.socials || {}),
+          ...(firestoreConfig?.socials || {})
+        }
+      },
     };
+
+
 
 
     cachedContent = contentSchema.parse(merged);

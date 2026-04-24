@@ -516,6 +516,39 @@ export const Admin: React.FC = () => {
                    </div>
                  </div>
 
+                 <div className="pt-6 border-t border-border space-y-4">
+                   <label className="text-xs font-mono text-muted uppercase tracking-wider">Social Connectivity Links</label>
+                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                     <div className="space-y-1">
+                       <span className="text-[10px] font-mono text-muted uppercase">LinkedIn</span>
+                       <input
+                          className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                          placeholder="https://linkedin.com/..."
+                          value={configForm?.socials?.linkedin || ''}
+                          onChange={(e) => setConfigForm(prev => prev ? { ...prev, socials: { ...prev.socials, linkedin: e.target.value } } : null)}
+                       />
+                     </div>
+                     <div className="space-y-1">
+                       <span className="text-[10px] font-mono text-muted uppercase">Twitter</span>
+                       <input
+                          className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                          placeholder="https://twitter.com/..."
+                          value={configForm?.socials?.twitter || ''}
+                          onChange={(e) => setConfigForm(prev => prev ? { ...prev, socials: { ...prev.socials, twitter: e.target.value } } : null)}
+                       />
+                     </div>
+                     <div className="space-y-1">
+                       <span className="text-[10px] font-mono text-muted uppercase">GitHub</span>
+                       <input
+                          className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                          placeholder="https://github.com/..."
+                          value={configForm?.socials?.github || ''}
+                          onChange={(e) => setConfigForm(prev => prev ? { ...prev, socials: { ...prev.socials, github: e.target.value } } : null)}
+                       />
+                     </div>
+                   </div>
+                 </div>
+
                  <div className="pt-6 border-t border-border">
                    <Button 
                     className="w-full md:w-auto"

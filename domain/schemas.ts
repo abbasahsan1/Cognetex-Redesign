@@ -101,6 +101,11 @@ export const siteConfigSchema = z.object({
   contactSectionLead: z.string(),
   defaultSeoTitle: z.string(),
   defaultSeoDescription: z.string(),
+  socials: z.object({
+    linkedin: z.string().optional(),
+    twitter: z.string().optional(),
+    github: z.string().optional(),
+  }).optional(),
 });
 
 export const contentSchema = z.object({
@@ -115,4 +120,3 @@ export const contentSchema = z.object({
   courses: z.array(courseSchema),
   siteConfig: siteConfigSchema,
 });
-

@@ -10,8 +10,14 @@ export const siteConfig: ISiteConfig = {
   contactSectionTitle: 'INITIATE THE FUTURE',
   contactSectionLead: 'Ready to integrate autonomous intelligence into your operations? Let’s map your AI readiness today.',
   defaultSeoTitle: 'Cognetex | Enterprise AI & Software Development Agency',
-  defaultSeoDescription: 'Cognetex is a premier AI & Software Development agency. We specialize in building autonomous agents, custom LLM solutions, and scalable enterprise platforms.'
+  defaultSeoDescription: 'Cognetex is a premier AI & Software Development agency. We specialize in building autonomous agents, custom LLM solutions, and scalable enterprise platforms.',
+  socials: {
+    linkedin: 'https://linkedin.com/company/cognetex',
+    twitter: 'https://twitter.com/cognetex',
+    github: 'https://github.com/cognetex'
+  }
 };
+
 
 export const services: IService[] = [
   {

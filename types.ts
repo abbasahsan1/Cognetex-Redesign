@@ -113,4 +113,9 @@ export interface ISiteConfig {
   contactSectionLead: string;
   defaultSeoTitle: string;
   defaultSeoDescription: string;
+  socials: {
+    linkedin?: string;
+    twitter?: string;
+    github?: string;
+  };
 }
