@@ -82,9 +82,15 @@ const courseSchema = z.object({
   title: z.string().min(2),
   subtitle: z.string().min(2),
   description: z.string().min(10),
+  price: z.string().min(1),
+  medium: z.string().min(2),
+  duration: z.string().min(1),
+  syllabus: z.array(z.string().min(1)).optional(),
+  instructorId: z.string().optional(),
   seoTitle: z.string().max(60).optional(),
   seoDescription: z.string().max(160).optional(),
 });
+
 
 const tabs = ['services', 'projects', 'team', 'tech', 'courses', 'config'] as const;
 
@@ -139,9 +145,15 @@ const initialCourse: Omit<ICourse, 'id'> = {
   title: '',
   subtitle: '',
   description: '',
+  price: '',
+  medium: '',
+  duration: '',
+  syllabus: [],
+  instructorId: '',
   seoTitle: '',
   seoDescription: '',
 };
+
 
 export const Admin: React.FC = () => {
   const { user, isLoading: authLoading, error: authError, login, logout } = useAdminAuth();
@@ -1049,31 +1061,82 @@ export const Admin: React.FC = () => {
                 )}
               </div>
               <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <input
+                    className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                    placeholder="Badge"
+                    value={courseForm.badge}
+                    onChange={(e) => setCourseForm({ ...courseForm, badge: e.target.value })}
+                  />
+                  <input
+                    className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                    placeholder="Title"
+                    value={courseForm.title}
+                    onChange={(e) => setCourseForm({ ...courseForm, title: e.target.value })}
+                  />
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <input
+                    className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                    placeholder="Price"
+                    value={courseForm.price}
+                    onChange={(e) => setCourseForm({ ...courseForm, price: e.target.value })}
+                  />
+                  <input
+                    className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                    placeholder="Medium"
+                    value={courseForm.medium}
+                    onChange={(e) => setCourseForm({ ...courseForm, medium: e.target.value })}
+                  />
+                  <input
+                    className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                    placeholder="Duration"
+                    value={courseForm.duration}
+                    onChange={(e) => setCourseForm({ ...courseForm, duration: e.target.value })}
+                  />
+                </div>
                 <input
-                  className="w-full bg-paper border border-border px-4 py-2 text-sm"
-                  placeholder="Badge (e.g. FREE, NEW)"
-                  value={courseForm.badge}
-                  onChange={(e) => setCourseForm({ ...courseForm, badge: e.target.value })}
-                />
-                <input
-                  className="w-full bg-paper border border-border px-4 py-2 text-sm"
-                  placeholder="Title"
-                  value={courseForm.title}
-                  onChange={(e) => setCourseForm({ ...courseForm, title: e.target.value })}
-                />
-                <input
-                  className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
                   placeholder="Subtitle"
                   value={courseForm.subtitle}
                   onChange={(e) => setCourseForm({ ...courseForm, subtitle: e.target.value })}
                 />
                 <textarea
-                  className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
                   rows={4}
                   placeholder="Description"
                   value={courseForm.description}
                   onChange={(e) => setCourseForm({ ...courseForm, description: e.target.value })}
                 />
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-mono text-muted uppercase tracking-widest">Syllabus Modules (one per line)</label>
+                  <textarea
+                    className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                    rows={5}
+                    placeholder="Foundations of AI..."
+                    value={courseForm.syllabus?.join('\n') || ''}
+                    onChange={(e) => setCourseForm({
+                      ...courseForm,
+                      syllabus: e.target.value.split('\n').filter(line => line.trim() !== '')
+                    })}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-mono text-muted uppercase tracking-widest">Instructor</label>
+                  <select
+                    className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                    value={courseForm.instructorId}
+                    onChange={(e) => setCourseForm({ ...courseForm, instructorId: e.target.value })}
+                  >
+                    <option value="">Select Instructor</option>
+                    {team.map(m => (
+                      <option key={m.id} value={m.id}>{m.name}</option>
+                    ))}
+                  </select>
+                </div>
+
                 <SEOFormFields
                   seoTitle={courseForm.seoTitle || ''}
                   seoDescription={courseForm.seoDescription || ''}
@@ -1083,6 +1146,7 @@ export const Admin: React.FC = () => {
                   {editingCourseId ? 'Update Course' : 'Add Course'}
                 </Button>
               </div>
+
             </Card>
             <div className="lg:col-span-7 space-y-4">
               {courses.map((course) => (
@@ -1106,9 +1170,15 @@ export const Admin: React.FC = () => {
                             title: course.title,
                             subtitle: course.subtitle,
                             description: course.description,
+                            price: course.price,
+                            medium: course.medium,
+                            duration: course.duration,
+                            syllabus: course.syllabus || [],
+                            instructorId: course.instructorId || '',
                             seoTitle: course.seoTitle || '',
                             seoDescription: course.seoDescription || '',
                           });
+
                           window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                       >

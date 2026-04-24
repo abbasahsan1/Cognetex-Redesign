@@ -261,6 +261,17 @@ export const courses: ICourse[] = [
     subtitle: 'Building Autonomous Agents',
     description:
       'A deep dive into multi-agent systems, tool-use, and complex orchestration for the next generation of AI builders.',
+    price: '$499',
+    medium: 'Self-paced Video + Live Labs',
+    duration: '6 Weeks',
+    syllabus: [
+      'Foundations of Autonomous Agents',
+      'Memory Management & State Recovery',
+      'Advanced Tool-Calling & API Interfacing',
+      'Multi-Agent Orchestration with CrewAI/AutoGen',
+      'Operationalizing Agents in Enterprise'
+    ],
+    instructorId: 'abbas',
     seoTitle: 'Agentic AI Course: Build Autonomous Systems with LangChain',
     seoDescription: 'Master the art of building autonomous AI agents. Learn orchestration, tool-calling, and RAG implementation in our free course.'
   },
@@ -271,6 +282,16 @@ export const courses: ICourse[] = [
     subtitle: 'Vector-Based Retrieval',
     description:
       'Essential training on vector databases, semantic chunking, and grounding LLMs in proprietary enterprise data.',
+    price: 'Free',
+    medium: 'On-demand Workshop',
+    duration: '4 Hours',
+    syllabus: [
+      'Introduction to Retrieval Augmented Generation',
+      'Chunking Strategies & Context Optimization',
+      'Vector Database Selection (Pinecone, Weaviate)',
+      'Grounding & Evaluation Metrics'
+    ],
+    instructorId: 'manahil',
     seoTitle: 'RAG Fundamentals Course: Semantic Search & Vector DBs',
     seoDescription: 'Learn how to build high-accuracy Retrieval Augmented Generation systems. Free course on vector databases and LLM grounding.'
   }

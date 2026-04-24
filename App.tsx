@@ -16,6 +16,8 @@ const Admin = React.lazy(() => import('./pages/Admin').then((module) => ({ defau
 const ServiceDetail = React.lazy(() => import('./pages/ServiceDetail').then((module) => ({ default: module.ServiceDetail })));
 const ProjectDetail = React.lazy(() => import('./pages/ProjectDetail').then((module) => ({ default: module.ProjectDetail })));
 const EmployeeDetail = React.lazy(() => import('./pages/EmployeeDetail').then((module) => ({ default: module.EmployeeDetail })));
+const CourseDetail = React.lazy(() => import('./pages/CourseDetail').then((module) => ({ default: module.CourseDetail })));
+
 
 function App() {
   return (
@@ -33,7 +35,9 @@ function App() {
                 <Route path="/team" element={<Team />} />
                 <Route path="/team/:id" element={<EmployeeDetail />} />
                 <Route path="/careers" element={<Careers />} />
+                <Route path="/courses/:id" element={<CourseDetail />} />
                 <Route path="/contact" element={<Contact />} />
+
                 <Route path="/ghq" element={<Admin />} />
                 <Route path="*" element={<NotFound />} />
               </Route>

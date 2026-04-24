@@ -34,9 +34,21 @@ export const teamMemberSchema = z.object({
   bio: z.string(),
   image: z.string().min(1),
   imageAlt: z.string().optional(),
+  expertise: z.array(z.string()).optional(),
+  experience: z.array(z.object({
+    company: z.string(),
+    role: z.string(),
+    period: z.string(),
+  })).optional(),
+  socials: z.object({
+    linkedin: z.string().optional(),
+    twitter: z.string().optional(),
+    github: z.string().optional(),
+  }).optional(),
   seoTitle: z.string().optional(),
   seoDescription: z.string().optional(),
 });
+
 
 export const approachItemSchema = z.object({
   id: z.string(),
@@ -69,9 +81,15 @@ export const courseSchema = z.object({
   title: z.string(),
   subtitle: z.string(),
   description: z.string(),
+  price: z.string(),
+  medium: z.string(),
+  duration: z.string(),
+  syllabus: z.array(z.string()).optional(),
+  instructorId: z.string().optional(),
   seoTitle: z.string().optional(),
   seoDescription: z.string().optional(),
 });
+
 
 export const siteConfigSchema = z.object({
   heroTitle: z.string(),
