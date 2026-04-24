@@ -4,6 +4,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import { AppLayout } from './components/AppLayout';
 import { RouteFallback } from './components/RouteFallback';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { ScrollToTop } from './components/ScrollToTop';
+
 
 const Home = React.lazy(() => import('./pages/Home').then((module) => ({ default: module.Home })));
 const Approach = React.lazy(() => import('./pages/Approach').then((module) => ({ default: module.Approach })));
@@ -26,7 +28,9 @@ function App() {
   return (
     <HelmetProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <ErrorBoundary>
+
           <Suspense fallback={<RouteFallback />}>
             <Routes>
               <Route element={<AppLayout />}>

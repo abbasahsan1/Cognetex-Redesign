@@ -16,13 +16,14 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-import { useSounds } from './hooks/useSounds';
+import { usePiano } from '../hooks/usePiano';
 
 export const ContactForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { playSuccess } = useSounds();
+  const { playTune } = usePiano();
+
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -38,7 +39,7 @@ export const ContactForm: React.FC = () => {
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
       console.log("Form Data:", data);
-      playSuccess(); // Trigger audio cue
+      playTune(0); // Trigger audio cue
       setIsSuccess(true);
       reset();
       setTimeout(() => setIsSuccess(false), 5000);

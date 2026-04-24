@@ -122,7 +122,17 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  @keyframes pulse-width {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .animate-pulse-width {
+    animation: pulse-width 2s infinite ease-in-out;
+  }
 }
+
 
 /* React Image Crop Theme Overrides */
 
