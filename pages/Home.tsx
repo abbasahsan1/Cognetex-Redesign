@@ -10,12 +10,14 @@ import { GlobalPresence } from '../components/GlobalPresence';
 import { PageSEO } from '../components/PageSEO';
 import { Schema, getOrganizationSchema } from '../components/Schema';
 import { ComplianceSection } from '../components/ComplianceSection';
-
-
 import { useContent } from '../hooks/useContent';
 
 export const Home: React.FC = () => {
   const { siteConfig } = useContent();
+
+  const scrollTo = (id: string) => {
+    document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <>
@@ -43,15 +45,15 @@ export const Home: React.FC = () => {
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
             {[
-              { href: '#projects', label: 'Leaders', sub: 'ROI & Outcomes' },
-              { href: '#services', label: 'Technical', sub: 'Arch & Capability' },
-              { href: '#team', label: 'Committees', sub: 'Delivery Quality' },
-              { href: '#courses', label: 'Learners', sub: 'Practical Tracks' },
+              { id: '#projects', label: 'Leaders', sub: 'ROI & Outcomes' },
+              { id: '#services', label: 'Technical', sub: 'Arch & Capability' },
+              { id: '#team', label: 'Committees', sub: 'Delivery Quality' },
+              { id: '#courses', label: 'Learners', sub: 'Practical Tracks' },
             ].map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="group p-4 md:p-8 bg-paper border border-border hover:border-signal transition-all duration-300 flex flex-col justify-between min-h-[140px] md:min-h-0"
+              <button
+                key={item.id}
+                onClick={() => scrollTo(item.id)}
+                className="group p-4 md:p-8 bg-paper border border-border hover:border-signal transition-all duration-300 flex flex-col justify-between min-h-[140px] md:min-h-0 text-left"
               >
                 <div>
                   <div className="flex items-start justify-between gap-2 mb-2 md:mb-4">
@@ -60,7 +62,7 @@ export const Home: React.FC = () => {
                   </div>
                   <p className="text-[10px] md:text-sm text-muted leading-tight md:leading-relaxed">{item.sub}</p>
                 </div>
-              </a>
+              </button>
             ))}
           </div>
 

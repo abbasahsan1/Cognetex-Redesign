@@ -41,5 +41,13 @@ export const useAdminAuth = () => {
     await signOut(auth);
   };
 
-  return { user, isLoading, error, login, logout };
+  const changePassword = async (newPassword: string) => {
+    if (!auth.currentUser) throw new Error('No authenticated user found.');
+    const { updatePassword } = await import('firebase/auth');
+    return updatePassword(auth.currentUser, newPassword);
+  };
+
+  return { user, isLoading, error, login, logout, changePassword };
 };
+
+

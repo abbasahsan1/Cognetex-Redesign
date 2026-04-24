@@ -45,9 +45,11 @@ export const teamMemberSchema = z.object({
     twitter: z.string().optional(),
     github: z.string().optional(),
   }).optional(),
+  order: z.number().default(0),
   seoTitle: z.string().optional(),
   seoDescription: z.string().optional(),
 });
+
 
 
 export const approachItemSchema = z.object({

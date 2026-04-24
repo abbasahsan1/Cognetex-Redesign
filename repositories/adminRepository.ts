@@ -48,6 +48,20 @@ export const deleteTeamMember = async (id: string) => {
   return deleteDoc(doc(db, 'team', id));
 };
 
+export const reorderTeam = async (members: ITeamMember[]) => {
+  if (!firebaseEnabled || !db) throw new Error('Firebase not configured.');
+  const { writeBatch } = await import('firebase/firestore');
+  const batch = writeBatch(db);
+  
+  members.forEach((member, index) => {
+    const ref = doc(db, 'team', member.id);
+    batch.update(ref, { order: index });
+  });
+  
+  return batch.commit();
+};
+
+
 export const createTechCategory = async (payload: Omit<IAITechCategory, 'id'>) => {
   if (!firebaseEnabled || !db) throw new Error('Firebase not configured.');
   return addDoc(collection(db, 'techStack'), payload);

@@ -1,6 +1,8 @@
 import React, { useMemo, useState, useRef } from 'react';
 import { z } from 'zod';
-import { Upload, Image as ImageIcon, X } from 'lucide-react';
+import { Upload, Image as ImageIcon, X, GripVertical } from 'lucide-react';
+import { Reorder } from 'framer-motion';
+
 import { Button } from '../components/Button';
 import { Card } from '../components/GlassCard';
 import { CloudinaryImage } from '../components/CloudinaryImage';
@@ -23,8 +25,10 @@ import {
   updateTeamMember,
   updateTechCategory,
   updateCourse,
-  updateSiteConfig
+  updateSiteConfig,
+  reorderTeam
 } from '../repositories/adminRepository';
+
 import { IService, IProject, ITeamMember, IAITechCategory, ICourse, ISiteConfig } from '../types';
 
 import { SEOFormFields } from '../components/SEOFormFields';
@@ -67,9 +71,11 @@ const teamSchema = z.object({
     twitter: z.string().optional(),
     github: z.string().optional(),
   }).optional(),
+  order: z.number().default(0),
   seoTitle: z.string().max(60).optional(),
   seoDescription: z.string().max(160).optional(),
 });
+
 
 
 const techSchema = z.object({
@@ -92,7 +98,8 @@ const courseSchema = z.object({
 });
 
 
-const tabs = ['services', 'projects', 'team', 'tech', 'courses', 'config'] as const;
+const tabs = ['services', 'projects', 'team', 'tech', 'courses', 'config', 'security'] as const;
+
 
 
 type Tab = (typeof tabs)[number];
@@ -130,9 +137,11 @@ const initialTeam: Omit<ITeamMember, 'id'> = {
     twitter: '',
     github: '',
   },
+  order: 0,
   seoTitle: '',
   seoDescription: '',
 };
+
 
 
 const initialTech: Omit<IAITechCategory, 'id'> = {
@@ -156,7 +165,8 @@ const initialCourse: Omit<ICourse, 'id'> = {
 
 
 export const Admin: React.FC = () => {
-  const { user, isLoading: authLoading, error: authError, login, logout } = useAdminAuth();
+  const { user, isLoading: authLoading, error: authError, login, logout, changePassword } = useAdminAuth();
+
   const { services, projects, team, techStack, courses, siteConfig, isLoading, error, refresh } = useAdminData();
 
   const [activeTab, setActiveTab] = useState<Tab>('services');
@@ -168,7 +178,12 @@ export const Admin: React.FC = () => {
   const [showCropper, setShowCropper] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [localTeam, setLocalTeam] = useState<ITeamMember[]>([]);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
+
 
   const [editingServiceId, setEditingServiceId] = useState<string | null>(null);
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
@@ -188,6 +203,13 @@ export const Admin: React.FC = () => {
       setConfigForm(siteConfig);
     }
   }, [siteConfig]);
+
+  React.useEffect(() => {
+    if (team && team.length > 0) {
+      setLocalTeam(team);
+    }
+  }, [team]);
+
 
 
   const cloudinaryCloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME ?? 'duxaktggz';
@@ -878,7 +900,19 @@ export const Admin: React.FC = () => {
                       })}
                     />
                   </div>
+                  <div>
+                    <label className="text-xs font-mono text-muted uppercase tracking-widest">Display Order (lower numbers appear first)</label>
+                    <input
+                      type="number"
+                      className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                      placeholder="0"
+                      value={teamForm.order}
+                      onChange={(e) => setTeamForm({ ...teamForm, order: parseInt(e.target.value) || 0 })}
+                    />
+                  </div>
+
                 </div>
+
 
                 <div className="space-y-4">
                   <div className="space-y-4">
@@ -945,66 +979,115 @@ export const Admin: React.FC = () => {
               </div>
             </Card>
 
-            <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-              {team.map((member) => (
-                <Card key={member.id} className={`flex flex-col ${editingTeamId === member.id ? 'border-signal ring-1 ring-signal' : ''}`}>
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex items-center gap-3">
-                      <CloudinaryImage 
-                        publicId={member.image} 
-                        alt={member.name} 
-                        className="w-10 h-10 object-cover border border-border"
-                      />
-                      <div>
-                        <h3 className="text-sm font-bold">{member.name}</h3>
-                        <p className="text-[10px] text-muted font-mono">{member.role}</p>
+            <div className="lg:col-span-12 space-y-2 mt-8">
+              <div className="flex items-center gap-4 px-6 py-2 text-[10px] font-mono text-muted uppercase tracking-widest border-b border-border mb-2">
+                <div className="w-8"></div>
+                <div className="w-12">Rank</div>
+                <div className="w-12">Photo</div>
+                <div className="flex-grow">Name & Role</div>
+                <div className="w-48 text-right">Actions</div>
+              </div>
+
+              {localTeam.length !== team.length && (
+                 <div className="flex justify-center p-4">
+                    <Button onClick={() => setLocalTeam(team)}>Reset to Saved Order</Button>
+                 </div>
+              )}
+
+              <Reorder.Group axis="y" values={localTeam} onReorder={setLocalTeam} className="space-y-2">
+                {localTeam.map((member, index) => (
+                  <Reorder.Item 
+                    key={member.id} 
+                    value={member}
+                    className="cursor-default"
+                  >
+                    <Card noPadding className={`flex flex-col ${editingTeamId === member.id ? 'border-signal ring-1 ring-signal' : ''}`}>
+                      <div className="flex items-center gap-4 p-4">
+                        <div className="w-8 cursor-grab active:cursor-grabbing text-muted hover:text-signal transition-colors">
+                          <GripVertical size={20} />
+                        </div>
+                        <div className="w-12 flex flex-col items-center justify-center border-l border-border pl-4">
+                          <span className="text-xl font-bold font-mono text-signal">#{index}</span>
+                          <span className="text-[8px] text-muted uppercase font-mono">Rank_UI</span>
+                        </div>
+                        <div className="w-12 h-12 border border-border overflow-hidden bg-paper ml-2">
+                          <CloudinaryImage 
+                            publicId={member.image} 
+                            alt={member.name} 
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="flex-grow">
+                          <h3 className="text-sm font-bold uppercase tracking-tight">{member.name}</h3>
+                          <p className="text-[10px] text-signal font-mono uppercase">{member.role}</p>
+                        </div>
+                        <div className="w-48 flex gap-2 justify-end">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              setEditingTeamId(member.id);
+                              setTeamForm({
+                                ...member,
+                                imageAlt: member.imageAlt || '',
+                                expertise: member.expertise || [],
+                                experience: member.experience || [],
+                                socials: {
+                                  linkedin: member.socials?.linkedin || '',
+                                  twitter: member.socials?.twitter || '',
+                                  github: member.socials?.github || '',
+                                },
+                              });
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={async () => {
+                              if (confirm('Delete this team member?')) {
+                                await deleteTeamMember(member.id);
+                                refresh();
+                              }
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="flex gap-2 mt-auto">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      fullWidth
-                      onClick={() => {
-                        setEditingTeamId(member.id);
-                        setTeamForm({
-                          name: member.name,
-                          role: member.role,
-                          bio: member.bio,
-                          image: member.image,
-                          imageAlt: member.imageAlt || '',
-                          expertise: member.expertise || [],
-                          experience: member.experience || [],
-                          socials: {
-                            linkedin: member.socials?.linkedin || '',
-                            twitter: member.socials?.twitter || '',
-                            github: member.socials?.github || '',
-                          },
-                          seoTitle: member.seoTitle || '',
-                          seoDescription: member.seoDescription || '',
-                        });
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={async () => {
-                        if (confirm('Delete this team member?')) {
-                          await deleteTeamMember(member.id);
-                          refresh();
-                        }
-                      }}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </Card>
-              ))}
+                    </Card>
+                  </Reorder.Item>
+                ))}
+              </Reorder.Group>
+
+              {localTeam.length > 0 && (
+                <div className="pt-8 flex justify-center">
+                   <Button 
+                    variant="outline" 
+                    className="border-signal text-signal hover:bg-signal hover:text-background"
+                    onClick={async () => {
+                      setSaving(true);
+                      try {
+                        await reorderTeam(localTeam);
+                        await refresh();
+                        alert('Team order persisted successfully.');
+                      } catch (err) {
+                        console.error(err);
+                        setFormError('Failed to persist order.');
+                      } finally {
+                        setSaving(false);
+                      }
+                    }}
+                   >
+                     Persist New Order to Cloud
+                   </Button>
+                </div>
+              )}
             </div>
+
+
           </div>
         )}
 
@@ -1236,7 +1319,79 @@ export const Admin: React.FC = () => {
             </div>
           </div>
         )}
+        {activeTab === 'security' && (
+
+          <div className="max-w-md mx-auto">
+            <Card>
+              <h2 className="text-xl font-bold mb-6 flex items-center justify-between font-mono">
+                ACCOUNT_SECURITY
+                <div className="w-2 h-2 bg-signal animate-pulse" />
+              </h2>
+              <div className="space-y-6">
+                <div>
+                  <label className="text-xs font-mono text-muted uppercase tracking-widest mb-2 block">New Password</label>
+                  <input
+                    type="password"
+                    className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                    placeholder="••••••••"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-mono text-muted uppercase tracking-widest mb-2 block">Confirm New Password</label>
+                  <input
+                    type="password"
+                    className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                    placeholder="••••••••"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                </div>
+                <Button 
+                  fullWidth 
+                  onClick={async () => {
+                    if (!newPassword) {
+                      alert('Password cannot be empty.');
+                      return;
+                    }
+                    if (newPassword !== confirmPassword) {
+                      alert('Passwords do not match.');
+                      return;
+                    }
+                    if (newPassword.length < 6) {
+                      alert('Password must be at least 6 characters.');
+                      return;
+                    }
+                    
+                    setSaving(true);
+                    try {
+                      await changePassword(newPassword);
+                      alert('Password updated successfully.');
+                      setNewPassword('');
+                      setConfirmPassword('');
+                    } catch (err) {
+                      console.error(err);
+                      alert('Failed to update password. You may need to re-log and try again.');
+                    } finally {
+                      setSaving(false);
+                    }
+                  }}
+                  disabled={saving}
+                >
+                  {saving ? 'UPDATING...' : 'UPDATE ACCESS KEY'}
+                </Button>
+                <div className="pt-4 border-t border-border mt-4">
+                   <p className="text-[10px] font-mono text-muted leading-tight uppercase">
+                     Note: For security reasons, if you haven't logged in recently, you may be prompted to re-authenticate before changing your password.
+                   </p>
+                </div>
+              </div>
+            </Card>
+          </div>
+        )}
       </div>
     </section>
   );
 };
+

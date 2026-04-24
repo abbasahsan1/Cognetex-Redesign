@@ -39,7 +39,8 @@ export const useAdminData = () => {
 
       setServices(servicesData.sort((a, b) => a.title.localeCompare(b.title)));
       setProjects(projectsData.sort((a, b) => a.title.localeCompare(b.title)));
-      setTeam(teamData.sort((a, b) => a.name.localeCompare(b.name)));
+      setTeam(teamData.sort((a, b) => (a.order || 0) - (b.order || 0)));
+
       setTechStack(techStackData.sort((a, b) => a.title.localeCompare(b.title)));
       setCourses(coursesData.sort((a, b) => a.title.localeCompare(b.title)));
       if (firestoreConfig) setSiteConfig(firestoreConfig);

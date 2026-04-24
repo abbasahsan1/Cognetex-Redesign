@@ -1,9 +1,35 @@
 import { useEffect, useState } from 'react';
 import { getContent } from '../repositories/contentRepository';
-import * as fallbackContent from '../data/content';
 
 export const useContent = () => {
-  const [content, setContent] = useState(fallbackContent);
+  const [content, setContent] = useState<any>({
+    services: [],
+    projects: [],
+    team: [],
+    aiTechStack: [],
+    courses: [],
+    trustLogos: [],
+    uniqueApproach: [],
+    aiSolutionPillars: [],
+    aiServices: [],
+    siteConfig: {
+      heroTitle: '',
+      heroSubTitle: '',
+      heroLead: '',
+      serviceSectionTitle: '',
+      serviceSectionLead: '',
+      contactSectionTitle: '',
+      contactSectionLead: '',
+      defaultSeoTitle: '',
+      defaultSeoDescription: '',
+      socials: {
+        linkedin: '',
+        twitter: '',
+        github: ''
+      }
+    }
+  });
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -29,6 +55,8 @@ export const useContent = () => {
     };
   }, []);
 
-  return { ...content, isLoading, error };
+  return { ...(content || {}), isLoading, error };
 };
+
+
 

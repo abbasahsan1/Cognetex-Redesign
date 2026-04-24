@@ -41,9 +41,11 @@ export interface ITeamMember {
     twitter?: string;
     github?: string;
   };
+  order: number;
   seoTitle?: string;
   seoDescription?: string;
 }
+
 
 
 export interface IApproachItem {
