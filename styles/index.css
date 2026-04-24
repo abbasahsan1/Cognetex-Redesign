@@ -33,48 +33,36 @@
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
+    font-size: 17px; /* Bumped up from default 16px */
+    line-height: 1.6;
   }
 
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  .section-title {
+  h1, h2, h3, h4, h5, h6, .section-title {
     font-family: "Noto Sans Cham", sans-serif;
     font-weight: 700;
     font-style: normal;
     font-optical-sizing: auto;
-  }
-
-  .bg-grid {
-    background-size: 40px 40px;
-  }
-
-  *:focus-visible {
-    outline: 2px solid var(--signal);
-    outline-offset: 2px;
+    letter-spacing: -0.02em;
   }
 }
 
 @layer components {
   .section-eyebrow {
-    @apply font-mono text-eyebrow uppercase tracking-[0.2em] text-signal block;
+    @apply font-mono text-eyebrow uppercase tracking-[0.25em] text-signal block mb-4 font-bold;
   }
 
   .section-title {
-    @apply text-4xl md:text-5xl font-bold text-foreground tracking-tight;
+    @apply text-5xl md:text-7xl font-bold text-foreground tracking-tighter leading-[1.1] uppercase;
   }
 
   .section-lead {
-    @apply text-muted text-lg leading-relaxed;
+    @apply text-muted text-xl md:text-2xl leading-snug font-medium;
   }
 
   .section-caption {
-    @apply font-mono text-caption uppercase tracking-[0.2em] text-muted;
+    @apply font-mono text-caption uppercase tracking-[0.2em] text-muted font-bold;
   }
+
 
   .scrollbar-thin {
     scrollbar-width: thin;

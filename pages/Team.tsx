@@ -1,135 +1,46 @@
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { Card } from '../components/GlassCard';
-import { Button } from '../components/Button';
-
-import { CloudinaryImage } from '../components/CloudinaryImage';
-import { useContent } from '../hooks/useContent';
+import { Team as TeamSection } from '../components/Team';
 import { PageSEO } from '../components/PageSEO';
-
-const highlights = [
-  {
-    id: 'delivery',
-    label: 'Projects Delivered',
-    value: '120+',
-  },
-  {
-    id: 'experience',
-    label: 'Combined Years',
-    value: '35+',
-  },
-  {
-    id: 'coverage',
-    label: 'Industries Served',
-    value: '9',
-  },
-];
+import { DottedSurface } from '../components/ui/dotted-surface';
 
 export const Team: React.FC = () => {
-  const navigate = useNavigate();
-  const { team } = useContent();
-
   return (
     <>
       <PageSEO 
         title="Our Team" 
-        description="Meet the senior engineers, researchers, and product strategists at Cognetex. Expert leadership for your AI and software projects."
+        description="Meet the expert team behind Cognetex. We are a collective of software engineers, AI researchers, and product designers."
       />
-      <section className="pt-24 md:pt-32 pb-16 bg-background border-b border-border">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 items-end">
-            <div className="lg:col-span-6">
-              <span className="section-eyebrow mb-2">02. Our Team</span>
-              <h1 className="section-title md:text-6xl">
-                ENGINEERS BEHIND
-                <br />
-                THE SIGNAL
-              </h1>
-            </div>
-            <div className="lg:col-span-6">
-              <p className="section-lead">
-                We’re a cross-disciplinary team of engineers, researchers, and product strategists focused on
-                building dependable systems that scale. Every engagement is led by senior talent with hands-on
-                implementation experience.
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-10 md:mt-12">
-            {highlights.map((item) => (
-              <div key={item.id} className="border border-border bg-paper p-6">
-                <p className="text-3xl font-bold text-foreground font-mono mb-2">{item.value}</p>
-                <p className="text-xs text-muted uppercase tracking-widest">{item.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24 bg-paper border-b border-border">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 md:mb-12">
-            <div>
-              <span className="section-eyebrow mb-2">Core Team</span>
-              <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight">PEOPLE OF COGNETEX</h2>
-            </div>
-            <p className="section-lead max-w-xl text-base md:text-lg">
-              Senior specialists responsible for strategy, delivery, and engineering execution.
+      
+      {/* High-End Editorial Hero */}
+      <section className="pt-32 md:pt-48 pb-20 bg-background border-b border-border relative overflow-hidden">
+        <DottedSurface className="opacity-20 translate-y-20" />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="max-w-4xl">
+            <span className="section-eyebrow">04. The Collective</span>
+            <h1 className="section-title">
+              ARCHITECTS OF <br />
+              <span className="text-signal">AUTONOMY</span>
+            </h1>
+            <p className="section-lead mt-10 max-w-2xl">
+              Our team consists of veteran engineers and researchers who have built and scaled systems 
+              for the world's most demanding enterprises.
             </p>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {team.map((member) => (
-              <Link 
-                key={member.id} 
-                to={`/team/${member.id}`}
-                className="group block cursor-pointer transition-all duration-300"
-              >
-                <Card className="h-full flex flex-col group-hover:border-signal transition-colors duration-300">
-                  <div className="relative aspect-[4/5] mb-6 overflow-hidden">
-                    <CloudinaryImage
-                      publicId={member.image}
-                      alt={member.name}
-                      loading="lazy"
-                      width={400}
-                      height={500}
-                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
-
-                    />
-                    <div className="absolute inset-0 bg-signal/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                  <div className="border-l-2 border-signal pl-4">
-                    <p className="text-foreground font-bold text-lg uppercase tracking-tight group-hover:text-signal transition-colors">{member.name}</p>
-                    <p className="text-signal text-xs font-mono mb-2">{member.role}</p>
-                    <p className="text-xs text-muted leading-relaxed line-clamp-3">{member.bio}</p>
-                  </div>
-                </Card>
-              </Link>
-            ))}
-          </div>
-
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="border border-border bg-paper p-8 md:p-12 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div>
-              <span className="section-eyebrow mb-2">Work With Us</span>
-              <h3 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">
-                READY TO BUILD
-                <br />
-                WITH SENIOR TALENT?
-              </h3>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="outline" size="lg" onClick={() => navigate('/approach')}>
-                SEE OUR APPROACH
-              </Button>
-              <Button size="lg" onClick={() => navigate('/contact')}>
-                START A PROJECT
-              </Button>
-            </div>
+      <TeamSection />
+      
+      {/* Editorial Quote Section */}
+      <section className="py-24 bg-paper border-b border-border">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground italic leading-tight">
+              "We don't hire employees; we recruit owners. Every person at Cognetex is 
+              directly responsible for client outcomes."
+            </h2>
+            <div className="w-12 h-1 bg-signal mx-auto mt-8" />
+            <p className="font-mono text-xs uppercase tracking-widest mt-6 text-muted font-bold">Leadership Mandate_2024</p>
           </div>
         </div>
       </section>

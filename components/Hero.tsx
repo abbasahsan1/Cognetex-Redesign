@@ -24,9 +24,10 @@ export const Hero: React.FC = () => {
             <span className="text-signal">{siteConfig.heroSubTitle.split(' ').slice(2).join(' ')}</span>
           </h1>
           
-          <p className="text-lg md:text-xl text-muted mb-8 md:mb-12 max-w-xl font-medium leading-relaxed">
+          <p className="text-xl md:text-2xl text-muted mb-8 md:mb-12 max-w-2xl font-medium leading-[1.4]">
             We build autonomous systems and scalable architecture that drives enterprise value.
           </p>
+
 
           
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
