@@ -13,7 +13,10 @@ const Team = React.lazy(() => import('./pages/Team').then((module) => ({ default
 const Careers = React.lazy(() => import('./pages/Careers').then((module) => ({ default: module.Careers })));
 const NotFound = React.lazy(() => import('./pages/NotFound').then((module) => ({ default: module.NotFound })));
 const Admin = React.lazy(() => import('./pages/Admin').then((module) => ({ default: module.Admin })));
+const Courses = React.lazy(() => import('./pages/Courses').then((module) => ({ default: module.Courses })));
 const ServiceDetail = React.lazy(() => import('./pages/ServiceDetail').then((module) => ({ default: module.ServiceDetail })));
+
+
 const ProjectDetail = React.lazy(() => import('./pages/ProjectDetail').then((module) => ({ default: module.ProjectDetail })));
 const EmployeeDetail = React.lazy(() => import('./pages/EmployeeDetail').then((module) => ({ default: module.EmployeeDetail })));
 const CourseDetail = React.lazy(() => import('./pages/CourseDetail').then((module) => ({ default: module.CourseDetail })));
@@ -35,7 +38,9 @@ function App() {
                 <Route path="/team" element={<Team />} />
                 <Route path="/team/:id" element={<EmployeeDetail />} />
                 <Route path="/careers" element={<Careers />} />
+                <Route path="/courses" element={<Courses />} />
                 <Route path="/courses/:id" element={<CourseDetail />} />
+
                 <Route path="/contact" element={<Contact />} />
 
                 <Route path="/ghq" element={<Admin />} />
