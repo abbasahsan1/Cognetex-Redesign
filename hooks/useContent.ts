@@ -12,6 +12,9 @@ export const useContent = () => {
     uniqueApproach: [],
     aiSolutionPillars: [],
     aiServices: [],
+    careers: [],
+    careerBenefits: [],
+    careerSteps: [],
     siteConfig: {
       heroTitle: '',
       heroSubTitle: '',
@@ -22,6 +25,7 @@ export const useContent = () => {
       contactSectionLead: '',
       defaultSeoTitle: '',
       defaultSeoDescription: '',
+      footerDescription: '',
       socials: {
         linkedin: '',
         twitter: '',

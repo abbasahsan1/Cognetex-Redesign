@@ -40,7 +40,7 @@ Structured data is critical for winning rich snippets and feeding AI models with
 |-------------|-----------|---------|
 | `Organization` | Home | Defines Cognetex, logo, social profiles, and contact info. |
 | `ProfessionalService` | Home/Services | Specifies AI & Software development capabilities. |
-| `Service` | Service Pages | Detailed capabilities and outcomes for specific AI services. |
+| `Service` | Service Pages | Detailed capabilities and outcomes for specific services. |
 | `CaseStudy` | Project Pages | Formalizes ROI and project success stories. |
 | `Person` | Team Members | Establishes E-E-A-T for leadership. |
 | `BreadcrumbList` | All Pages | Improves crawl path understanding. |

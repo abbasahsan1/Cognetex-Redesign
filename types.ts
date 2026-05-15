@@ -105,6 +105,34 @@ export interface IContactFormData {
   message?: string;
 }
 
+export interface ITrustLogo {
+  id: string;
+  name: string;
+  src: string;
+  alt: string;
+}
+
+export interface ICareerRole {
+  id: string;
+  title: string;
+  team: string;
+  location: string;
+  summary: string;
+  focus: string[];
+}
+
+export interface ICareerBenefit {
+  id: string;
+  title: string;
+  detail: string;
+}
+
+export interface ICareerStep {
+  id: string;
+  title: string;
+  description: string;
+}
+
 export interface ISiteConfig {
   heroTitle: string;
   heroSubTitle: string;
@@ -115,6 +143,7 @@ export interface ISiteConfig {
   contactSectionLead: string;
   defaultSeoTitle: string;
   defaultSeoDescription: string;
+  footerDescription?: string;
   socials: {
     linkedin?: string;
     twitter?: string;

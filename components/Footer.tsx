@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
               <Logo className="h-16 w-auto text-foreground" />
             </div>
             <p className="text-muted text-sm max-w-xs leading-relaxed">
-              Rethinking how thinking works. Precise, autonomous, and scalable systems for the modern enterprise.
+              {siteConfig?.footerDescription || 'Good products age well. Precise, autonomous, and scalable systems for the modern enterprise.'}
             </p>
           </div>
           
@@ -31,7 +31,7 @@ export const Footer: React.FC = () => {
                 <Link to="/approach" className="hover:text-foreground transition-colors">Approach</Link>
               </li>
               <li>
-                <Link to="/ai-services" className="hover:text-foreground transition-colors">AI Services</Link>
+                <Link to="/ai-services" className="hover:text-foreground transition-colors">Services</Link>
               </li>
               <li>
                 <Link to="/team" className="hover:text-foreground transition-colors">Our Team</Link>

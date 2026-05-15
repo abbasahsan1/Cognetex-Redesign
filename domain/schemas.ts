@@ -93,6 +93,34 @@ export const courseSchema = z.object({
 });
 
 
+export const trustLogoSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  src: z.string(),
+  alt: z.string(),
+});
+
+export const careerRoleSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  team: z.string(),
+  location: z.string(),
+  summary: z.string(),
+  focus: z.array(z.string()),
+});
+
+export const careerBenefitSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  detail: z.string(),
+});
+
+export const careerStepSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+});
+
 export const siteConfigSchema = z.object({
   heroTitle: z.string(),
   heroSubTitle: z.string(),
@@ -103,6 +131,7 @@ export const siteConfigSchema = z.object({
   contactSectionLead: z.string(),
   defaultSeoTitle: z.string(),
   defaultSeoDescription: z.string(),
+  footerDescription: z.string().optional(),
   socials: z.object({
     linkedin: z.string().optional(),
     twitter: z.string().optional(),
@@ -114,11 +143,14 @@ export const contentSchema = z.object({
   services: z.array(serviceSchema),
   projects: z.array(projectSchema),
   team: z.array(teamMemberSchema),
-  trustLogos: z.array(z.object({ name: z.string(), icon: z.any() })),
+  trustLogos: z.array(trustLogoSchema),
   uniqueApproach: z.array(approachItemSchema),
   aiSolutionPillars: z.array(aiSolutionPillarSchema),
   aiServices: z.array(aiServiceSchema),
   aiTechStack: z.array(aiTechCategorySchema),
   courses: z.array(courseSchema),
+  careers: z.array(careerRoleSchema),
+  careerBenefits: z.array(careerBenefitSchema),
+  careerSteps: z.array(careerStepSchema),
   siteConfig: siteConfigSchema,
 });

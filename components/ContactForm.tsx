@@ -17,12 +17,14 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 import { usePiano } from '../hooks/usePiano';
+import { useContent } from '../hooks/useContent';
 
 export const ContactForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { playTune } = usePiano();
+  const { siteConfig } = useContent();
 
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
@@ -62,11 +64,11 @@ export const ContactForm: React.FC = () => {
           
           <div className="lg:col-span-5">
             <span className="section-eyebrow mb-2">04. Initiation</span>
-            <h2 className="section-title mb-6 md:mb-8 tracking-tighter">
-              READY TO<br/>SCALE?
+            <h2 className="section-title mb-6 md:mb-8 tracking-tighter uppercase">
+              {siteConfig?.contactSectionTitle || 'Ready to Scale?'}
             </h2>
             <p className="section-lead mb-8 md:mb-12">
-              Software is a craft; AI is the chisel. We provide the precision.
+              {siteConfig?.contactSectionLead || 'Software is a craft; AI is the chisel. We provide the precision.'}
             </p>
             
             <div className="space-y-4 md:space-y-6 text-sm font-mono text-foreground">

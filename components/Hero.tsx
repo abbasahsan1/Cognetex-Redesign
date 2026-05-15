@@ -25,14 +25,14 @@ export const Hero: React.FC = () => {
           </h1>
           
           <p className="text-xl md:text-2xl text-muted mb-8 md:mb-12 max-w-2xl font-medium leading-[1.4]">
-            We build autonomous systems and scalable architecture that drives enterprise value.
+            {siteConfig?.heroLead || 'We build autonomous systems and scalable architecture that drives enterprise value.'}
           </p>
 
 
           
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
             <Button size="lg" onClick={() => scrollTo('#services')}>
-              Explore Solutions <ArrowRight className="ml-2 w-4 h-4" />
+              Explore Our Apps <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
 
             <Button variant="outline" size="lg" onClick={() => navigate('/contact')}>

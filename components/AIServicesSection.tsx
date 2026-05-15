@@ -11,7 +11,7 @@ export const AIServicesSection: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 md:mb-16">
           <SectionHeading
-            eyebrow="03. Our AI Services"
+            eyebrow="03. Our Services"
             titleClassName="md:text-6xl"
             title={
               <>
@@ -22,7 +22,7 @@ export const AIServicesSection: React.FC = () => {
             }
           />
           <p className="section-lead max-w-xl">
-            Modular service lines that help you deploy AI faster, safer, and with long-term scalability in mind.
+           iOS-first development with Swift, complemented by Flutter when cross-platform expansion is needed.
           </p>
         </div>
 

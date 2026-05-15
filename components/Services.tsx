@@ -9,7 +9,7 @@ import { getIconByName } from '../utils/iconMap';
 const DottedSurface = React.lazy(() => import('./ui/dotted-surface').then(m => ({ default: m.DottedSurface })));
 
 export const Services: React.FC = () => {
-  const { services } = useContent();
+  const { services, siteConfig } = useContent();
   return (
     <section id="services" className="py-24 bg-background border-b border-border overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,14 +19,14 @@ export const Services: React.FC = () => {
             eyebrow="03. Capabilities"
             title={
               <>
-                Technical<br />Deep Dive
+                {siteConfig?.serviceSectionTitle || 'Technical Deep Dive'}
               </>
             }
 
           />
           <div className="mt-6 md:mt-0">
              <p className="section-lead max-w-md font-medium">
-               Architecting systems that drive competitive advantage through autonomy.
+               {siteConfig?.serviceSectionLead || 'Architecting systems that drive competitive advantage through autonomy.'}
              </p>
              {/* Mobile Swipe Hint */}
              <div className="md:hidden font-mono text-[10px] text-muted animate-pulse mt-4">

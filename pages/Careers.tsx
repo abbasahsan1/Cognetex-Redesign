@@ -8,8 +8,9 @@ import { Card } from '../components/GlassCard';
 import { SectionHeading } from '../components/SectionHeading';
 import { PageSEO } from '../components/PageSEO';
 import { DottedSurface } from '../components/ui/dotted-surface';
+import { useContent } from '../hooks/useContent';
 
-const roleCards = [
+const fallbackRoleCards = [
   {
     id: 'ml-engineer',
     title: 'Senior ML Engineer',
@@ -36,7 +37,7 @@ const roleCards = [
   },
 ];
 
-const benefits = [
+const fallbackBenefits = [
   {
     id: 'autonomy',
     title: 'Autonomy by Design',
@@ -59,7 +60,7 @@ const benefits = [
   },
 ];
 
-const processSteps = [
+const fallbackProcessSteps = [
   {
     id: 'screen',
     title: 'Signal Check',
@@ -103,6 +104,11 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 export const Careers: React.FC = () => {
+  const { careers, careerBenefits, careerSteps } = useContent();
+  const currentRoles = careers.length > 0 ? careers : fallbackRoleCards;
+  const currentBenefits = careerBenefits.length > 0 ? careerBenefits : fallbackBenefits;
+  const currentSteps = careerSteps.length > 0 ? careerSteps : fallbackProcessSteps;
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -185,10 +191,10 @@ export const Careers: React.FC = () => {
             }
           />
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mt-16">
-            {benefits.map((benefit, idx) => (
-              <Card key={benefit.id} className="h-full group hover:border-signal transition-colors p-8">
+            {currentBenefits.map((benefit, idx) => (
+              <Card key={benefit.id || idx} className="h-full group hover:border-signal transition-colors p-8">
                 <div className="flex items-center justify-between mb-8">
-                  <span className="font-mono text-xs text-muted">BEN_{benefit.id.substring(0, 2).toUpperCase()}</span>
+                  <span className="font-mono text-xs text-muted">BEN_{(benefit.id || String(idx)).substring(0, 2).toUpperCase()}</span>
                   <div className="w-10 h-10 border border-border flex items-center justify-center font-mono text-xs text-muted group-hover:bg-signal group-hover:text-background transition-colors">
                     {idx + 1}
                   </div>
@@ -214,13 +220,13 @@ export const Careers: React.FC = () => {
             </p>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {roleCards.map((role) => (
-              <Card key={role.id} className="h-full flex flex-col p-10 hover:border-signal transition-all duration-500">
+            {currentRoles.map((role) => (
+              <Card key={role.id || role.title} className="h-full flex flex-col p-10 hover:border-signal transition-all duration-500">
                 <div className="flex items-center justify-between mb-10">
                   <span className="text-[10px] font-mono uppercase bg-signal/10 text-signal border border-signal/20 px-3 py-1 font-bold tracking-widest">
                     {role.team}
                   </span>
-                  <span className="font-mono text-[10px] text-muted">REF_{role.id.substring(0, 3).toUpperCase()}</span>
+                  <span className="font-mono text-[10px] text-muted">REF_{(role.id || role.title).substring(0, 3).toUpperCase()}</span>
                 </div>
                 <h3 className="text-3xl font-bold text-foreground mb-4 uppercase tracking-tight">{role.title}</h3>
                 <p className="text-xs font-mono text-signal mb-6 uppercase tracking-widest font-bold">{role.location}</p>
@@ -255,8 +261,8 @@ export const Careers: React.FC = () => {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-            {processSteps.map((step, idx) => (
-              <div key={step.id} className="border border-border bg-background p-10 relative group hover:border-signal transition-colors">
+            {currentSteps.map((step, idx) => (
+              <div key={step.id || idx} className="border border-border bg-background p-10 relative group hover:border-signal transition-colors">
                 <span className="absolute top-6 right-6 text-[10px] font-mono text-muted group-hover:text-signal transition-colors font-bold">PROTOCOL_0{idx + 1}</span>
                 <h3 className="text-2xl font-bold text-foreground mb-6 uppercase tracking-tight">{step.title}</h3>
                 <p className="text-base text-muted leading-relaxed">{step.description}</p>

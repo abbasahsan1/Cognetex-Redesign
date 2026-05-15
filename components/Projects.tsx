@@ -22,7 +22,7 @@ export const Projects: React.FC = () => {
             eyebrowClassName="text-muted"
             title={
               <>
-                Proven<br />ROI
+                Proven<br /> Product Impact
               </>
             }
 

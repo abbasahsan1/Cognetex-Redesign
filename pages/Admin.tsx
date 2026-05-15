@@ -26,10 +26,31 @@ import {
   updateTechCategory,
   updateCourse,
   updateSiteConfig,
-  reorderTeam
+  reorderTeam,
+  createApproachItem,
+  updateApproachItem,
+  deleteApproachItem,
+  createSolutionPillar,
+  updateSolutionPillar,
+  deleteSolutionPillar,
+  createAIServiceItem,
+  updateAIServiceItem,
+  deleteAIServiceItem,
+  createTrustLogo,
+  updateTrustLogo,
+  deleteTrustLogo,
+  createCareerRole,
+  updateCareerRole,
+  deleteCareerRole,
+  createCareerBenefit,
+  updateCareerBenefit,
+  deleteCareerBenefit,
+  createCareerStep,
+  updateCareerStep,
+  deleteCareerStep
 } from '../repositories/adminRepository';
 
-import { IService, IProject, ITeamMember, IAITechCategory, ICourse, ISiteConfig } from '../types';
+import { IService, IProject, ITeamMember, IAITechCategory, ICourse, ISiteConfig, IApproachItem, IAISolutionPillar, IAIService, ITrustLogo, ICareerRole, ICareerBenefit, ICareerStep } from '../types';
 
 import { SEOFormFields } from '../components/SEOFormFields';
 import { iconMap } from '../utils/iconMap';
@@ -49,7 +70,7 @@ const projectSchema = z.object({
   clientSector: z.string().min(2),
   challenge: z.string().min(10),
   solution: z.string().min(10),
-  stats: z.array(z.object({ label: z.string().min(1), value: z.string().min(1) })),
+  stats: z.array(z.object({ label: z.string().min(1), value: z.string() })),
   seoTitle: z.string().max(60).optional(),
   seoDescription: z.string().max(160).optional(),
 });
@@ -76,8 +97,6 @@ const teamSchema = z.object({
   seoDescription: z.string().max(160).optional(),
 });
 
-
-
 const techSchema = z.object({
   title: z.string().min(2),
   items: z.array(z.string().min(1)),
@@ -97,10 +116,47 @@ const courseSchema = z.object({
   seoDescription: z.string().max(160).optional(),
 });
 
+const approachSchema = z.object({
+  title: z.string().min(2),
+  description: z.string().min(10),
+});
 
-const tabs = ['services', 'projects', 'team', 'tech', 'courses', 'config', 'security'] as const;
+const pillarSchema = z.object({
+  title: z.string().min(2),
+  description: z.string().min(10),
+});
 
+const aiServiceSchema = z.object({
+  title: z.string().min(2),
+  description: z.string().min(10),
+  outcomes: z.array(z.string().min(2)),
+});
 
+const trustLogoSchema = z.object({
+  name: z.string().min(1),
+  src: z.string().min(1),
+  alt: z.string().min(1),
+});
+
+const careerRoleSchema = z.object({
+  title: z.string().min(2),
+  team: z.string().min(2),
+  location: z.string().min(2),
+  summary: z.string().min(10),
+  focus: z.array(z.string().min(2)),
+});
+
+const careerBenefitSchema = z.object({
+  title: z.string().min(2),
+  detail: z.string().min(10),
+});
+
+const careerStepSchema = z.object({
+  title: z.string().min(2),
+  description: z.string().min(10),
+});
+
+const tabs = ['services', 'projects', 'team', 'tech', 'courses', 'approach', 'solutions', 'ai-services', 'careers', 'benefits', 'hiring-steps', 'logos', 'config', 'security'] as const;
 
 type Tab = (typeof tabs)[number];
 
@@ -142,8 +198,6 @@ const initialTeam: Omit<ITeamMember, 'id'> = {
   seoDescription: '',
 };
 
-
-
 const initialTech: Omit<IAITechCategory, 'id'> = {
   title: '',
   items: [],
@@ -163,11 +217,23 @@ const initialCourse: Omit<ICourse, 'id'> = {
   seoDescription: '',
 };
 
+const initialApproach: Omit<IApproachItem, 'id'> = { title: '', description: '' };
+const initialPillar: Omit<IAISolutionPillar, 'id'> = { title: '', description: '' };
+const initialAIService: Omit<IAIService, 'id'> = { title: '', description: '', outcomes: [] };
+const initialTrustLogo: Omit<ITrustLogo, 'id'> = { name: '', src: '', alt: '' };
+const initialCareerRole: Omit<ICareerRole, 'id'> = { title: '', team: '', location: '', summary: '', focus: [] };
+const initialCareerBenefit: Omit<ICareerBenefit, 'id'> = { title: '', detail: '' };
+const initialCareerStep: Omit<ICareerStep, 'id'> = { title: '', description: '' };
 
 export const Admin: React.FC = () => {
   const { user, isLoading: authLoading, error: authError, login, logout, changePassword } = useAdminAuth();
 
-  const { services, projects, team, techStack, courses, siteConfig, isLoading, error, refresh } = useAdminData();
+  const {
+    services, projects, team, techStack, courses, siteConfig,
+    uniqueApproach, aiSolutionPillars, aiServices, trustLogos,
+    careers, careerBenefits, careerSteps,
+    isLoading, error, refresh
+  } = useAdminData();
 
   const [activeTab, setActiveTab] = useState<Tab>('services');
   const [password, setPassword] = useState('');
@@ -184,19 +250,33 @@ export const Admin: React.FC = () => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-
   const [editingServiceId, setEditingServiceId] = useState<string | null>(null);
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
   const [editingTeamId, setEditingTeamId] = useState<string | null>(null);
   const [editingTechId, setEditingTechId] = useState<string | null>(null);
   const [editingCourseId, setEditingCourseId] = useState<string | null>(null);
+  const [editingApproachId, setEditingApproachId] = useState<string | null>(null);
+  const [editingPillarId, setEditingPillarId] = useState<string | null>(null);
+  const [editingAIServiceId, setEditingAIServiceId] = useState<string | null>(null);
+  const [editingTrustLogoId, setEditingTrustLogoId] = useState<string | null>(null);
+  const [editingCareerRoleId, setEditingCareerRoleId] = useState<string | null>(null);
+  const [editingCareerBenefitId, setEditingCareerBenefitId] = useState<string | null>(null);
+  const [editingCareerStepId, setEditingCareerStepId] = useState<string | null>(null);
 
   const [serviceForm, setServiceForm] = useState(initialService);
   const [projectForm, setProjectForm] = useState(initialProject);
   const [teamForm, setTeamForm] = useState(initialTeam);
   const [techForm, setTechForm] = useState(initialTech);
   const [courseForm, setCourseForm] = useState(initialCourse);
+  const [approachForm, setApproachForm] = useState(initialApproach);
+  const [pillarForm, setPillarForm] = useState(initialPillar);
+  const [aiServiceForm, setAIServiceForm] = useState(initialAIService);
+  const [trustLogoForm, setTrustLogoForm] = useState(initialTrustLogo);
+  const [careerRoleForm, setCareerRoleForm] = useState(initialCareerRole);
+  const [careerBenefitForm, setCareerBenefitForm] = useState(initialCareerBenefit);
+  const [careerStepForm, setCareerStepForm] = useState(initialCareerStep);
   const [configForm, setConfigForm] = useState<ISiteConfig | null>(null);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
 
   React.useEffect(() => {
     if (siteConfig) {
@@ -437,6 +517,207 @@ export const Admin: React.FC = () => {
     }
   };
 
+  const handleSubmitApproach = async () => {
+    setFormError(null);
+    const parsed = approachSchema.safeParse(approachForm);
+    if (!parsed.success) {
+      setFormError('Please fill in all approach fields correctly.');
+      return;
+    }
+    setSaving(true);
+    try {
+      if (editingApproachId) {
+        await updateApproachItem(editingApproachId, parsed.data);
+      } else {
+        await createApproachItem(parsed.data);
+      }
+      setApproachForm(initialApproach);
+      setEditingApproachId(null);
+      await refresh();
+    } catch (err) {
+      console.error(err);
+      setFormError('Failed to save approach item.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleSubmitPillar = async () => {
+    setFormError(null);
+    const parsed = pillarSchema.safeParse(pillarForm);
+    if (!parsed.success) {
+      setFormError('Please fill in all solution pillar fields correctly.');
+      return;
+    }
+    setSaving(true);
+    try {
+      if (editingPillarId) {
+        await updateSolutionPillar(editingPillarId, parsed.data);
+      } else {
+        await createSolutionPillar(parsed.data);
+      }
+      setPillarForm(initialPillar);
+      setEditingPillarId(null);
+      await refresh();
+    } catch (err) {
+      console.error(err);
+      setFormError('Failed to save solution pillar.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleSubmitAIService = async () => {
+    setFormError(null);
+    const parsed = aiServiceSchema.safeParse(aiServiceForm);
+    if (!parsed.success) {
+      setFormError('Please fill in all service fields correctly.');
+      return;
+    }
+    setSaving(true);
+    try {
+      if (editingAIServiceId) {
+        await updateAIServiceItem(editingAIServiceId, parsed.data);
+      } else {
+        await createAIServiceItem(parsed.data);
+      }
+      setAIServiceForm(initialAIService);
+      setEditingAIServiceId(null);
+      await refresh();
+    } catch (err) {
+      console.error(err);
+      setFormError('Failed to save  service item.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleUploadLogoFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] ?? null;
+    if (!file) return;
+    setUploadingLogo(true);
+    setUploadError(null);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', cloudinaryUploadPreset);
+      formData.append('folder', 'cognetex/logos');
+
+      const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/image/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+      const payload = await parseJsonSafe(response);
+      if (!response.ok) throw new Error(payload?.error?.message ?? 'Upload failed.');
+      setTrustLogoForm(prev => ({ ...prev, src: payload.secure_url }));
+    } catch (err) {
+      console.error('Cloudinary upload error:', err);
+      setUploadError(err instanceof Error ? err.message : 'Logo upload failed. Please retry.');
+    } finally {
+      setUploadingLogo(false);
+    }
+  };
+
+  const handleSubmitTrustLogo = async () => {
+    setFormError(null);
+    const parsed = trustLogoSchema.safeParse(trustLogoForm);
+    if (!parsed.success) {
+      setFormError('Please fill in all logo fields correctly.');
+      return;
+    }
+    setSaving(true);
+    try {
+      if (editingTrustLogoId) {
+        await updateTrustLogo(editingTrustLogoId, parsed.data);
+      } else {
+        await createTrustLogo(parsed.data);
+      }
+      setTrustLogoForm(initialTrustLogo);
+      setEditingTrustLogoId(null);
+      await refresh();
+    } catch (err) {
+      console.error(err);
+      setFormError('Failed to save trust logo.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleSubmitCareerRole = async () => {
+    setFormError(null);
+    const parsed = careerRoleSchema.safeParse(careerRoleForm);
+    if (!parsed.success) {
+      setFormError('Please fill in all career role fields correctly.');
+      return;
+    }
+    setSaving(true);
+    try {
+      if (editingCareerRoleId) {
+        await updateCareerRole(editingCareerRoleId, parsed.data);
+      } else {
+        await createCareerRole(parsed.data);
+      }
+      setCareerRoleForm(initialCareerRole);
+      setEditingCareerRoleId(null);
+      await refresh();
+    } catch (err) {
+      console.error(err);
+      setFormError('Failed to save career role.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleSubmitCareerBenefit = async () => {
+    setFormError(null);
+    const parsed = careerBenefitSchema.safeParse(careerBenefitForm);
+    if (!parsed.success) {
+      setFormError('Please fill in all career benefit fields correctly.');
+      return;
+    }
+    setSaving(true);
+    try {
+      if (editingCareerBenefitId) {
+        await updateCareerBenefit(editingCareerBenefitId, parsed.data);
+      } else {
+        await createCareerBenefit(parsed.data);
+      }
+      setCareerBenefitForm(initialCareerBenefit);
+      setEditingCareerBenefitId(null);
+      await refresh();
+    } catch (err) {
+      console.error(err);
+      setFormError('Failed to save career benefit.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleSubmitCareerStep = async () => {
+    setFormError(null);
+    const parsed = careerStepSchema.safeParse(careerStepForm);
+    if (!parsed.success) {
+      setFormError('Please fill in all career step fields correctly.');
+      return;
+    }
+    setSaving(true);
+    try {
+      if (editingCareerStepId) {
+        await updateCareerStep(editingCareerStepId, parsed.data);
+      } else {
+        await createCareerStep(parsed.data);
+      }
+      setCareerStepForm(initialCareerStep);
+      setEditingCareerStepId(null);
+      await refresh();
+    } catch (err) {
+      console.error(err);
+      setFormError('Failed to save career step.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (authLoading) {
     return (
       <section className="py-24 bg-background">
@@ -507,13 +788,19 @@ export const Admin: React.FC = () => {
                    <div className="space-y-4">
                      <label className="text-xs font-mono text-muted uppercase tracking-wider">Hero Section</label>
                      <input
-                        className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                        className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
                         placeholder="Hero Title"
                         value={configForm?.heroTitle || ''}
                         onChange={(e) => setConfigForm(prev => prev ? { ...prev, heroTitle: e.target.value } : null)}
                      />
+                     <input
+                        className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                        placeholder="Hero Subtitle (e.g. Good products age well)"
+                        value={configForm?.heroSubTitle || ''}
+                        onChange={(e) => setConfigForm(prev => prev ? { ...prev, heroSubTitle: e.target.value } : null)}
+                     />
                      <textarea
-                        className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                        className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
                         placeholder="Hero Lead"
                         rows={3}
                         value={configForm?.heroLead || ''}
@@ -523,17 +810,57 @@ export const Admin: React.FC = () => {
                    <div className="space-y-4">
                      <label className="text-xs font-mono text-muted uppercase tracking-wider">Global SEO Defaults</label>
                      <input
-                        className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                        className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
                         placeholder="Default SEO Title"
                         value={configForm?.defaultSeoTitle || ''}
                         onChange={(e) => setConfigForm(prev => prev ? { ...prev, defaultSeoTitle: e.target.value } : null)}
                      />
                      <textarea
-                        className="w-full bg-paper border border-border px-4 py-2 text-sm"
+                        className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
                         placeholder="Default SEO Description"
                         rows={3}
                         value={configForm?.defaultSeoDescription || ''}
                         onChange={(e) => setConfigForm(prev => prev ? { ...prev, defaultSeoDescription: e.target.value } : null)}
+                     />
+                   </div>
+                 </div>
+
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-border">
+                   <div className="space-y-4">
+                     <label className="text-xs font-mono text-muted uppercase tracking-wider">Section Titles & Leads</label>
+                     <input
+                        className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                        placeholder="Service Section Title"
+                        value={configForm?.serviceSectionTitle || ''}
+                        onChange={(e) => setConfigForm(prev => prev ? { ...prev, serviceSectionTitle: e.target.value } : null)}
+                     />
+                     <input
+                        className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                        placeholder="Service Section Lead"
+                        value={configForm?.serviceSectionLead || ''}
+                        onChange={(e) => setConfigForm(prev => prev ? { ...prev, serviceSectionLead: e.target.value } : null)}
+                     />
+                     <input
+                        className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                        placeholder="Contact Section Title"
+                        value={configForm?.contactSectionTitle || ''}
+                        onChange={(e) => setConfigForm(prev => prev ? { ...prev, contactSectionTitle: e.target.value } : null)}
+                     />
+                     <input
+                        className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                        placeholder="Contact Section Lead"
+                        value={configForm?.contactSectionLead || ''}
+                        onChange={(e) => setConfigForm(prev => prev ? { ...prev, contactSectionLead: e.target.value } : null)}
+                     />
+                   </div>
+                   <div className="space-y-4">
+                     <label className="text-xs font-mono text-muted uppercase tracking-wider">Footer Configuration</label>
+                     <textarea
+                        className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                        placeholder="Footer Description Tagline"
+                        rows={4}
+                        value={configForm?.footerDescription || ''}
+                        onChange={(e) => setConfigForm(prev => prev ? { ...prev, footerDescription: e.target.value } : null)}
                      />
                    </div>
                  </div>
@@ -1319,8 +1646,551 @@ export const Admin: React.FC = () => {
             </div>
           </div>
         )}
-        {activeTab === 'security' && (
 
+        {activeTab === 'approach' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <Card className="lg:col-span-5">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">{editingApproachId ? 'Edit Approach Item' : 'Add Approach Item'}</h2>
+                {editingApproachId && (
+                  <Button variant="outline" size="sm" onClick={() => { setEditingApproachId(null); setApproachForm(initialApproach); }}>Add New Instead</Button>
+                )}
+              </div>
+              <div className="space-y-4">
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  placeholder="Title"
+                  value={approachForm.title}
+                  onChange={(event) => setApproachForm({ ...approachForm, title: event.target.value })}
+                />
+                <textarea
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  rows={4}
+                  placeholder="Description"
+                  value={approachForm.description}
+                  onChange={(event) => setApproachForm({ ...approachForm, description: event.target.value })}
+                />
+                <Button onClick={handleSubmitApproach} className="w-full">
+                  {editingApproachId ? 'Update Item' : 'Add Item'}
+                </Button>
+              </div>
+            </Card>
+            <div className="lg:col-span-7 space-y-4">
+              {uniqueApproach.map((item) => (
+                <Card key={item.id} className="flex flex-col gap-3">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="text-lg font-bold">{item.title}</h3>
+                      <p className="text-sm text-muted mt-1">{item.description}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setEditingApproachId(item.id);
+                          setApproachForm({ title: item.title, description: item.description });
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={async () => {
+                          if (confirm('Delete this approach item?')) {
+                            await deleteApproachItem(item.id);
+                            refresh();
+                          }
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'solutions' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <Card className="lg:col-span-5">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">{editingPillarId ? 'Edit Solution Pillar' : 'Add Solution Pillar'}</h2>
+                {editingPillarId && (
+                  <Button variant="outline" size="sm" onClick={() => { setEditingPillarId(null); setPillarForm(initialPillar); }}>Add New Instead</Button>
+                )}
+              </div>
+              <div className="space-y-4">
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  placeholder="Title"
+                  value={pillarForm.title}
+                  onChange={(event) => setPillarForm({ ...pillarForm, title: event.target.value })}
+                />
+                <textarea
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  rows={4}
+                  placeholder="Description"
+                  value={pillarForm.description}
+                  onChange={(event) => setPillarForm({ ...pillarForm, description: event.target.value })}
+                />
+                <Button onClick={handleSubmitPillar} className="w-full">
+                  {editingPillarId ? 'Update Pillar' : 'Add Pillar'}
+                </Button>
+              </div>
+            </Card>
+            <div className="lg:col-span-7 space-y-4">
+              {aiSolutionPillars.map((pillar) => (
+                <Card key={pillar.id} className="flex flex-col gap-3">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="text-lg font-bold">{pillar.title}</h3>
+                      <p className="text-sm text-muted mt-1">{pillar.description}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setEditingPillarId(pillar.id);
+                          setPillarForm({ title: pillar.title, description: pillar.description });
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={async () => {
+                          if (confirm('Delete this solution pillar?')) {
+                            await deleteSolutionPillar(pillar.id);
+                            refresh();
+                          }
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'ai-services' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <Card className="lg:col-span-5">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">{editingAIServiceId ? 'Edit Service' : 'Add Service'}</h2>
+                {editingAIServiceId && (
+                  <Button variant="outline" size="sm" onClick={() => { setEditingAIServiceId(null); setAIServiceForm(initialAIService); }}>Add New Instead</Button>
+                )}
+              </div>
+              <div className="space-y-4">
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  placeholder="Title"
+                  value={aiServiceForm.title}
+                  onChange={(event) => setAIServiceForm({ ...aiServiceForm, title: event.target.value })}
+                />
+                <textarea
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  rows={4}
+                  placeholder="Description"
+                  value={aiServiceForm.description}
+                  onChange={(event) => setAIServiceForm({ ...aiServiceForm, description: event.target.value })}
+                />
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  placeholder="Outcomes (comma separated)"
+                  value={aiServiceForm.outcomes.join(', ')}
+                  onChange={(event) =>
+                    setAIServiceForm({
+                      ...aiServiceForm,
+                      outcomes: event.target.value.split(',').map((item) => item.trim()).filter(Boolean),
+                    })
+                  }
+                />
+                <Button onClick={handleSubmitAIService} className="w-full">
+                  {editingAIServiceId ? 'Update Service' : 'Add Service'}
+                </Button>
+              </div>
+            </Card>
+            <div className="lg:col-span-7 space-y-4">
+              {aiServices.map((srv) => (
+                <Card key={srv.id} className="flex flex-col gap-3">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="text-lg font-bold">{srv.title}</h3>
+                      <p className="text-sm text-muted mt-1 mb-3">{srv.description}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {srv.outcomes.map((o, idx) => (
+                          <span key={idx} className="bg-paper border border-border text-xs px-2 py-1 font-mono">{o}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setEditingAIServiceId(srv.id);
+                          setAIServiceForm({ title: srv.title, description: srv.description, outcomes: srv.outcomes });
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={async () => {
+                          if (confirm('Delete this service?')) {
+                            await deleteAIServiceItem(srv.id);
+                            refresh();
+                          }
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'careers' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <Card className="lg:col-span-5">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">{editingCareerRoleId ? 'Edit Role' : 'Add Role'}</h2>
+                {editingCareerRoleId && (
+                  <Button variant="outline" size="sm" onClick={() => { setEditingCareerRoleId(null); setCareerRoleForm(initialCareerRole); }}>Add New Instead</Button>
+                )}
+              </div>
+              <div className="space-y-4">
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  placeholder="Job Title"
+                  value={careerRoleForm.title}
+                  onChange={(event) => setCareerRoleForm({ ...careerRoleForm, title: event.target.value })}
+                />
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  placeholder="Team (e.g., Applied AI)"
+                  value={careerRoleForm.team}
+                  onChange={(event) => setCareerRoleForm({ ...careerRoleForm, team: event.target.value })}
+                />
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  placeholder="Location (e.g., Remote • Global)"
+                  value={careerRoleForm.location}
+                  onChange={(event) => setCareerRoleForm({ ...careerRoleForm, location: event.target.value })}
+                />
+                <textarea
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  rows={4}
+                  placeholder="Summary"
+                  value={careerRoleForm.summary}
+                  onChange={(event) => setCareerRoleForm({ ...careerRoleForm, summary: event.target.value })}
+                />
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  placeholder="Focus areas (comma separated)"
+                  value={careerRoleForm.focus.join(', ')}
+                  onChange={(event) =>
+                    setCareerRoleForm({
+                      ...careerRoleForm,
+                      focus: event.target.value.split(',').map((item) => item.trim()).filter(Boolean),
+                    })
+                  }
+                />
+                <Button onClick={handleSubmitCareerRole} className="w-full">
+                  {editingCareerRoleId ? 'Update Role' : 'Add Role'}
+                </Button>
+              </div>
+            </Card>
+            <div className="lg:col-span-7 space-y-4">
+              {careers.map((role) => (
+                <Card key={role.id} className="flex flex-col gap-3">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="text-lg font-bold">{role.title}</h3>
+                        <span className="text-xs bg-paper border border-border px-2 py-0.5 font-mono text-signal">{role.team}</span>
+                      </div>
+                      <p className="text-xs font-mono text-muted mb-2">{role.location}</p>
+                      <p className="text-sm text-muted mb-3">{role.summary}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {role.focus.map((f, idx) => (
+                          <span key={idx} className="bg-paper border border-border text-xs px-2 py-1 font-mono">{f}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setEditingCareerRoleId(role.id);
+                          setCareerRoleForm({ title: role.title, team: role.team, location: role.location, summary: role.summary, focus: role.focus });
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={async () => {
+                          if (confirm('Delete this career role?')) {
+                            await deleteCareerRole(role.id);
+                            refresh();
+                          }
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'benefits' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <Card className="lg:col-span-5">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">{editingCareerBenefitId ? 'Edit Benefit' : 'Add Benefit'}</h2>
+                {editingCareerBenefitId && (
+                  <Button variant="outline" size="sm" onClick={() => { setEditingCareerBenefitId(null); setCareerBenefitForm(initialCareerBenefit); }}>Add New Instead</Button>
+                )}
+              </div>
+              <div className="space-y-4">
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  placeholder="Benefit Title"
+                  value={careerBenefitForm.title}
+                  onChange={(event) => setCareerBenefitForm({ ...careerBenefitForm, title: event.target.value })}
+                />
+                <textarea
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  rows={4}
+                  placeholder="Detail description"
+                  value={careerBenefitForm.detail}
+                  onChange={(event) => setCareerBenefitForm({ ...careerBenefitForm, detail: event.target.value })}
+                />
+                <Button onClick={handleSubmitCareerBenefit} className="w-full">
+                  {editingCareerBenefitId ? 'Update Benefit' : 'Add Benefit'}
+                </Button>
+              </div>
+            </Card>
+            <div className="lg:col-span-7 space-y-4">
+              {careerBenefits.map((ben) => (
+                <Card key={ben.id} className="flex flex-col gap-3">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="text-lg font-bold">{ben.title}</h3>
+                      <p className="text-sm text-muted mt-1">{ben.detail}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setEditingCareerBenefitId(ben.id);
+                          setCareerBenefitForm({ title: ben.title, detail: ben.detail });
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={async () => {
+                          if (confirm('Delete this benefit?')) {
+                            await deleteCareerBenefit(ben.id);
+                            refresh();
+                          }
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'hiring-steps' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <Card className="lg:col-span-5">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">{editingCareerStepId ? 'Edit Step' : 'Add Step'}</h2>
+                {editingCareerStepId && (
+                  <Button variant="outline" size="sm" onClick={() => { setEditingCareerStepId(null); setCareerStepForm(initialCareerStep); }}>Add New Instead</Button>
+                )}
+              </div>
+              <div className="space-y-4">
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  placeholder="Step Title (e.g., Signal Check)"
+                  value={careerStepForm.title}
+                  onChange={(event) => setCareerStepForm({ ...careerStepForm, title: event.target.value })}
+                />
+                <textarea
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  rows={4}
+                  placeholder="Step description"
+                  value={careerStepForm.description}
+                  onChange={(event) => setCareerStepForm({ ...careerStepForm, description: event.target.value })}
+                />
+                <Button onClick={handleSubmitCareerStep} className="w-full">
+                  {editingCareerStepId ? 'Update Step' : 'Add Step'}
+                </Button>
+              </div>
+            </Card>
+            <div className="lg:col-span-7 space-y-4">
+              {careerSteps.map((step) => (
+                <Card key={step.id} className="flex flex-col gap-3">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="text-lg font-bold">{step.title}</h3>
+                      <p className="text-sm text-muted mt-1">{step.description}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setEditingCareerStepId(step.id);
+                          setCareerStepForm({ title: step.title, description: step.description });
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={async () => {
+                          if (confirm('Delete this step?')) {
+                            await deleteCareerStep(step.id);
+                            refresh();
+                          }
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'logos' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <Card className="lg:col-span-5">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">{editingTrustLogoId ? 'Edit Trust Logo' : 'Add Trust Logo'}</h2>
+                {editingTrustLogoId && (
+                  <Button variant="outline" size="sm" onClick={() => { setEditingTrustLogoId(null); setTrustLogoForm(initialTrustLogo); }}>Add New Instead</Button>
+                )}
+              </div>
+              <div className="space-y-4">
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  placeholder="Logo / Standard Name (e.g. HIPAA)"
+                  value={trustLogoForm.name}
+                  onChange={(event) => setTrustLogoForm({ ...trustLogoForm, name: event.target.value, alt: trustLogoForm.alt || event.target.value })}
+                />
+                <input
+                  className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono"
+                  placeholder="Alt text"
+                  value={trustLogoForm.alt}
+                  onChange={(event) => setTrustLogoForm({ ...trustLogoForm, alt: event.target.value })}
+                />
+                <div>
+                  <label className="text-xs font-mono text-muted uppercase block mb-1">Image URL or Cloudinary Upload</label>
+                  <input
+                    className="w-full bg-paper border border-border px-4 py-2 text-sm font-mono mb-2"
+                    placeholder="/logos/HIPAA black.svg or https://..."
+                    value={trustLogoForm.src}
+                    onChange={(event) => setTrustLogoForm({ ...trustLogoForm, src: event.target.value })}
+                  />
+                  <div className="flex items-center gap-2">
+                    <label className="cursor-pointer border border-border bg-background px-4 py-2 text-xs font-mono uppercase hover:bg-foreground hover:text-background transition-colors flex items-center gap-2">
+                      <Upload size={14} /> Upload to Cloudinary
+                      <input type="file" className="hidden" accept="image/*" onChange={handleUploadLogoFile} disabled={uploadingLogo} />
+                    </label>
+                    {uploadingLogo && <span className="text-xs font-mono animate-pulse">Uploading...</span>}
+                  </div>
+                </div>
+                <Button onClick={handleSubmitTrustLogo} disabled={uploadingLogo} className="w-full">
+                  {editingTrustLogoId ? 'Update Logo' : 'Add Logo'}
+                </Button>
+              </div>
+            </Card>
+            <div className="lg:col-span-7 space-y-4">
+              {trustLogos.map((logo) => (
+                <Card key={logo.id} className="flex flex-col gap-3">
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-4">
+                      <div className="w-16 h-16 bg-paper border border-border flex items-center justify-center p-2">
+                        <img src={logo.src} alt={logo.alt} className="max-w-full max-h-full object-contain filter invert dark:invert-0" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold">{logo.name}</h3>
+                        <p className="text-xs font-mono text-muted">{logo.src}</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setEditingTrustLogoId(logo.id);
+                          setTrustLogoForm({ name: logo.name, src: logo.src, alt: logo.alt });
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={async () => {
+                          if (confirm('Delete this logo?')) {
+                            await deleteTrustLogo(logo.id);
+                            refresh();
+                          }
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+        {activeTab === 'security' && (
           <div className="max-w-md mx-auto">
             <Card>
               <h2 className="text-xl font-bold mb-6 flex items-center justify-between font-mono">

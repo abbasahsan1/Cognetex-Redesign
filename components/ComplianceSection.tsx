@@ -1,14 +1,9 @@
 import React from 'react';
-
-const complianceItems = [
-  { name: 'HIPAA', src: '/logos/HIPAA black.svg', alt: 'HIPAA' },
-  { name: 'GDPR', src: '/logos/GDPR black.svg', alt: 'GDPR' },
-  { name: 'SOC 2', src: '/logos/AICPA black.svg', alt: 'AICPA SOC 2' },
-  { name: 'PCI DSS', src: '/logos/PCI black.svg', alt: 'PCI DSS' },
-  { name: 'STAR', src: '/logos/Star Black.svg', alt: 'STAR' },
-];
+import { useContent } from '../hooks/useContent';
 
 export const ComplianceSection: React.FC = () => {
+  const { trustLogos } = useContent();
+
   return (
     <section className="bg-background border-b border-border">
       <div className="container mx-auto px-4 py-8">
@@ -16,9 +11,9 @@ export const ComplianceSection: React.FC = () => {
           <div className="text-[10px] font-mono text-muted uppercase tracking-[0.2em] w-full text-center mb-2 lg:w-auto lg:mb-0 lg:mr-8 border-r-0 lg:border-r border-border lg:pr-8">
             Security Standards
           </div>
-          {complianceItems.map((item) => (
+          {trustLogos.map((item) => (
             <div 
-              key={item.name} 
+              key={item.id || item.name} 
               className="flex flex-col items-center gap-2"
             >
               <div className="w-10 h-10 flex items-center justify-center">
